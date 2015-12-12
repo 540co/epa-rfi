@@ -10,7 +10,16 @@ Clone repo.
 
 From within the cloned folder `epa-rfi` run:
 
-`npm install`
+Node dependencies
+
+```
+npm install
+```
+
+Bower dependencies
+```
+bower install
+```
 
 #### Gulp tasks
 

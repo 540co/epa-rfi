@@ -1,5 +1,5 @@
 {
-  "name": "540 EPA RFI",
+  "name": "540-EPA-RFI",
   "version": "0.0.0",
   "dependencies": {
     "angular-animate": "~1.4.2",
