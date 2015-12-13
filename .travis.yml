@@ -13,7 +13,6 @@ cache:
 before_script:
 - npm install -g bower
 - npm install -g gulp
-- npm install -g karma
 - npm install -g istanbul
 - npm install -g codeclimate-test-reporter
 - npm install
