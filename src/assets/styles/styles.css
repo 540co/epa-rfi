@@ -10,6 +10,12 @@ body {
   color: #ffffff;
 }
 
+#dash-side-number {
+  font-size: 7em;
+  margin-bottom: 25px;
+  padding-top: 0.475em;
+}
+
 #dash-main-number {
   font-size: 10em;
   margin-bottom: 25px;
