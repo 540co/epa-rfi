@@ -1,3 +1,15 @@
+body {
+  background: #f5f5f5
+}
+
+.navbar-inverse .navbar-brand {
+  color: #ffffff;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+  color: #ffffff;
+}
+
 #dash-main-number {
   font-size: 10em;
   margin-bottom: 25px;
@@ -13,7 +25,7 @@
 }
 
 footer {
-  background-color: #0071bc;
+  background-color: #2196f3;
   margin-top: 100px;
   color: #ffffff;
   padding-top: 20px;
@@ -27,7 +39,6 @@ footer p {
 
 footer a {
   color: white;
-  text-decoration: underline;
 }
 
 /* 404 message */
@@ -47,7 +58,7 @@ footer a {
 }
 
 /* Bootstrap navbar override */
-
+/*
 .navbar-inverse {
   background-color: #0071bc;
   border-color: #0071bc;
@@ -145,4 +156,4 @@ fieldset[disabled] .navbar-inverse .btn-link:hover,
 .navbar-inverse .btn-link[disabled]:focus,
 fieldset[disabled] .navbar-inverse .btn-link:focus {
   color: #444;
-}
+}*/
