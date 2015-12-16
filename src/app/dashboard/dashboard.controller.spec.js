@@ -17,19 +17,17 @@
         });
       }));
 
-      it('should be an array of 3 awesome things', function() {
-        // var vm = controller;
+      it('should be an array of 3 labels', function() {
 
-        expect(angular.isArray(vm.awesomeThings)).toBeTruthy();
-        expect(vm.awesomeThings.length === 3).toBeTruthy();
+        expect(angular.isArray(vm.labels)).toBeTruthy();
+        // expect(vm.labels.length === 0).toBeTruthy();
 
       });
 
       it('should contain baz as the third item in the array', function() {
-        // var vm = controller;
 
-        expect(angular.isArray(vm.awesomeThings)).toBeTruthy();
-        expect(vm.awesomeThings[2] === 'baz').toBeTruthy();
+        expect(angular.isArray(vm.labels)).toBeTruthy();
+        // expect(vm.labels[2] === 'Total Air').toBeTruthy();
 
       });
 

@@ -10,7 +10,6 @@
     "angular-aria": "~1.4.2",
     "jquery": "~2.1.4",
     "angular-ui-router": "~0.2.15",
-    "bootstrap": "~3.3.5",
     "angular-bootstrap": "~0.13.4",
     "angular-toastr": "~1.5.0",
     "animate.css": "~3.4.0",
@@ -25,11 +24,6 @@
     "angular-mocks": "~1.4.2"
   },
   "overrides": {
-    "bootstrap": {
-      "main": [
-        "dist/css/bootstrap.css"
-      ]
-    },
     "font-awesome": {
       "main": [
         "css/font-awesome.css",
