@@ -11,13 +11,14 @@ body {
 }
 
 #dash-side-number {
-  font-size: 6em;
-  margin-bottom: 25px;
-  padding-top: 0.55em;
+  font-size: 5em;
+  margin-bottom: 35px;
+  padding-top: 0.65em;
 }
 
 #dash-main-number {
-  font-size: 9em;
+  font-size: 8em;
+  padding-top: 10px;
   margin-bottom: 25px;
 }
 
@@ -70,6 +71,23 @@ footer a {
 .app-logo {
   width: 30px;
 }
+
+.filters {
+  margin-top: 23px;
+  padding-top: 10px;
+
+}
+
+
+
+.switchdemoBasicUsage .inset {
+  padding-left: 25px;
+  padding-top: 25px;
+}
+
+
+
+
 
 /* Bootstrap navbar override */
 /*

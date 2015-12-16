@@ -1,41 +1,64 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-8">
-      <div class="card">
-        <div class="text-center">
-          <h1 id="dash-main-number">{{vm.netReductionPounds | number : fractionSize}}</h1>
-          <h1 class="lead">Pounds Air Pollutant Reduction Since YEAR</h1>
+    <div class="col-md-10">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="card">
+            <div class="text-center">
+              <h1 id="dash-main-number">{{vm.netReductionPounds | number : fractionSize}}</h1>
+              <h1 class="lead">Pounds Air Pollutant Reduction Since YEAR</h1>
 
-          <div class="card-content">
-            <p>Figure only contains reported Air Releases</p>
+              <div class="card-content">
+                <p>Figure only contains reported Air Releases</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card">
+            <div class="text-center">
+              <h1 id="dash-side-number">{{vm.netReductionPercent}} %</h1>
+              <p class="lead">
+                Decrease of Net Air Releases
+              </p>
+
+              <div class="card-content">
+                <p>Over the past 10 years</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card graph-card">
+            <div class="text-center">
+
+              <h4>Reduction of Air Pollutants By Year (Pounds)</h4>
+              <canvas id="line" class="chart chart-line" chart-data="data" chart-labels="labels" chart-legend="true" chart-series="series" chart-options="options" chart-click="onClick" height="100">
+              </canvas>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="col-md-4">
-      <div class="card">
-        <div class="text-center">
-          <h1 id="dash-side-number">{{vm.netReductionPercent}} %</h1>
-          <p class="lead">
-            Decrease of Net Air Releases
-          </p>
+    <div class="col-md-2">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card filters text-center">
+            <h5>Optional Filters</h5>
 
-          <div class="card-content">
-            <p>Over the past 10 years</p>
+            <div class="inset" ng-controller="DashboardController" ng-cloak>
+              <md-switch ng-model="vm.toggle.cb2" aria-label="Switch 2" ng-true-value="'Air Production'" ng-false-value="'Air Reduction'" class="md-warn">
+                {{ vm.toggle.cb2 }}
+              </md-switch>
+            </div>
+
+
+
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-md-12">
-      <div class="card graph-card">
-        <div class="text-center">
-
-          <h4>Reduction of Air Pollutants By Year (Pounds)</h4>
-          <canvas id="line" class="chart chart-line" chart-data="data" chart-labels="labels" chart-legend="true" chart-series="series" chart-options="options" chart-click="onClick">
-          </canvas>
-        </div>
-      </div>
-    </div>
-  </div>
+</div>

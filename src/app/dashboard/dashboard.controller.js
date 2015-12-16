@@ -170,7 +170,17 @@
 
   return vm.mockData;
 
+
+
+  //Angular material switch
+
     }
+
+    vm.toggle = {
+      cb2: 'Air Production'
+    };
+
+
 
 
 
