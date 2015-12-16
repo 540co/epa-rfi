@@ -1,14 +1,57 @@
 <div class="container">
-  <div class="text-center">
-    <h1 id="dash-main-number">000,000</h1>
-    <p class="lead">
-      Hodor. Hodor, HODOR hodor, hodor hodor; hodor hodor.
-    </p>
-  </div>
-  <div class="text-center" id="spacer">——</div>
-  <div class="row" id="line-chart">
-    <div class="text-center">
-      [INSERT GRAPH HERE]
+  <div class="row">
+    <div class="col-md-10">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="card">
+            <div class="text-center">
+              <h1 id="dash-main-number">{{vm.netReductionPounds | number : fractionSize}}</h1>
+              <h1 class="lead">Pounds of Air Pollutant Reduction Since YEAR</h1>
+              <div class="card-content">
+                <p>Figure only contains reported Air Releases</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card">
+            <div class="text-center">
+              <h1 id="dash-side-number">{{vm.netReductionPercent}} %</h1>
+              <p class="lead">
+                Decrease of Net Air Releases
+              </p>
+              <div class="card-content">
+                <p>Over the past 10 years</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card graph-card">
+            <div class="text-center">
+              <h4>Reduction of Air Pollutants By Year (Pounds)</h4>
+              <canvas id="line" class="chart chart-line" chart-data="vm.airData" chart-labels="vm.labels" chart-legend="true" chart-series="vm.series" chart-options="vm.options" chart-click="onClick" height="100">
+              </canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card filters text-center">
+            <h5>Optional Filters</h5>
+            <div class="inset" ng-controller="DashboardController" ng-cloak>
+              <md-switch ng-model="vm.toggle.cb2" aria-label="Switch 2" ng-true-value="'Air Production'" ng-false-value="'Air Reduction'" class="md-warn">
+                {{ vm.toggle.cb2 }}
+              </md-switch>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
