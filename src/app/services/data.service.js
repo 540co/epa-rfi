@@ -14,19 +14,19 @@
           TRI_API_ENDPOINT + '/facilites/:id',
           {id: '@id'},
           {
-            'query':  {method: 'GET', isArray: false}
+            'query':  {method: 'GET', isArray: false, cache: true}
           }),
         Releases: $resource(
           TRI_API_ENDPOINT + '/releases/:id',
           {id: '@id'},
           {
-            'query':  {method: 'GET', isArray: false}
+            'query':  {method: 'GET', isArray: false, cache: true}
           }),
         Reports: $resource(
           TRI_API_ENDPOINT + '/reports',
           {},
           {
-            'query':  {method: 'GET', isArray: false}
+            'query':  {method: 'GET', isArray: false, cache: true}
           })
       };
 
