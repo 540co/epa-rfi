@@ -3,8 +3,8 @@
     <div class="col-md-8">
       <div class="card">
         <div class="text-center">
-          <h1 id="dash-main-number">000,000,000</h1>
-          <h1 class="lead">Total Pounds Reduced since YEAR</h1>
+          <h1 id="dash-main-number">{{vm.netReductionPounds | number : fractionSize}}</h1>
+          <h1 class="lead">Pounds Air Pollutant Reduction Since YEAR</h1>
 
           <div class="card-content">
             <p>Figure only contains reported Air Releases</p>
@@ -15,9 +15,9 @@
     <div class="col-md-4">
       <div class="card">
         <div class="text-center">
-          <h1 id="dash-side-number">28 %</h1>
+          <h1 id="dash-side-number">{{vm.netReductionPercent}} %</h1>
           <p class="lead">
-          Decrease in Net Air Releases
+            Decrease of Net Air Releases
           </p>
 
           <div class="card-content">
@@ -29,11 +29,11 @@
   </div>
   <div class="row">
     <div class="col-md-12">
-      <div class="card">
+      <div class="card graph-card">
         <div class="text-center">
-          <canvas id="line" class="chart chart-line" chart-data="data"
-            chart-labels="labels" chart-legend="true" chart-series="series"
-            chart-click="onClick" >
+
+          <h4>Reduction of Air Pollutants By Year (Pounds)</h4>
+          <canvas id="line" class="chart chart-line" chart-data="data" chart-labels="labels" chart-legend="true" chart-series="series" chart-options="options" chart-click="onClick">
           </canvas>
         </div>
       </div>
