@@ -5,77 +5,120 @@
     .module('app.services')
     .factory('ReportService', ReportService);
 
-  ReportService.$inject = ['$resource', 'DataService'];
+  ReportService.$inject = ['DataService'];
 
   /* @ngInject */
-  function ReportService($resource, DataService) {
+  function ReportService(DataService) {
 
     var reportService = {
-      getReports: getReports
+      getYearlyAirPollutionReport: getYearlyAirPollutionReport
     };
 
     return reportService;
 
-    function getReports(callback) {
-      var reports = DataService.Reports.get(function() {
+    function getYearlyAirPollutionReport(filters, successCallback, errorCallback) {
+      if (!angular.isObject(filters)) {
+        filters = {};
+      }
 
-        var releases = reports.data;
+      var queryParams = buildQueryParams(filters);
+      queryParams.groupBy = 'year';
+      queryParams.operation = 'sum';
+      queryParams.agg_fields = 'fugitiveAir,stackAir';
 
-        // Total years
-        var total_release_count = releases.length;
+      DataService.Reports.query(queryParams, function(response) {
+        var reportData = calculateReportTotals(response.data);
 
-        // Add totals to reports
-        releases = releases.map(function(report){
-          report.total = report.fugitiveAir + report.stackAir;
-          return report;
-        });
+        successCallback(reportData);
+      }, errorCallback);
+    }
 
-        // Ascending sort of years
-        releases.sort(function(a, b){
-          return a.year - b.year;
-        });
+    function buildQueryParams(params) {
+      var filters = [],
+        queryParams = {},
+        simpleFilters = ['state', 'county', 'city'];
 
-        // Total production
-        var total_production = 0;
-        releases.forEach(function(report){
-          total_production += report.total;
-        });
+      //Filter by year query param
+      if (params.start_year || params.end_year) {
+        var yearRange = [];
+        if (params.start_year) {
+          yearRange[0] = params.start_year;
+        } else {
+          yearRange[0] = '*';
+        }
 
-        // Total Reduction
-        var total_reduction = (releases[0].total * total_release_count) - total_production;
+        if (params.end_year) {
+          yearRange[1] = params.end_year;
+        } else {
+          yearRange[1] = '*';
+        }
+        filters.push('year:[' + yearRange[0] + ' TO ' + yearRange[1] + ']');
+      }
 
-        // Cumulative Net Reduction Percentage
-        var cumulative_reduction_percentage = total_reduction / (releases[0].total * total_release_count);
-
-        // Arrays to build chart(s) (years, totalAir, fugitiveAir, stackAir)
-        var yearsArray = [];
-        var totalAirArray = [];
-        var figutiveAirArray = [];
-        var stackAirArray = [];
-
-        releases.forEach(function(report){
-          yearsArray.push(report.year);
-          totalAirArray.push(report.total);
-          figutiveAirArray.push(report.fugitiveAir);
-          stackAirArray.push(report.stackAir);
-        });
-
-        var data = {
-          releases: releases,
-          total_production: total_production,
-          total_reduction: total_reduction,
-          cumulative_reduction_percentage: cumulative_reduction_percentage,
-          yearsArray: yearsArray,
-          totalAirArray: totalAirArray,
-          figutiveAirArray: figutiveAirArray,
-          stackAirArray: stackAirArray
-        };
-
-        callback(null, data);
-
+      simpleFilters.forEach(function(filter) {
+        if (params[filter]) {
+          filters.push(filter + ':' + params[filter]);
+        }
       });
 
-      return reports;
+      if (filters.length) {
+        queryParams.filters = filters.join(' AND ');
+      }
+
+      return queryParams;
+    }
+
+    function calculateReportTotals(reportData) {
+      // Total years
+      var numReportRows = reportData.length;
+
+      // Add totals to reports
+      reportData = reportData.map(function(reportRow){
+        reportRow.total = reportRow.fugitiveAir + reportRow.stackAir;
+        return reportRow;
+      });
+
+      // Ascending sort of years
+      reportData.sort(function(a, b){
+        return a.year - b.year;
+      });
+
+      // Total production
+      var totalProduction = 0;
+
+      // Arrays to build chart(s) (years, totalAir, fugitiveAir, stackAir)
+      var years = [];
+      var totalAirPerYear = [];
+      var fugitiveAirPerYear = [];
+      var stackAirPerYear = [];
+
+      reportData.forEach(function(report){
+        totalProduction += report.total;
+
+        years.push(report.year);
+        totalAirPerYear.push(report.total);
+        fugitiveAirPerYear.push(report.fugitiveAir);
+        stackAirPerYear.push(report.stackAir);
+      });
+
+      // Total Reduction
+      var totalReduction = (reportData[0].total * numReportRows) - totalProduction;
+
+      // Cumulative Net Reduction Percentage
+      var cumulativeReductionPercentage = totalReduction / (reportData[0].total * numReportRows);
+
+      var data = {
+        report: reportData,
+        totalProduction: totalProduction,
+        totalReduction: totalReduction,
+        cumulativeReductionPercentage: cumulativeReductionPercentage,
+        years: years,
+        totalAirPerYear: totalAirPerYear,
+        fugitiveAirPerYear: fugitiveAirPerYear,
+        stackAirPerYear: stackAirPerYear
+      };
+
+      return data;
     }
   }
 })();
