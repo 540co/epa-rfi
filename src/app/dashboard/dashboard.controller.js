@@ -6,6 +6,7 @@
     .controller('DashboardController', DashboardController);
 
   /** @ngInject */
+  // DashboardController.$inject = ['ReportService'];
 
   function DashboardController() {
     var vm = this;
@@ -15,7 +16,6 @@
     vm.labels = [];
     vm.series = [];
     vm.airGraphData = [];
-
 
     vm.getAirData = getAirData;
     vm.populateNetPoundsReduced = populateNetPoundsReduced;
@@ -34,6 +34,17 @@
 
 
     }
+    // getReports();
+    //
+    // function getReports() {
+    //   ReportService.getReports(function(err, data){
+    //     // update whatever with data;
+    //     vm.netReductionPounds = data.total_reduction;
+    //     vm.netReductionPercent = data.cumulative_reduction_percentage;
+    //
+    //     // Dispatch.fire('update-model-with-this-data', data);
+    //   });
+    // }
 
     function getAirData() {
       vm.airGraphData = _.sortBy(fakeService(), 'year');
