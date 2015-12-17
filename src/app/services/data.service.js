@@ -10,9 +10,24 @@
     /** @ngInject */
     function DataService($resource, TRI_API_ENDPOINT) {
       var service = {
-        Facilities: $resource(TRI_API_ENDPOINT + '/facilites/:id', {id: '@id'}),
-        Releases: $resource(TRI_API_ENDPOINT + '/releases/:id', {id: '@id'}),
-        Reports: $resource(TRI_API_ENDPOINT + '/reports')
+        Facilities: $resource(
+          TRI_API_ENDPOINT + '/facilites/:id',
+          {id: '@id'},
+          {
+            'query':  {method: 'GET', isArray: false, cache: true}
+          }),
+        Releases: $resource(
+          TRI_API_ENDPOINT + '/releases/:id',
+          {id: '@id'},
+          {
+            'query':  {method: 'GET', isArray: false, cache: true}
+          }),
+        Reports: $resource(
+          TRI_API_ENDPOINT + '/reports',
+          {},
+          {
+            'query':  {method: 'GET', isArray: false, cache: true}
+          })
       };
 
       return service;
