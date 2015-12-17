@@ -24,13 +24,6 @@
 
       });
 
-      it('should contain baz as the third item in the array', function() {
-
-        expect(angular.isArray(vm.labels)).toBeTruthy();
-        // expect(vm.labels[2] === 'Total Air').toBeTruthy();
-
-      });
-
     });
   });
 })();
