@@ -39,7 +39,7 @@ body {
 
 /* Angular Material overrides */
 md-toolbar:not(.md-menu-toolbar) {
-    background-color: #aeb0b5;
+    background-color: #5b616b;
 }
 
 md-toolbar h1 {
