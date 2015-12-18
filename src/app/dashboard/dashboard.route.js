@@ -13,6 +13,12 @@
         templateUrl: 'app/dashboard/dashboard.html',
         controller: 'DashboardController',
         controllerAs: 'vm'
+      })
+      .state('facility', {
+        url: '/facility',
+        templateUrl: 'app/dashboard/facility.dashboard.html',
+        controller: 'FacilityDashboardController',
+        controllerAs: 'vm'
       });
 
     $urlRouterProvider.otherwise('/');
