@@ -27,6 +27,10 @@ body {
   padding-top: 0.65em;
 }
 
+#dash-side-name {
+  padding-top: 0.65em;
+}
+
 #dash-main-number {
   font-size: 8em;
   padding-top: 10px;
