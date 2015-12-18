@@ -6,7 +6,7 @@
       vm;
 
     beforeEach(function() {
-      module('app.dashboard')
+      module('app.facility')
     });
 
     describe('FacilityDashboardController', function() {
@@ -18,12 +18,11 @@
       }));
 
       it('should be a report object', function() {
-        expect(angular.isObject(vm.mockFacility)).toBeTruthy();
+        expect(angular.isObject(vm.facility)).toBeTruthy();
       });
 
-      it('should be an array of 2 reports', function() {
-        expect(angular.isArray(vm.mockReports)).toBeTruthy();
-        expect(vm.mockReports.length).toBe(2);
+      it('should be an array of reports', function() {
+        expect(angular.isArray(vm.reports)).toBeTruthy();
       });
 
     });

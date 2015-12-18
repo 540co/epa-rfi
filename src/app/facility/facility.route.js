@@ -2,16 +2,16 @@
   'use strict';
 
   angular
-    .module('app.dashboard')
+    .module('app.facility')
     .config(routerConfig);
 
   /** @ngInject */
   function routerConfig($stateProvider, $urlRouterProvider) {
     $stateProvider
-      .state('dashboard', {
-        url: '/',
-        templateUrl: 'app/dashboard/dashboard.html',
-        controller: 'DashboardController',
+      .state('facility', {
+        url: '/facility',
+        templateUrl: 'app/facility/facility.dashboard.html',
+        controller: 'FacilityDashboardController',
         controllerAs: 'vm'
       });
 
