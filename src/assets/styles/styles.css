@@ -6,6 +6,9 @@ body {
 }
 
 /* Navbar */
+.navbar-inverse {
+  background-color: #323a45;
+}
 
 .navbar-inverse .navbar-brand {
   color: #ffffff;
@@ -15,16 +18,45 @@ body {
   color: #ffffff;
 }
 
-.app-logo {
-  width: 30px;
+.navbar {
+  margin-bottom: 0px;
+}
+
+#about-section {
+    background-color: #5b616b;
+    height: auto;
+    padding-bottom: 10px;
+}
+
+#about-section * {
+  color: white;
+}
+
+#about-section i {
+  margin-left: 50px;
+}
+
+
+/* Angular Material overrides */
+md-toolbar:not(.md-menu-toolbar) {
+    background-color: #aeb0b5;
+}
+
+md-toolbar h1 {
+    color: white;
+}
+
+.md-button.md-primary.md-raised {
+
+  background-color: #0071bc;
 }
 
 /* Cards - Graphs - Layout */
 
 #dash-side-number {
-  font-size: 5em;
-  margin-bottom: 35px;
-  padding-top: 0.65em;
+  font-size: 8em;
+  margin-bottom: 25px;
+  padding-top: 10px;
 }
 
 #dash-side-name {
@@ -59,8 +91,8 @@ body {
 /* Footer */
 
 footer {
-  background-color: #2196f3;
-  margin-top: 100px;
+  background-color: #323a45;
+  /*margin-top: 100px;*/
   color: #ffffff;
   padding-top: 20px;
   padding-bottom: 20px;
