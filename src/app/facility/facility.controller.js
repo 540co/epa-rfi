@@ -3,11 +3,11 @@
 
   angular
     .module('app.facility')
-    .controller('FacilityDashboardController', FacilityDashboardController);
+    .controller('FacilityController', FacilityController);
 
   /** @ngInject */
 
-  function FacilityDashboardController() {
+  function FacilityController() {
     var vm = this;
 
     activate();

@@ -9,10 +9,10 @@
       module('app.facility')
     });
 
-    describe('FacilityDashboardController', function() {
+    describe('FacilityController', function() {
       beforeEach(inject(function($controller, $rootScope) {
         scope = $rootScope.$new();
-        vm = $controller('FacilityDashboardController', {
+        vm = $controller('FacilityController', {
           $scope: scope
         });
       }));

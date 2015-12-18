@@ -10,8 +10,8 @@
     $stateProvider
       .state('facility', {
         url: '/facility',
-        templateUrl: 'app/facility/facility.dashboard.html',
-        controller: 'FacilityDashboardController',
+        templateUrl: 'app/facility/facility.html',
+        controller: 'FacilityController',
         controllerAs: 'vm'
       });
 
