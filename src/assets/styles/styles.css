@@ -108,6 +108,15 @@ footer a {
   text-decoration: underline;
 }
 
+.footer-icon {
+  height: 40px;
+}
+
+#techbar {
+  margin-top: 20px;
+  padding-bottom: 40px;
+}
+
 
 /* 404 message */
 
