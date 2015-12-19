@@ -3,5 +3,10 @@
 
   angular
     .module('app')
-    .constant('TRI_API_ENDPOINT', 'https://14ok2qm4w0.execute-api.us-east-1.amazonaws.com/mock');
+    .constant('TRI_API_ENDPOINT', 'https://14ok2qm4w0.execute-api.us-east-1.amazonaws.com/mock')
+    .config(function(AngularyticsProvider) {
+      AngularyticsProvider.setEventHandlers(['Console', 'GoogleUniversal']);
+    }).run(function(Angularytics) {
+      Angularytics.init();
+    });
 })();
