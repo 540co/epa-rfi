@@ -40,7 +40,12 @@
     },
     "govicons": {
       "main": [
-        "css/govicons.css"
+        "css/govicons.css",
+        "fonts/govicons-webfont.eot",
+        "fonts/govicons-webfont.svg",
+        "fonts/govicons-webfont.ttf",
+        "fonts/govicons-webfont.woff",
+        "fonts/govicons-webfont.woff2"
       ]
     }
   },
