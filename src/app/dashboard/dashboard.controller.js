@@ -1,50 +1,63 @@
 (function() {
-  'use strict';
+    'use strict';
 
-  angular
-    .module('app.dashboard')
-    .controller('DashboardController', DashboardController);
+    angular
+      .module('app.dashboard')
+      .controller('DashboardController', DashboardController);
 
-  /** @ngInject */
-  // DashboardController.$inject = ['ReportService'];
+    /** @ngInject */
+    DashboardController.$inject = ['ReportService'];
 
-  function DashboardController() {
-    var vm = this;
+    function DashboardController(ReportService) {
+      var vm = this;
 
-    vm.netReductionPounds = '';
-    vm.netReductionPercent = '';
-    vm.labels = [];
-    vm.series = [];
-    vm.airGraphData = [];
+      vm.netReductionPounds = '';
+      vm.netReductionPercent = '';
+      vm.labels = [];
+      vm.series = [];
+      vm.airGraphData = [];
 
-    vm.getAirData = getAirData;
-    vm.populateNetPoundsReduced = populateNetPoundsReduced;
-    vm.populateNetPercentReduced = populateNetPercentReduced;
-    vm.buildChart = buildChart;
-    vm.fakeService = fakeService;
+      vm.getAirData = getAirData;
+      vm.populateNetPoundsReduced = populateNetPoundsReduced;
+      vm.populateNetPercentReduced = populateNetPercentReduced;
+      vm.buildChart = buildChart;
+      vm.fakeService = fakeService;
 
+      vm.updateDashboard = function(filter) {
+        console.log('Update dashboard with: ' + filter);
+      }
 
-    activate();
+      activate();
 
-    function activate() {
-      populateNetPoundsReduced();
-      populateNetPercentReduced();
-      getAirData(); // Will eventually call the Service building these data sets
-      buildChart();
+      function activate() {
+        populateNetPoundsReduced();
+        populateNetPercentReduced();
+        getAirData(); // Will eventually call the Service building these data sets
+        buildChart();
+        setDropdownValues();
 
+      }
+      // getReports();
+      //
+      // function getReports() {
+      //   ReportService.getReports(function(err, data){
+      //     // update whatever with data;
+      //     vm.netReductionPounds = data.total_reduction;
+      //     vm.netReductionPercent = data.cumulative_reduction_percentage;
+      //
+      //     // Dispatch.fire('update-model-with-this-data', data);
+      //   });
+      // }
 
-    }
-    // getReports();
-    //
-    // function getReports() {
-    //   ReportService.getReports(function(err, data){
-    //     // update whatever with data;
-    //     vm.netReductionPounds = data.total_reduction;
-    //     vm.netReductionPercent = data.cumulative_reduction_percentage;
-    //
-    //     // Dispatch.fire('update-model-with-this-data', data);
-    //   });
-    // }
+      function setDropdownValues() {
+        // ReportService.getStateList(
+        //   function(data, err) {
+        //     vm.stateFilters = data;
+        //   })
+        vm.stateFilters = ["AK", "AL", "AR", "AS", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "GU", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MP", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "PR", "RI", "SC", "SD", "TN", "TX", "UT", "VA", "VI", "VT", "WA", "WI", "WV", "WY"];
+        vm.yearFilters = ["1987", "1988", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014"];
+
+      }
 
     function getAirData() {
       vm.airGraphData = _.sortBy(fakeService(), 'year');
@@ -159,7 +172,7 @@
         "fugitiveAir": 287826579.4,
         "stackAir": 85467014.8,
         "totalProduction": 388293593
-      } ];
+      }];
 
       return vm.mockData;
 

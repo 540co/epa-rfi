@@ -25,31 +25,17 @@
         <h6 class="md-title">
           Select filters below to change the dashboard.
         </h6>
-          <md-select ng-model="someModel" placeholder="Start Year">
-            <md-option ng-value="opt" ng-repeat="opt in years">{{ opt }}</md-option>
+          <md-select ng-model="searchFilter.startYear" placeholder="Start Year">
+            <md-option ng-value="opt" ng-repeat="opt in vm.yearFilters">{{ opt }}</md-option>
           </md-select>
-
-          <md-select ng-model="someModel" placeholder="End Year">
-            <md-option ng-value="opt" ng-repeat="opt in years">{{ opt }}</md-option>
+          <md-select ng-model="searchFilter.endYear" placeholder="End Year">
+            <md-option ng-value="opt" ng-repeat="opt in vm.yearFilters">{{ opt }}</md-option>
           </md-select>
-
-          <md-select ng-model="someModel" placeholder="State">
-            <md-option ng-value="opt" ng-repeat="opt in neighborhoods2">{{ opt }}</md-option>
-          </md-select>
-
-          <md-select ng-model="someModel" placeholder="City">
-            <md-option ng-value="opt" ng-repeat="opt in neighborhoods2">{{ opt }}</md-option>
-          </md-select>
-
-          <md-select ng-model="someModel" placeholder="County">
-            <md-option ng-value="opt" ng-repeat="opt in neighborhoods2">{{ opt }}</md-option>
-          </md-select>
-
-          <md-select ng-model="someModel" placeholder="Facility">
-            <md-option ng-value="opt" ng-repeat="opt in neighborhoods2">{{ opt }}</md-option>
+          <md-select ng-model="searchFilter.state" placeholder="State">
+            <md-option ng-value="opt" ng-repeat="opt in vm.stateFilters">{{ opt }}</md-option>
           </md-select>
       </md-content>
-      <md-button class="md-raised md-primary">Update Dashboard</md-button>
+      <md-button class="md-raised md-primary" ng-click="vm.updateDashboard(searchFilter)">Update Dashboard</md-button>
     </md-sidenav>
     <md-content flex layout-padding>
       <div layout="column" layout-fill layout-align="top center">
