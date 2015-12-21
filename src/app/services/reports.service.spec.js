@@ -20,30 +20,38 @@
       var expectedQueryParams = {
           'groupBy': 'year',
           'operation': 'sum',
-          'agg_fields': 'fugitiveAir,stackAir'
+          'agg_fields': 'quantitiesEnteringEnvironment.fugitiveAir,quantitiesEnteringEnvironment.stackAir'
         },
         mockReportData = {
           meta: {},
           data: [
             {
               year: 2002,
-              fugitiveAir: 200,
-              stackAir: 300
+              quantitiesEnteringEnvironment: {
+                fugitiveAir: 200,
+                stackAir: 300
+              }
             },
             {
               year: 2000,
-              fugitiveAir: 1000,
-              stackAir: 1500
+              quantitiesEnteringEnvironment: {
+                fugitiveAir: 1000,
+                stackAir: 1500
+              }
             },
             {
               year: 2001,
-              fugitiveAir: 500,
-              stackAir: 875
+              quantitiesEnteringEnvironment: {
+                fugitiveAir: 500,
+                stackAir: 875
+              }
             },
             {
               year: 2003,
-              fugitiveAir: 100,
-              stackAir: 200
+              quantitiesEnteringEnvironment: {
+                fugitiveAir: 100,
+                stackAir: 200
+              }
             }
           ]
         },
@@ -51,26 +59,34 @@
           report: [
             {
               year: 2000,
-              fugitiveAir: 1000,
-              stackAir: 1500,
+              quantitiesEnteringEnvironment: {
+                fugitiveAir: 1000,
+                stackAir: 1500
+              },
               total: 2500
             },
             {
               year: 2001,
-              fugitiveAir: 500,
-              stackAir: 875,
+              quantitiesEnteringEnvironment: {
+                fugitiveAir: 500,
+                stackAir: 875
+              },
               total: 1375
             },
             {
               year: 2002,
-              fugitiveAir: 200,
-              stackAir: 300,
+              quantitiesEnteringEnvironment: {
+                fugitiveAir: 200,
+                stackAir: 300
+              },
               total: 500
             },
             {
               year: 2003,
-              fugitiveAir: 100,
-              stackAir: 200,
+              quantitiesEnteringEnvironment: {
+                fugitiveAir: 100,
+                stackAir: 200
+              },
               total: 300
             }
           ],
@@ -120,7 +136,7 @@
           'filters': 'year:[2005 TO 2009]',
           'groupBy': 'year',
           'operation': 'sum',
-          'agg_fields': 'fugitiveAir,stackAir'
+          'agg_fields': 'quantitiesEnteringEnvironment.fugitiveAir,quantitiesEnteringEnvironment.stackAir'
         },
         successCallback = jasmine.createSpy('successCallback'),
         errorCallback = jasmine.createSpy('errorCallback');
@@ -140,7 +156,7 @@
           'filters': 'year:[2005 TO *]',
           'groupBy': 'year',
           'operation': 'sum',
-          'agg_fields': 'fugitiveAir,stackAir'
+          'agg_fields': 'quantitiesEnteringEnvironment.fugitiveAir,quantitiesEnteringEnvironment.stackAir'
         },
         successCallback = jasmine.createSpy('successCallback'),
         errorCallback = jasmine.createSpy('errorCallback');
@@ -159,7 +175,7 @@
           'filters': 'year:[* TO 2009]',
           'groupBy': 'year',
           'operation': 'sum',
-          'agg_fields': 'fugitiveAir,stackAir'
+          'agg_fields': 'quantitiesEnteringEnvironment.fugitiveAir,quantitiesEnteringEnvironment.stackAir'
         },
         successCallback = jasmine.createSpy('successCallback'),
         errorCallback = jasmine.createSpy('errorCallback');
@@ -175,10 +191,10 @@
 
     it('should add filters to query params', function() {
       var expectedQueryParams = {
-          'filters': 'year:[2005 TO 2009] AND state:TX AND county:HARRIS',
+          'filters': 'year:[2005 TO 2009] AND facility.address.state:TX AND facility.address.county:HARRIS',
           'groupBy': 'year',
           'operation': 'sum',
-          'agg_fields': 'fugitiveAir,stackAir'
+          'agg_fields': 'quantitiesEnteringEnvironment.fugitiveAir,quantitiesEnteringEnvironment.stackAir'
         },
         successCallback = jasmine.createSpy('successCallback'),
         errorCallback = jasmine.createSpy('errorCallback');
