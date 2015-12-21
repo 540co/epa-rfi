@@ -162,9 +162,11 @@
     function extractStateList(stateData) {
       var stateList = [];
 
-      stateData.data.forEach(function(state) {
+      stateData.forEach(function(state) {
         stateList.push(state.facility.address.state);
       });
+
+      stateList.sort();
 
       return stateList;
     }
