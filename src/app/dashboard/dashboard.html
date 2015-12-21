@@ -48,8 +48,10 @@
           <md-select ng-model="searchFilter.state" placeholder="State">
             <md-option ng-value="opt" ng-repeat="opt in vm.stateFilters">{{ opt }}</md-option>
           </md-select>
+          <md-button class="md-raised md-primary" ng-click="vm.updateDashboard(searchFilter)">Update Dashboard</md-button>
+          <md-button class="md-raised md-primary" ng-click="vm.resetDashboard()">Reset</md-button>
       </md-content>
-      <md-button class="md-raised md-primary" ng-click="vm.updateDashboard(searchFilter)">Update Dashboard</md-button>
+
     </md-sidenav>
     <md-content flex layout-padding>
       <div layout="column" layout-fill layout-align="top center">
@@ -61,7 +63,7 @@
                   <div class="card">
                     <div class="text-center">
                       <h1 id="dash-main-number">{{vm.netReductionPounds | number:0}}</h1>
-                      <h1 class="lead">Pounds of Air Pollutant Reduction Since {{searchFilter.start_year || 1987}}</h1>
+                      <h1 class="lead">Pounds of Air Pollutant Reduction from {{searchFilter.start_year || 1987}} to {{searchFilter.end_year || 2013}}</h1>
                       <div class="card-content">
                         <p>Figure only contains reported Air Releases</p>
                       </div>
@@ -76,7 +78,7 @@
                         Decrease of Net Air Releases
                       </p>
                       <div class="card-content">
-                        <p>Over the past {{vm.totalYears || vm.yearFilters.length}} years</p>
+                        <p>Over {{vm.totalYears || vm.yearFilters.length}} years</p>
                       </div>
                     </div>
                   </div>

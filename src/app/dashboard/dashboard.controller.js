@@ -11,19 +11,6 @@
     function DashboardController(ReportService) {
       var vm = this;
 
-      vm.updateDashboard = function(filter) {
-        console.log('Update dashboard with: ', filter);
-        ReportService.getYearlyAirPollutionReport(filter,function(data, err){
-
-          vm.netReductionPounds = data.totalReduction;
-          vm.netReductionPercent = (data.cumulativeReductionPercentage * 100);
-
-          vm.totalYears = data.years.length;
-
-          buildChart(data.fugitiveAirPerYear, data.stackAirPerYear, data.totalAirPerYear, data.years);
-        });
-      }
-
       activate();
 
       function activate() {
@@ -86,6 +73,31 @@
 
     }
 
+    vm.updateDashboard = function(filter) {
+      console.log('Update dashboard with: ', filter);
+      ReportService.getYearlyAirPollutionReport(filter,function(data, err){
+
+        vm.netReductionPounds = data.totalReduction;
+        vm.netReductionPercent = (data.cumulativeReductionPercentage * 100);
+
+        vm.totalYears = data.years.length;
+
+        buildChart(data.fugitiveAirPerYear, data.stackAirPerYear, data.totalAirPerYear, data.years);
+      });
+    }
+
+    vm.resetDashboard = function() {
+      console.log('Dashboard reset!');
+      ReportService.getYearlyAirPollutionReport({},function(data, err){
+
+        vm.netReductionPounds = data.totalReduction;
+        vm.netReductionPercent = (data.cumulativeReductionPercentage * 100);
+
+        vm.totalYears = data.years.length;
+
+        buildChart(data.fugitiveAirPerYear, data.stackAirPerYear, data.totalAirPerYear, data.years);
+      });
+    }
 
     vm.toggle = {
       cb2: 'Air Production'

@@ -148,6 +148,6 @@ Angular Material Directives
   padding-top: 25px;
 }
 
-md-content {
+md-content, md-sidenav {
   background: #f5f5f5;
 }
