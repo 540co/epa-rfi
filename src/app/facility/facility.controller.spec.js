@@ -55,7 +55,7 @@
         expect(DataServiceMock.Facilities.query).toHaveBeenCalledWith({id: 'ABC123'}, jasmine.any(Function), jasmine.any(Function));
       });
 
-      xit('should have an array of reports', function() {
+      it('should have an array of reports', function() {
         expect(vm.reports).toEqual(facilityReportsMock);
         expect(DataServiceMock.FacilityReports.query).toHaveBeenCalledWith({id: 'ABC123'}, jasmine.any(Function), jasmine.any(Function));
       });
