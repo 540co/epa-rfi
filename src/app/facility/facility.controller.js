@@ -5,26 +5,26 @@
     .module('app.facility')
     .controller('FacilityController', FacilityController);
 
-  FacilityController.$inject = ['DataService'];
+  FacilityController.$inject = ['DataService', '$stateParams'];
 
   /** @ngInject */
 
-  function FacilityController(DataService) {
+  function FacilityController(DataService, $stateParams) {
     var vm = this;
 
     activate();
 
     function activate() {
 
-      getFacility('00753DGTLQPRROA', function(data) {
+      getFacility($stateParams.facilityId, function(data) {
         vm.facility = data;
-      }, function(error) {
+      }, function() {
         vm.facility = {};
       });
 
-      getReports('00753DGTLQPRROA', function(data) {
+      getReports($stateParams.facilityId, function(data) {
         vm.reports = data;
-      }, function(error) {
+      }, function() {
         vm.reports = [];
       });
 

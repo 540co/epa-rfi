@@ -9,7 +9,7 @@
   function routerConfig($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('facility', {
-        url: '/facility',
+        url: '/facility/:facilityId',
         templateUrl: 'app/facility/facility.html',
         controller: 'FacilityController',
         controllerAs: 'vm'
