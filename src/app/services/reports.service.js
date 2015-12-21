@@ -5,10 +5,10 @@
     .module('app.services')
     .factory('ReportService', ReportService);
 
-  ReportService.$inject = ['DataService'];
+  ReportService.$inject = ['DataService', '$q'];
 
   /* @ngInject */
-  function ReportService(DataService) {
+  function ReportService(DataService, $q) {
 
     var reportService = {
       getYearlyAirPollutionReport: getYearlyAirPollutionReport
@@ -21,19 +21,62 @@
         filters = {};
       }
 
-      var queryParams = buildQueryParams(filters);
-      queryParams.groupBy = 'year';
-      queryParams.operation = 'sum';
-      queryParams.agg_fields = 'quantitiesEnteringEnvironment.fugitiveAir,quantitiesEnteringEnvironment.stackAir';
+      var poundsQueryParams = buildQueryParams(filters, 'pounds'),
+        gramsQueryParams = buildQueryParams(filters, 'grams');
 
-      DataService.Reports.query(queryParams, function(response) {
-        var reportData = calculateReportTotals(response.data);
+      $q.all([
+        DataService.Reports.query(poundsQueryParams).$promise,
+        DataService.Reports.query(gramsQueryParams).$promise
+      ]).then(function(responses) {
+        var poundsReportData = responses[0].data,
+          gramsReportData = responses[1].data,
+          mergedReportData,
+          reportData;
+
+        mergedReportData = mergeReportData(poundsReportData, gramsReportData);
+
+        reportData = calculateReportTotals(mergedReportData);
 
         successCallback(reportData);
       }, errorCallback);
     }
 
-    function buildQueryParams(params) {
+    function roundNumber(num) {
+      return Math.round(num * 100) / 100;
+    }
+
+    function mergeReportData(poundsData, gramsData) {
+      var GRAM_MULTIPLIER = 0.00220462262,
+        foundMatch;
+
+      for (var i = 0, len = gramsData.length; i < len; i++) {
+        gramsData[i].quantitiesEnteringEnvironment.fugitiveAir = roundNumber(
+          gramsData[i].quantitiesEnteringEnvironment.fugitiveAir * GRAM_MULTIPLIER
+        );
+        gramsData[i].quantitiesEnteringEnvironment.stackAir = roundNumber(
+          gramsData[i].quantitiesEnteringEnvironment.stackAir * GRAM_MULTIPLIER
+        );
+
+        foundMatch = false;
+        for (var j = 0, jlen = poundsData.length; j < jlen; j++) {
+          if (poundsData[j].year == gramsData[i].year) {
+            foundMatch = true;
+            poundsData[j].quantitiesEnteringEnvironment.fugitiveAir += gramsData[i].quantitiesEnteringEnvironment.fugitiveAir;
+            poundsData[j].quantitiesEnteringEnvironment.stackAir += gramsData[i].quantitiesEnteringEnvironment.stackAir;
+            break;
+          }
+        }
+
+        if (!foundMatch) {
+          poundsData.push(gramsData[i]);
+        }
+      }
+
+      return poundsData;
+
+    }
+
+    function buildQueryParams(params, unitOfMeasure) {
       var filters = [],
         queryParams = {},
         filterMappings = {
@@ -65,9 +108,15 @@
         }
       });
 
+      filters.push('unitOfMeasure:' + (unitOfMeasure === 'grams' ? 'Grams' : 'Pounds'));
+
       if (filters.length) {
         queryParams.filters = filters.join(' AND ');
       }
+
+      queryParams.groupBy = 'year';
+      queryParams.operation = 'sum';
+      queryParams.agg_fields = 'quantitiesEnteringEnvironment.fugitiveAir,quantitiesEnteringEnvironment.stackAir';
 
       return queryParams;
     }
