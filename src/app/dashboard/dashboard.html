@@ -39,29 +39,15 @@
         <p>
           <i class="fa fa-info-circle"></i> Select filters below to change the dashboard
         </p>
-        <md-switch ng-model="data.cb1" aria-label="Switch 1">
-          Toggle production/reduction data
-        </md-switch>
           <md-select ng-model="searchFilter.start_year" placeholder="Start Year">
             <md-option ng-value="opt" ng-repeat="opt in vm.yearFilters">{{ opt }}</md-option>
           </md-select>
           <md-select ng-model="searchFilter.end_year" placeholder="End Year">
             <md-option ng-value="opt" ng-repeat="opt in vm.yearFilters">{{ opt }}</md-option>
           </md-select>
-          <p class="text-center">
-            Filter by state OR zipcode
-          </p>
-          <md-radio-group ng-model="searchFilter.group" ng-init="searchFilter.group=state">
-            <md-radio-button value="state">State</md-radio-button>
-            <md-radio-button value="zipcode"> Zipcode </md-radio-button>
-          </md-radio-group>
-          <md-select ng-model="searchFilter.state" placeholder="State" ng-show="searchFilter.group=='state'" >
-            <md-option ng-value="opt" ng-repeat="opt in vm.stateFilters" ng-checked>{{ opt }}</md-option>
+          <md-select ng-model="searchFilter.state" placeholder="State">
+            <md-option ng-value="opt" ng-repeat="opt in vm.stateFilters">{{ opt }}</md-option>
           </md-select>
-          <md-input-container class="md-block" flex-gt-sm ng-show="searchFilter.group=='zipcode'">
-           <input name="postalCode" ng-model="searchFilter.zipcode" placeholder="zipcode (22205)"
-                  required ng-pattern="/^[0-9]{5}$/" md-maxlength="5">
-         </md-input-container>
           <div class="text-center">
             <md-button class="md-raised md-primary" ng-click="vm.updateDashboard(searchFilter)">Apply Filters</md-button>
             <md-button class="md-raised md-primary" ng-click="vm.resetDashboard(searchFilter)">Reset</md-button>
@@ -74,9 +60,6 @@
         <div class="container">
           <div class="row">
             <div class="col-md-12">
-              <div ng-show="searchFilter.group=='zipcode'">
-                <h4>View list of facilities for zipcode: <a>{{searchFilter.zipcode}}</a></h4>
-              </div>
               <div class="row">
                 <div class="col-md-8">
                   <div class="card">
