@@ -36,9 +36,9 @@
         <h1 class="md-toolbar-tools">Dashboard Options</h1>
       </md-toolbar>
       <md-content layout-padding>
-        <h6 class="md-title">
-          Select filters below to change the dashboard.
-        </h6>
+        <p>
+          <i class="fa fa-info-circle"></i> Select filters below to change the dashboard
+        </p>
           <md-select ng-model="searchFilter.start_year" placeholder="Start Year">
             <md-option ng-value="opt" ng-repeat="opt in vm.yearFilters">{{ opt }}</md-option>
           </md-select>
@@ -48,8 +48,10 @@
           <md-select ng-model="searchFilter.state" placeholder="State">
             <md-option ng-value="opt" ng-repeat="opt in vm.stateFilters">{{ opt }}</md-option>
           </md-select>
-          <md-button class="md-raised md-primary" ng-click="vm.updateDashboard(searchFilter)">Update Dashboard</md-button>
-          <md-button class="md-raised md-primary" ng-click="vm.resetDashboard()">Reset</md-button>
+          <div class="text-center">
+            <md-button class="md-raised md-primary" ng-click="vm.updateDashboard(searchFilter)">Apply Filters</md-button>
+            <md-button class="md-raised md-primary" ng-click="vm.resetDashboard(searchFilter)">Reset</md-button>
+          </div>
       </md-content>
 
     </md-sidenav>

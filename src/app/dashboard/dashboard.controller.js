@@ -6,9 +6,9 @@
       .controller('DashboardController', DashboardController);
 
     /** @ngInject */
-    DashboardController.$inject = ['ReportService'];
+    DashboardController.$inject = ['ReportService', '$log'];
 
-    function DashboardController(ReportService) {
+    function DashboardController(ReportService, $log) {
       var vm = this;
 
       activate();
@@ -74,7 +74,8 @@
     }
 
     vm.updateDashboard = function(filter) {
-      console.log('Update dashboard with: ', filter);
+      $log.info('Update dashboard with: ', filter);
+
       ReportService.getYearlyAirPollutionReport(filter,function(data, err){
 
         vm.netReductionPounds = data.totalReduction;
@@ -86,8 +87,13 @@
       });
     }
 
-    vm.resetDashboard = function() {
-      console.log('Dashboard reset!');
+    vm.resetDashboard = function(filter) {
+      $log.info('Dashboard reset!');
+
+      filter.start_year = '';
+      filter.end_year = '';
+      filter.state = '';
+
       ReportService.getYearlyAirPollutionReport({},function(data, err){
 
         vm.netReductionPounds = data.totalReduction;
