@@ -3,7 +3,8 @@
 
   describe('ReportService', function() {
     var ReportService,
-      DataServiceMock;
+      DataServiceMock,
+      $q;
 
     beforeEach(function() {
       module('app.services', function($provide) {
@@ -11,32 +12,40 @@
       });
     });
 
-    beforeEach(inject(function (_ReportService_, _DataService_) {
+    beforeEach(inject(function (_ReportService_, _DataService_, _$q_) {
       ReportService = _ReportService_;
       DataServiceMock = _DataService_;
+      $q = _$q_;
     }));
 
     it('should calculate report of yearly air pollution totals', function(done) {
-      var expectedQueryParams = {
+      var expectedPoundsQueryParams = {
           'groupBy': 'year',
           'operation': 'sum',
-          'agg_fields': 'quantitiesEnteringEnvironment.fugitiveAir,quantitiesEnteringEnvironment.stackAir'
+          'agg_fields': 'quantitiesEnteringEnvironment.fugitiveAir,quantitiesEnteringEnvironment.stackAir',
+          'filters': 'unitOfMeasure:Pounds'
         },
-        mockReportData = {
+        expectedGramsQueryParams = {
+          'groupBy': 'year',
+          'operation': 'sum',
+          'agg_fields': 'quantitiesEnteringEnvironment.fugitiveAir,quantitiesEnteringEnvironment.stackAir',
+          'filters': 'unitOfMeasure:Grams'
+        },
+        mockPoundsReportData = {
           meta: {},
           data: [
             {
               year: 2002,
               quantitiesEnteringEnvironment: {
-                fugitiveAir: 200,
-                stackAir: 300
+                fugitiveAir: 100,
+                stackAir: 200
               }
             },
             {
               year: 2000,
               quantitiesEnteringEnvironment: {
-                fugitiveAir: 1000,
-                stackAir: 1500
+                fugitiveAir: 900,
+                stackAir: 1400
               }
             },
             {
@@ -51,6 +60,25 @@
               quantitiesEnteringEnvironment: {
                 fugitiveAir: 100,
                 stackAir: 200
+              }
+            }
+          ]
+        },
+        mockGramsReportData = {
+          meta: {},
+          data: [
+            {
+              year: 2004,
+              quantitiesEnteringEnvironment: {
+                fugitiveAir: 45359.2370380378298,
+                stackAir: 45359.2370380378298
+              }
+            },
+            {
+              year: 2000,
+              quantitiesEnteringEnvironment: {
+                fugitiveAir: 45359.2370380378298,
+                stackAir: 45359.2370380378298
               }
             }
           ]
@@ -76,10 +104,10 @@
             {
               year: 2002,
               quantitiesEnteringEnvironment: {
-                fugitiveAir: 200,
-                stackAir: 300
+                fugitiveAir: 100,
+                stackAir: 200
               },
-              total: 500
+              total: 300
             },
             {
               year: 2003,
@@ -88,20 +116,38 @@
                 stackAir: 200
               },
               total: 300
+            },
+            {
+              year: 2004,
+              quantitiesEnteringEnvironment: {
+                fugitiveAir: 100,
+                stackAir: 100
+              },
+              total: 200
             }
           ],
           totalProduction: 4675,
-          totalReduction: 5325,
-          cumulativeReductionPercentage: 0.5325,
-          years: [2000,2001,2002,2003],
-          totalAirPerYear: [2500,1375,500,300],
-          fugitiveAirPerYear: [1000,500,200,100],
-          stackAirPerYear: [1500,875,300,200]
+          totalReduction: 7825,
+          cumulativeReductionPercentage: 0.626,
+          years: [2000,2001,2002,2003,2004],
+          totalAirPerYear: [2500,1375,300,300,200],
+          fugitiveAirPerYear: [1000,500,100,100,100],
+          stackAirPerYear: [1500,875,200,200,100]
         },
         errorCallback = jasmine.createSpy('errorCallback');
 
-      spyOn(DataServiceMock.Reports, 'query').and.callFake(function(queryParams, successCallback) {
-        successCallback(mockReportData);
+      spyOn($q, 'all').and.callFake(function() {
+        return {
+          then: function(successCallback) {
+            successCallback([mockPoundsReportData, mockGramsReportData]);
+          }
+        }
+      })
+
+      spyOn(DataServiceMock.Reports, 'query').and.callFake(function() {
+        return {
+          $promise: {}
+        };
       });
 
       ReportService.getYearlyAirPollutionReport({}, function(data) {
@@ -110,7 +156,8 @@
         done();
       }, errorCallback);
 
-      expect(DataServiceMock.Reports.query).toHaveBeenCalledWith(expectedQueryParams, jasmine.any(Function), jasmine.any(Function));
+      expect(DataServiceMock.Reports.query).toHaveBeenCalledWith(expectedPoundsQueryParams);
+      expect(DataServiceMock.Reports.query).toHaveBeenCalledWith(expectedGramsQueryParams);
 
       expect(errorCallback).not.toHaveBeenCalled();
     });
@@ -119,8 +166,18 @@
       var successCallback = jasmine.createSpy('successCallback'),
         errorCallback = jasmine.createSpy('errorCallback');
 
-      spyOn(DataServiceMock.Reports, 'query').and.callFake(function(queryParams, successCallback, errorCallback) {
-        errorCallback();
+      spyOn($q, 'all').and.callFake(function() {
+        return {
+          then: function(successCallback, errorCallback) {
+            errorCallback();
+          }
+        };
+      });
+
+      spyOn(DataServiceMock.Reports, 'query').and.callFake(function() {
+        return {
+          $promise: {}
+        };
       });
 
       ReportService.getYearlyAirPollutionReport({}, successCallback, errorCallback);
@@ -132,28 +189,45 @@
     });
 
     it('should add start/end year to query params', function() {
-      var expectedQueryParams = {
-          'filters': 'year:[2005 TO 2009]',
+      var expectedPoundsQueryParams = {
+          'filters': 'year:[2005 TO 2009] AND unitOfMeasure:Pounds',
           'groupBy': 'year',
           'operation': 'sum',
           'agg_fields': 'quantitiesEnteringEnvironment.fugitiveAir,quantitiesEnteringEnvironment.stackAir'
         },
+        expectedGramsQueryParams = {
+            'filters': 'year:[2005 TO 2009] AND unitOfMeasure:Grams',
+            'groupBy': 'year',
+            'operation': 'sum',
+            'agg_fields': 'quantitiesEnteringEnvironment.fugitiveAir,quantitiesEnteringEnvironment.stackAir'
+          },
         successCallback = jasmine.createSpy('successCallback'),
         errorCallback = jasmine.createSpy('errorCallback');
 
-      spyOn(DataServiceMock.Reports, 'query');
+      spyOn(DataServiceMock.Reports, 'query').and.callFake(function() {
+        return {
+          $promise: {}
+        };
+      });
 
       ReportService.getYearlyAirPollutionReport({
           start_year: 2005,
           end_year: 2009
         }, successCallback, errorCallback);
 
-      expect(DataServiceMock.Reports.query).toHaveBeenCalledWith(expectedQueryParams, jasmine.any(Function), jasmine.any(Function));
+      expect(DataServiceMock.Reports.query.calls.argsFor(0)).toEqual([expectedPoundsQueryParams]);
+      expect(DataServiceMock.Reports.query.calls.argsFor(1)).toEqual([expectedGramsQueryParams]);
     });
 
     it('should add start year to query params', function() {
-      var expectedQueryParams = {
-          'filters': 'year:[2005 TO *]',
+      var expectedPoundsQueryParams = {
+          'filters': 'year:[2005 TO *] AND unitOfMeasure:Pounds',
+          'groupBy': 'year',
+          'operation': 'sum',
+          'agg_fields': 'quantitiesEnteringEnvironment.fugitiveAir,quantitiesEnteringEnvironment.stackAir'
+        },
+        expectedGramsQueryParams = {
+          'filters': 'year:[2005 TO *] AND unitOfMeasure:Grams',
           'groupBy': 'year',
           'operation': 'sum',
           'agg_fields': 'quantitiesEnteringEnvironment.fugitiveAir,quantitiesEnteringEnvironment.stackAir'
@@ -161,18 +235,29 @@
         successCallback = jasmine.createSpy('successCallback'),
         errorCallback = jasmine.createSpy('errorCallback');
 
-      spyOn(DataServiceMock.Reports, 'query');
+      spyOn(DataServiceMock.Reports, 'query').and.callFake(function() {
+        return {
+          $promise: {}
+        };
+      });
 
       ReportService.getYearlyAirPollutionReport({
           start_year: 2005
         }, successCallback, errorCallback);
 
-      expect(DataServiceMock.Reports.query).toHaveBeenCalledWith(expectedQueryParams, jasmine.any(Function), jasmine.any(Function));
+      expect(DataServiceMock.Reports.query.calls.argsFor(0)).toEqual([expectedPoundsQueryParams]);
+      expect(DataServiceMock.Reports.query.calls.argsFor(1)).toEqual([expectedGramsQueryParams]);
     });
 
     it('should add end year to query params', function() {
-      var expectedQueryParams = {
-          'filters': 'year:[* TO 2009]',
+      var expectedPoundsQueryParams = {
+          'filters': 'year:[* TO 2009] AND unitOfMeasure:Pounds',
+          'groupBy': 'year',
+          'operation': 'sum',
+          'agg_fields': 'quantitiesEnteringEnvironment.fugitiveAir,quantitiesEnteringEnvironment.stackAir'
+        },
+        expectedGramsQueryParams = {
+          'filters': 'year:[* TO 2009] AND unitOfMeasure:Grams',
           'groupBy': 'year',
           'operation': 'sum',
           'agg_fields': 'quantitiesEnteringEnvironment.fugitiveAir,quantitiesEnteringEnvironment.stackAir'
@@ -180,26 +265,41 @@
         successCallback = jasmine.createSpy('successCallback'),
         errorCallback = jasmine.createSpy('errorCallback');
 
-      spyOn(DataServiceMock.Reports, 'query');
+      spyOn(DataServiceMock.Reports, 'query').and.callFake(function() {
+        return {
+          $promise: {}
+        };
+      });
 
       ReportService.getYearlyAirPollutionReport({
           end_year: 2009
         }, successCallback, errorCallback);
 
-      expect(DataServiceMock.Reports.query).toHaveBeenCalledWith(expectedQueryParams, jasmine.any(Function), jasmine.any(Function));
+      expect(DataServiceMock.Reports.query.calls.argsFor(0)).toEqual([expectedPoundsQueryParams]);
+      expect(DataServiceMock.Reports.query.calls.argsFor(1)).toEqual([expectedGramsQueryParams]);
     });
 
     it('should add filters to query params', function() {
-      var expectedQueryParams = {
-          'filters': 'year:[2005 TO 2009] AND facility.address.state:TX AND facility.address.county:HARRIS',
+      var expectedPoundsQueryParams = {
+          'filters': 'year:[2005 TO 2009] AND facility.address.state:TX AND facility.address.county:HARRIS AND unitOfMeasure:Pounds',
           'groupBy': 'year',
           'operation': 'sum',
           'agg_fields': 'quantitiesEnteringEnvironment.fugitiveAir,quantitiesEnteringEnvironment.stackAir'
         },
+        expectedGramsQueryParams = {
+            'filters': 'year:[2005 TO 2009] AND facility.address.state:TX AND facility.address.county:HARRIS AND unitOfMeasure:Grams',
+            'groupBy': 'year',
+            'operation': 'sum',
+            'agg_fields': 'quantitiesEnteringEnvironment.fugitiveAir,quantitiesEnteringEnvironment.stackAir'
+          },
         successCallback = jasmine.createSpy('successCallback'),
         errorCallback = jasmine.createSpy('errorCallback');
 
-      spyOn(DataServiceMock.Reports, 'query');
+      spyOn(DataServiceMock.Reports, 'query').and.callFake(function() {
+        return {
+          $promise: {}
+        };
+      });
 
       ReportService.getYearlyAirPollutionReport({
           start_year: 2005,
@@ -208,7 +308,8 @@
           county: 'HARRIS'
         }, successCallback, errorCallback);
 
-      expect(DataServiceMock.Reports.query).toHaveBeenCalledWith(expectedQueryParams, jasmine.any(Function), jasmine.any(Function));
+      expect(DataServiceMock.Reports.query.calls.argsFor(0)).toEqual([expectedPoundsQueryParams]);
+      expect(DataServiceMock.Reports.query.calls.argsFor(1)).toEqual([expectedGramsQueryParams]);
     });
   });
 })();
