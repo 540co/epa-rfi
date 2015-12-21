@@ -6,23 +6,10 @@
       .controller('DashboardController', DashboardController);
 
     /** @ngInject */
-    DashboardController.$inject = ['ReportService'];
+    DashboardController.$inject = ['ReportService', '$log'];
 
-    function DashboardController(ReportService) {
+    function DashboardController(ReportService, $log) {
       var vm = this;
-
-      vm.updateDashboard = function(filter) {
-        console.log('Update dashboard with: ', filter);
-        ReportService.getYearlyAirPollutionReport(filter,function(data, err){
-
-          vm.netReductionPounds = data.totalReduction;
-          vm.netReductionPercent = (data.cumulativeReductionPercentage * 100);
-
-          vm.totalYears = data.years.length;
-
-          buildChart(data.fugitiveAirPerYear, data.stackAirPerYear, data.totalAirPerYear, data.years);
-        });
-      }
 
       activate();
 
@@ -86,6 +73,37 @@
 
     }
 
+    vm.updateDashboard = function(filter) {
+      $log.info('Update dashboard with: ', filter);
+
+      ReportService.getYearlyAirPollutionReport(filter,function(data, err){
+
+        vm.netReductionPounds = data.totalReduction;
+        vm.netReductionPercent = (data.cumulativeReductionPercentage * 100);
+
+        vm.totalYears = data.years.length;
+
+        buildChart(data.fugitiveAirPerYear, data.stackAirPerYear, data.totalAirPerYear, data.years);
+      });
+    }
+
+    vm.resetDashboard = function(filter) {
+      $log.info('Dashboard reset!');
+
+      filter.start_year = '';
+      filter.end_year = '';
+      filter.state = '';
+
+      ReportService.getYearlyAirPollutionReport({},function(data, err){
+
+        vm.netReductionPounds = data.totalReduction;
+        vm.netReductionPercent = (data.cumulativeReductionPercentage * 100);
+
+        vm.totalYears = data.years.length;
+
+        buildChart(data.fugitiveAirPerYear, data.stackAirPerYear, data.totalAirPerYear, data.years);
+      });
+    }
 
     vm.toggle = {
       cb2: 'Air Production'
