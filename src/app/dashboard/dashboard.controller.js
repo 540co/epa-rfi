@@ -18,6 +18,8 @@
           vm.netReductionPounds = data.totalReduction;
           vm.netReductionPercent = (data.cumulativeReductionPercentage * 100);
 
+          vm.totalYears = data.years.length;
+
           buildChart(data.fugitiveAirPerYear, data.stackAirPerYear, data.totalAirPerYear, data.years);
         });
       }

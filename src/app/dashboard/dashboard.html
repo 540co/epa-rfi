@@ -60,7 +60,7 @@
                 <div class="col-md-8">
                   <div class="card">
                     <div class="text-center">
-                      <h1 id="dash-main-number">{{vm.netReductionPounds}}</h1>
+                      <h1 id="dash-main-number">{{vm.netReductionPounds | number:0}}</h1>
                       <h1 class="lead">Pounds of Air Pollutant Reduction Since {{searchFilter.start_year || 1987}}</h1>
                       <div class="card-content">
                         <p>Figure only contains reported Air Releases</p>
@@ -76,7 +76,7 @@
                         Decrease of Net Air Releases
                       </p>
                       <div class="card-content">
-                        <p>Over the past 10 years</p>
+                        <p>Over the past {{vm.totalYears || vm.yearFilters.length}} years</p>
                       </div>
                     </div>
                   </div>
