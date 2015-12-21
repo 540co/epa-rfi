@@ -1,14 +1,28 @@
 <div id="about-section" ng-hide="hide">
   <div class="container">
     <div class="row">
-      <div class="col-md-10 col-md-offset-1">
-        <h2>Air Hound</h2>
+      <div class="col-md-2" id="about-logo">
+        <img src="./../assets/images/airhound-logo.png" height="200px">
+      </div>
+      <div class="col-md-9 col-md-offset-1">
         <h4>Helping You Sniff Out Clean Air</h4>
         <p class="lead">
           Air Hound is a lightweight application that gives you information on air quality in your neighborhood (or any other neighborhood in the United States) over time.  The United States Environmental Protection Agency's Toxic Release Inventory feeds Air Hound information on the the release of hazardous air pollutants identified in the Clean Air Act.  Air Hound allows you to the magnitude and trends of these releases over time in specific geographic areas.
         </p>
-        <div class="row text-center">
-          <h5 class="lead"><i class="gi gi-cloud"></i> Air pollutants <i class="gi gi-line-chart"></i> Visualize data <i class="gi gi-leaf"></i> Reduction Footprint <i class="gi gi-building"></i> Facility info</h5>
+        <div class="row">
+          <div class="col-md-3">
+            <h5 class="lead"><i class="gi gi-cloud"></i> Air pollutants</h5>
+          </div>
+          <div class="col-md-3">
+            <h5 class="lead"><i class="gi gi-line-chart"></i> Visualize data</h5>
+          </div>
+          <div class="col-md-3">
+            <h5 class="lead"><i class="gi gi-building"></i> Facility info</h5>
+          </div>
+          <div class="col-md-3">
+            <h5 class="lead"><i class="gi gi-leaf"></i> Footprint</h5>
+          </div>
+        </div><div class="pull-left">
           <a href="" ng-click="hide=true">Hide this section</a>
         </div>
       </div>
@@ -17,7 +31,7 @@
 </div>
 <div layout="column" ng-cloak>
   <section layout="row" flex>
-    <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('min-width: 633px')">
+    <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('min-width: 933px')">
       <md-toolbar class="md-theme-pink">
         <h1 class="md-toolbar-tools">Dashboard Options</h1>
       </md-toolbar>
@@ -25,43 +39,29 @@
         <h6 class="md-title">
           Select filters below to change the dashboard.
         </h6>
-          <md-select ng-model="someModel" placeholder="Start Year">
-            <md-option ng-value="opt" ng-repeat="opt in years">{{ opt }}</md-option>
+          <md-select ng-model="searchFilter.start_year" placeholder="Start Year">
+            <md-option ng-value="opt" ng-repeat="opt in vm.yearFilters">{{ opt }}</md-option>
           </md-select>
-
-          <md-select ng-model="someModel" placeholder="End Year">
-            <md-option ng-value="opt" ng-repeat="opt in years">{{ opt }}</md-option>
+          <md-select ng-model="searchFilter.end_year" placeholder="End Year">
+            <md-option ng-value="opt" ng-repeat="opt in vm.yearFilters">{{ opt }}</md-option>
           </md-select>
-
-          <md-select ng-model="someModel" placeholder="State">
-            <md-option ng-value="opt" ng-repeat="opt in neighborhoods2">{{ opt }}</md-option>
-          </md-select>
-
-          <md-select ng-model="someModel" placeholder="City">
-            <md-option ng-value="opt" ng-repeat="opt in neighborhoods2">{{ opt }}</md-option>
-          </md-select>
-
-          <md-select ng-model="someModel" placeholder="County">
-            <md-option ng-value="opt" ng-repeat="opt in neighborhoods2">{{ opt }}</md-option>
-          </md-select>
-
-          <md-select ng-model="someModel" placeholder="Facility">
-            <md-option ng-value="opt" ng-repeat="opt in neighborhoods2">{{ opt }}</md-option>
+          <md-select ng-model="searchFilter.state" placeholder="State">
+            <md-option ng-value="opt" ng-repeat="opt in vm.stateFilters">{{ opt }}</md-option>
           </md-select>
       </md-content>
-      <md-button class="md-raised md-primary">Update Dashboard</md-button>
+      <md-button class="md-raised md-primary" ng-click="vm.updateDashboard(searchFilter)">Update Dashboard</md-button>
     </md-sidenav>
     <md-content flex layout-padding>
       <div layout="column" layout-fill layout-align="top center">
         <div class="container">
           <div class="row">
-            <div class="col-md-10">
+            <div class="col-md-12">
               <div class="row">
                 <div class="col-md-8">
                   <div class="card">
                     <div class="text-center">
-                      <h1 id="dash-main-number">{{vm.netReductionPounds | number : fractionSize}}</h1>
-                      <h1 class="lead">Pounds of Air Pollutant Reduction Since YEAR</h1>
+                      <h1 id="dash-main-number">{{vm.netReductionPounds}}</h1>
+                      <h1 class="lead">Pounds of Air Pollutant Reduction Since {{searchFilter.start_year || 1987}}</h1>
                       <div class="card-content">
                         <p>Figure only contains reported Air Releases</p>
                       </div>
@@ -71,7 +71,7 @@
                 <div class="col-md-4">
                   <div class="card">
                     <div class="text-center">
-                      <h1 id="dash-side-number">{{vm.netReductionPercent}} %</h1>
+                      <h1 id="dash-side-number">{{vm.netReductionPercent | number:1}} %</h1>
                       <p class="lead">
                         Decrease of Net Air Releases
                       </p>
@@ -95,25 +95,9 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-2">
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="card filters text-center">
-                    <h5>Optional Filters</h5>
-                    <div class="inset" ng-controller="DashboardController" ng-cloak>
-                      <md-switch ng-model="vm.toggle.cb2" aria-label="Switch 2" ng-true-value="'Air Production'" ng-false-value="'Air Reduction'" class="md-warn">
-                        {{ vm.toggle.cb2 }}
-                      </md-switch>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
-      <div flex></div>
-      <br>
       <br><br>
     </md-content>
   </section>
