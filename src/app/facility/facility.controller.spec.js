@@ -31,7 +31,7 @@
         DataServiceMock = _DataService_;
 
         $stateParamsMock = {
-          id: 'ABC123'
+          facilityId: 'ABC123'
         };
 
         spyOn(DataServiceMock.Facilities, 'query').and.callFake(function(queryParams, successCallback) {
@@ -52,10 +52,12 @@
 
       it('should be have a facility object', function() {
         expect(vm.facility).toEqual(facilityMock);
+        expect(DataServiceMock.Facilities.query).toHaveBeenCalledWith({id: 'ABC123'}, jasmine.any(Function), jasmine.any(Function));
       });
 
       xit('should have an array of reports', function() {
         expect(vm.reports).toEqual(facilityReportsMock);
+        expect(DataServiceMock.FacilityReports.query).toHaveBeenCalledWith({id: 'ABC123'}, jasmine.any(Function), jasmine.any(Function));
       });
 
     });
