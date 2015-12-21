@@ -18,9 +18,7 @@
       }
 
       function initDashboard() {
-        ReportService.getYearlyAirPollutionReport({},function(data, err){
-
-          console.log(data);
+        ReportService.getYearlyAirPollutionReport({},function(data){
           // update whatever with data;
           vm.netReductionPounds = data.totalReduction;
           vm.netReductionPercent = data.cumulativeReductionPercentage * 100;
@@ -35,7 +33,7 @@
 
       function setDropdownValues() {
         ReportService.getStateList(
-          function(data, err) {
+          function(data) {
             vm.stateFilters = data;
           })
       }
@@ -78,9 +76,7 @@
     vm.updateDashboard = function(filter) {
       $log.info('Update dashboard with: ', filter);
 
-      ReportService.getYearlyAirPollutionReport(filter,function(data, err){
-        console.log(filter);
-        console.log(data);
+      ReportService.getYearlyAirPollutionReport(filter,function(data){
         vm.netReductionPounds = data.totalReduction;
         vm.netReductionPercent = (data.cumulativeReductionPercentage * 100);
 
@@ -97,8 +93,8 @@
       filter.end_year = '';
       filter.state = '';
       filter.zipcode = '';
-      
-      ReportService.getYearlyAirPollutionReport({},function(data, err){
+
+      ReportService.getYearlyAirPollutionReport({},function(data){
 
         vm.netReductionPounds = data.totalReduction;
         vm.netReductionPercent = (data.cumulativeReductionPercentage * 100);

@@ -195,16 +195,11 @@
       // Cumulative Net Reduction Percentage
       var cumulativeReductionPercentage = totalReduction / (reportData[0].total * numReportRows);
 
-      // Cummulative Net Production Percentage
-      var cumulativeProductionPercentage = totalProduction / (reportData[0].total * numReportRows);
-
-
       var data = {
         report: reportData,
         totalProduction: totalProduction,
         totalReduction: totalReduction,
         cumulativeReductionPercentage: cumulativeReductionPercentage,
-        cumulativeProductionPercentage: cumulativeProductionPercentage,
         years: years,
         totalAirPerYear: totalAirPerYear,
         fugitiveAirPerYear: fugitiveAirPerYear,
