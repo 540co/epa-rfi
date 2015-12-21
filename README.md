@@ -1,6 +1,9 @@
-# epa-rfi
+# Air Hound
 
-Front end development for the EPA RFI.
+[![Build Status](https://travis-ci.org/540co/epa-rfi.svg?branch=develop)](https://travis-ci.org/540co/epa-rfi)
+[![Code Climate](https://codeclimate.com/github/540co/epa-rfi/badges/gpa.svg)](https://codeclimate.com/github/540co/epa-rfi)
+
+Front end development for the EPA RFI (Air Hound).
 
 ## Getting started
 
@@ -20,6 +23,14 @@ Bower dependencies
 ```
 bower install
 ```
+
+#### Configure Google Analytics
+
+From within the cloned folder `eap-rfi` run:
+
+`cp ./src/assets/scripts/ga-example.js ./src/assets/scripts/ga.js`
+
+Edit `./src/assets/scripts/ga.js` and update accordingly.
 
 #### Gulp tasks
 
