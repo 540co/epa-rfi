@@ -11,7 +11,9 @@
   function ReportService(DataService, $q) {
 
     var reportService = {
-      getYearlyAirPollutionReport: getYearlyAirPollutionReport
+      getYearlyAirPollutionReport: getYearlyAirPollutionReport,
+      getStateAirPollutionReport: getStateAirPollutionReport,
+      getStateList: getStateList
     };
 
     return reportService;
@@ -39,6 +41,38 @@
 
         successCallback(reportData);
       }, errorCallback);
+    }
+
+    function getStateAirPollutionReport(filters, successCallback, errorCallback) {
+      if (!angular.isObject(filters)) {
+        filters = {};
+      }
+
+      var queryParams = buildQueryParams(filters);
+      queryParams.groupBy = 'facility.address.state';
+      queryParams.operation = 'sum';
+      queryParams.agg_fields = 'fugitiveAir,stackAir';
+
+      DataService.Reports.query(queryParams, function(response) {
+        var reportData = calculateReportTotals(response.data);
+
+        successCallback(reportData);
+      }, errorCallback);
+    }
+
+    function getStateList(successCallback, errorCallback) {
+
+      var queryParams = {};
+      queryParams.groupBy = 'facility.address.state';
+      queryParams.operation = 'sum';
+      queryParams.agg_fields = 'fugitiveAir,stackAir';
+
+      DataService.Reports.query(queryParams, function(response) {
+        var reportData = extractStateList(response.data);
+
+        successCallback(reportData);
+      }, errorCallback);
+
     }
 
     function roundNumber(num) {
@@ -173,5 +207,18 @@
 
       return data;
     }
+
+    function extractStateList(stateData) {
+      var stateList = [];
+
+      stateData.forEach(function(state) {
+        stateList.push(state.facility.address.state);
+      });
+
+      stateList.sort();
+
+      return stateList;
+    }
+
   }
 })();
