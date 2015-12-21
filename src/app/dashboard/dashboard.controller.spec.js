@@ -16,14 +16,6 @@
           $scope: scope
         });
       }));
-
-      it('should be an array of 3 labels', function() {
-
-        expect(angular.isArray(vm.labels)).toBeTruthy();
-        // expect(vm.labels.length === 0).toBeTruthy();
-
-      });
-
     });
   });
 })();
