@@ -26,7 +26,7 @@
       var queryParams = buildQueryParams(filters);
       queryParams.groupBy = 'year';
       queryParams.operation = 'sum';
-      queryParams.agg_fields = 'fugitiveAir,stackAir';
+      queryParams.agg_fields = 'quantitiesEnteringEnvironment.fugitiveAir,quantitiesEnteringEnvironment.stackAir';
 
       DataService.Reports.query(queryParams, function(response) {
         var reportData = calculateReportTotals(response.data);
@@ -70,7 +70,11 @@
     function buildQueryParams(params) {
       var filters = [],
         queryParams = {},
-        simpleFilters = ['state', 'county', 'city'];
+        filterMappings = {
+          'state': 'facility.address.state',
+          'county': 'facility.address.county',
+          'city': 'facility.address.city'
+        };
 
       //Filter by year query param
       if (params.start_year || params.end_year) {
@@ -89,9 +93,9 @@
         filters.push('year:[' + yearRange[0] + ' TO ' + yearRange[1] + ']');
       }
 
-      simpleFilters.forEach(function(filter) {
-        if (params[filter]) {
-          filters.push(filter + ':' + params[filter]);
+      angular.forEach(filterMappings, function(filter, key) {
+        if (params[key]) {
+          filters.push(filter + ':' + params[key]);
         }
       });
 
@@ -108,7 +112,7 @@
 
       // Add totals to reports
       reportData = reportData.map(function(reportRow){
-        reportRow.total = reportRow.fugitiveAir + reportRow.stackAir;
+        reportRow.total = reportRow.quantitiesEnteringEnvironment.fugitiveAir + reportRow.quantitiesEnteringEnvironment.stackAir;
         return reportRow;
       });
 
@@ -131,8 +135,8 @@
 
         years.push(report.year);
         totalAirPerYear.push(report.total);
-        fugitiveAirPerYear.push(report.fugitiveAir);
-        stackAirPerYear.push(report.stackAir);
+        fugitiveAirPerYear.push(report.quantitiesEnteringEnvironment.fugitiveAir);
+        stackAirPerYear.push(report.quantitiesEnteringEnvironment.stackAir);
       });
 
       // Total Reduction
