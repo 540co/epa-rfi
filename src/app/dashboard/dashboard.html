@@ -39,6 +39,12 @@
         <p>
           <i class="fa fa-info-circle"></i> Select filters below to change the dashboard
         </p>
+
+        <!-- <div class="inset" ng-controller="DashboardController" ng-cloak> -->
+             <md-switch ng-model="vm.toggle" aria-label="Switch 2" ng-true-value="'Air Pollution Production'" ng-false-value="'Air Pollution Reduction'" ng-change="vm.toggleDashboard(vm.toggle)" class="md-warn">
+               {{ vm.toggle }}
+             </md-switch>
+<!--             </div> -->
           <md-select ng-model="searchFilter.start_year" placeholder="Start Year">
             <md-option ng-value="opt" ng-repeat="opt in vm.yearFilters">{{ opt }}</md-option>
           </md-select>
@@ -64,8 +70,8 @@
                 <div class="col-md-8">
                   <div class="card">
                     <div class="text-center">
-                      <h1 id="dash-main-number">{{vm.netReductionPounds | number:0}}</h1>
-                      <h1 class="lead">Pounds of Air Pollutant Reduction from {{searchFilter.start_year || 1987}} to {{searchFilter.end_year || 2013}}</h1>
+                      <h1 id="dash-main-number">{{vm.netPounds | number:0}}</h1>
+                      <h1 class="lead">Pounds of Air Pollution {{vm.pollutionTrend}} between {{searchFilter.start_year || 1987}} and {{searchFilter.end_year || 2013}}</h1>
                       <div class="card-content">
                         <p>Figure only contains reported Air Releases</p>
                       </div>

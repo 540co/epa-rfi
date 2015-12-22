@@ -19,9 +19,15 @@
 
       function initDashboard() {
         ReportService.getYearlyAirPollutionReport({},function(data, err){
+          //Set cards with initial values
+          vm.toggle = 'Air Pollution Reduction';
+          vm.toggleDashboard(data.netReductionPounds, data.netProductionPounds);
+
           // update whatever with data;
           vm.netReductionPounds = data.totalReduction;
           vm.netReductionPercent = data.cumulativeReductionPercentage * 100;
+          vm.netProductionPounds = data.totalProduction;
+          vm.netPounds = data.totalReduction;
 
           // set list of states for dropdown filter
           setDropdownValues();
@@ -78,10 +84,14 @@
 
       ReportService.getYearlyAirPollutionReport(filter,function(data, err){
 
+        //Update the key variables to match filtered data
         vm.netReductionPounds = data.totalReduction;
         vm.netReductionPercent = (data.cumulativeReductionPercentage * 100);
-
         vm.totalYears = data.years.length;
+
+        //Update toggle switch state with filtered data
+        vm.setDashboardToggle(data.totalReduction, data.totalProduction);
+        vm.toggleDashboard();
 
         buildChart(data.fugitiveAirPerYear, data.stackAirPerYear, data.totalAirPerYear, data.years);
       });
@@ -96,18 +106,42 @@
 
       ReportService.getYearlyAirPollutionReport({},function(data, err){
 
+        //Update the key variables to match filtered data
         vm.netReductionPounds = data.totalReduction;
         vm.netReductionPercent = (data.cumulativeReductionPercentage * 100);
-
         vm.totalYears = data.years.length;
+
+        //Update toggle switch state with filtered data
+        vm.setDashboardToggle(data.netReductionPounds, vm.netProductionPounds);
 
         buildChart(data.fugitiveAirPerYear, data.stackAirPerYear, data.totalAirPerYear, data.years);
       });
     }
 
-    vm.toggle = {
-      cb2: 'Air Production'
-    };
+    vm.toggleDashboard = function () {
+      if (vm.toggle === 'Air Pollution Production') {
+        vm.netPounds = vm.netProductionPounds;
+        vm.pollutionTrend = 'Produced';
+
+        console.log('Production');
+        console.log(vm.netPounds);
+      }
+      else if (vm.toggle === 'Air Pollution Reduction') {
+        vm.netPounds = vm.netReductionPounds;
+        vm.pollutionTrend = 'Reduced';
+
+        console.log('Reduction');
+        console.log(vm.netPounds);
+      }
+    }
+
+    vm.setDashboardToggle = function(reduction, production) {
+        vm.netReductionPounds = reduction;
+        vm.netProductionPounds = production;
+    }
+
+
+
   }
 
 })();
