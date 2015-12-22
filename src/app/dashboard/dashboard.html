@@ -73,7 +73,7 @@
     </md-sidenav>
     <md-content flex layout-padding>
       <div layout="column" layout-fill layout-align="top center">
-        <div class="container">
+        <div class="container" ng-show="!vm.showError">
           <div class="row">
             <div class="col-md-12">
               <div ng-show="searchFilter.group=='zipcode' && !vm.showNoReportError">
@@ -125,7 +125,7 @@
                 <div class="col-md-12">
                   <div class="card graph-card">
                     <div class="text-center">
-                      <i class="fa fa-exclamation-triangle error"></i> No reports for zipcode {{ searchFilter.zipcode }}
+                      <h4><i class="fa fa-exclamation-triangle error"></i> No reports for zipcode {{ searchFilter.zipcode }}</h4>
                     </div>
                   </div>
                 </div>
@@ -133,6 +133,17 @@
             </div>
           </div>
         </div>
+        <div class="container" ng-show="vm.showError">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card graph-card">
+                <div class="text-center">
+                  <h4><i class="fa fa-exclamation-triangle error"></i> Error retrieving reports.</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+            </div>
       </div>
       <br>
       <br>
