@@ -15,37 +15,59 @@
     activate();
 
     function activate() {
+      var queryParams = {};
+      queryParams.id = $stateParams.facilityId;
 
-      getFacility($stateParams.facilityId, function(data) {
+      getFacility(queryParams, function(data) {
         vm.facility = data;
-      }, function() {
-        vm.facility = {};
-      });
+      }, errorHandler);
 
-      getReports($stateParams.facilityId, function(data) {
-        vm.reports = data;
-      }, function() {
-        vm.reports = [];
-      });
+      queryParams.limit = 15;
+
+      getReports(queryParams, function(data) {
+        vm.reports = data.data;
+        vm.reportsTotal = data.meta.total;
+        $('md-data-table-pagination').find('.label').css( "color", "rgba(0,0,0,.54)" );
+        $('md-data-table-pagination').find('.label').css( "font-size", "100%" );
+      }, errorHandler);
+
+      vm.query = {
+        filter: '',
+        order: 'year',
+        limit: 15,
+        page: 1
+      };
 
     }
 
-    function getFacility(id, successCallback, errorCallback) {
+    vm.onpagechange = function(page, limit) {
       var queryParams = {};
-      queryParams.id = id;
+      queryParams.id = $stateParams.facilityId;
+      queryParams.limit = limit;
+      queryParams.offset = limit * (page - 1);
+
+      getReports(queryParams, function(data) {
+        vm.reports = data.data;
+        vm.reportsTotal = data.meta.total;
+      }, errorHandler);
+    };
+
+    function getFacility(queryParams, successCallback, errorCallback) {
 
       DataService.Facilities.query(queryParams, function(response) {
         successCallback(response.data);
       }, errorCallback);
     }
 
-    function getReports(id, successCallback, errorCallback) {
-      var queryParams = {};
-      queryParams.id = id;
+    function getReports(queryParams, successCallback, errorCallback) {
 
       DataService.FacilityReports.query(queryParams, function(response) {
-        successCallback(response.data);
+        successCallback(response);
       }, errorCallback);
+    }
+
+    function errorHandler(error) {
+      console.log(error);
     }
 
   }

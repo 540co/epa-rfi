@@ -116,7 +116,8 @@
         filterMappings = {
           'state': 'facility.address.state',
           'county': 'facility.address.county',
-          'city': 'facility.address.city'
+          'city': 'facility.address.city',
+          'zipcode': 'facility.address.zipcode'
         };
 
       //Filter by year query param

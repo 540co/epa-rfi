@@ -7,7 +7,8 @@
       <div class="col-md-9 col-md-offset-1">
         <h4>Helping You Sniff Out Clean Air</h4>
         <p class="lead">
-          Air Hound is a lightweight application that gives you information on air quality in your neighborhood (or any other neighborhood in the United States) over time.  The United States Environmental Protection Agency's Toxic Release Inventory feeds Air Hound information on the the release of hazardous air pollutants identified in the Clean Air Act.  Air Hound allows you to the magnitude and trends of these releases over time in specific geographic areas.
+          Air Hound is a lightweight application that gives you information on air quality in your neighborhood (or any other neighborhood in the United States) over time. The United States Environmental Protection Agency's Toxic Release Inventory feeds Air Hound
+          information on the the release of hazardous air pollutants identified in the Clean Air Act. Air Hound allows you to the magnitude and trends of these releases over time in specific geographic areas.
         </p>
         <div class="row">
           <div class="col-md-3">
@@ -22,7 +23,8 @@
           <div class="col-md-3">
             <h5 class="lead"><i class="gi gi-leaf"></i> Footprint</h5>
           </div>
-        </div><div class="pull-left">
+        </div>
+        <div class="pull-left">
           <a href="" ng-click="hide=true">Hide this section</a>
         </div>
       </div>
@@ -39,25 +41,33 @@
         <p>
           <i class="fa fa-info-circle"></i> Select filters below to change the dashboard
         </p>
-
-        <!-- <div class="inset" ng-controller="DashboardController" ng-cloak> -->
-             <md-switch ng-model="vm.toggle" aria-label="Switch 2" ng-true-value="'Air Pollution Production'" ng-false-value="'Air Pollution Reduction'" ng-change="vm.toggleDashboard(vm.toggle)" class="md-warn">
-               {{ vm.toggle }}
-             </md-switch>
-<!--             </div> -->
-          <md-select ng-model="searchFilter.start_year" placeholder="Start Year">
-            <md-option ng-value="opt" ng-repeat="opt in vm.yearFilters">{{ opt }}</md-option>
-          </md-select>
-          <md-select ng-model="searchFilter.end_year" placeholder="End Year">
-            <md-option ng-value="opt" ng-repeat="opt in vm.yearFilters">{{ opt }}</md-option>
-          </md-select>
-          <md-select ng-model="searchFilter.state" placeholder="State">
-            <md-option ng-value="opt" ng-repeat="opt in vm.stateFilters">{{ opt }}</md-option>
-          </md-select>
-          <div class="text-center">
-            <md-button class="md-raised md-primary" ng-click="vm.updateDashboard(searchFilter)">Apply Filters</md-button>
-            <md-button class="md-raised md-primary" ng-click="vm.resetDashboard(searchFilter)">Reset</md-button>
-          </div>
+        <md-switch ng-model="vm.toggle" aria-label="Switch 2" ng-true-value="'Air Pollution Production'" ng-false-value="'Air Pollution Reduction'" ng-change="vm.toggleDashboard(vm.toggle)" class="md-warn">
+          {{ vm.toggle }}
+        </md-switch>
+        <md-select ng-model="searchFilter.start_year" placeholder="Start Year">
+          <md-option ng-value="opt" ng-repeat="opt in vm.yearFilters">{{ opt }}</md-option>
+        </md-select>
+        <md-select ng-model="searchFilter.end_year" placeholder="End Year">
+          <md-option ng-value="opt" ng-repeat="opt in vm.yearFilters">{{ opt }}</md-option>
+        </md-select>
+        <div ng-show="invalid = searchFilter.start_year>searchFilter.end_year" class="error">The start year must be less than the end year!</div>
+        <p class="text-center">
+          Filter by state OR zipcode
+        </p>
+        <md-radio-group ng-model="searchFilter.group" ng-init="searchFilter.group=state">
+          <md-radio-button value="state">State</md-radio-button>
+          <md-radio-button value="zipcode"> Zipcode </md-radio-button>
+        </md-radio-group>
+        <md-select ng-model="searchFilter.state" placeholder="State" ng-show="searchFilter.group=='state'">
+          <md-option ng-value="opt" ng-repeat="opt in vm.stateFilters" ng-checked>{{ opt }}</md-option>
+        </md-select>
+        <md-input-container class="md-block" flex-gt-sm ng-show="searchFilter.group=='zipcode'">
+          <input name="postalCode" ng-model="searchFilter.zipcode" placeholder="zipcode (22205)" required ng-pattern="/^[0-9]{5}$/" md-maxlength="5">
+        </md-input-container>
+        <div class="text-center">
+          <md-button class="md-raised md-primary" ng-disabled="invalid" ng-click="vm.updateDashboard(searchFilter)">Apply Filters</md-button>
+          <md-button class="md-raised md-primary" ng-click="vm.resetDashboard(searchFilter)">Reset</md-button>
+        </div>
       </md-content>
 
     </md-sidenav>
@@ -66,6 +76,12 @@
         <div class="container">
           <div class="row">
             <div class="col-md-12">
+              <div ng-show="searchFilter.group=='zipcode'">
+                <h4>View list of facilities for zipcode: <a>{{searchFilter.zipcode}}</a></h4>
+              </div>
+              <div ng-show="searchFilter.group=='state'">
+                <h4>Filtered on state: {{searchFilter.state}}</h4>
+              </div>
               <div class="row">
                 <div class="col-md-8">
                   <div class="card">
@@ -108,7 +124,8 @@
           </div>
         </div>
       </div>
-      <br><br>
+      <br>
+      <br>
     </md-content>
   </section>
 </div>

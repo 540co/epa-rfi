@@ -18,7 +18,7 @@
       }
 
       function initDashboard() {
-        ReportService.getYearlyAirPollutionReport({},function(data, err){
+        ReportService.getYearlyAirPollutionReport({},function(data){
           //Set cards with initial values
           vm.toggle = 'Air Pollution Reduction';
           vm.toggleDashboard(data.netReductionPounds, data.netProductionPounds);
@@ -39,7 +39,7 @@
 
       function setDropdownValues() {
         ReportService.getStateList(
-          function(data, err) {
+          function(data) {
             vm.stateFilters = data;
           })
       }
@@ -81,10 +81,8 @@
 
     vm.updateDashboard = function(filter) {
       $log.info('Update dashboard with: ', filter);
-
-      ReportService.getYearlyAirPollutionReport(filter,function(data, err){
-
         //Update the key variables to match filtered data
+      ReportService.getYearlyAirPollutionReport(filter,function(data){
         vm.netReductionPounds = data.totalReduction;
         vm.netReductionPercent = (data.cumulativeReductionPercentage * 100);
         vm.totalYears = data.years.length;
@@ -103,12 +101,15 @@
       filter.start_year = '';
       filter.end_year = '';
       filter.state = '';
+      filter.zipcode = '';
 
-      ReportService.getYearlyAirPollutionReport({},function(data, err){
+      ReportService.getYearlyAirPollutionReport({},function(data){
 
         //Update the key variables to match filtered data
         vm.netReductionPounds = data.totalReduction;
         vm.netReductionPercent = (data.cumulativeReductionPercentage * 100);
+        vm.netProductionPounds = data.totalProduction;
+
         vm.totalYears = data.years.length;
 
         //Update toggle switch state with filtered data
