@@ -62,7 +62,11 @@
           <md-option ng-value="opt" ng-repeat="opt in vm.stateFilters" ng-checked>{{ opt }}</md-option>
         </md-select>
         <md-input-container class="md-block" flex-gt-sm ng-show="searchFilter.group=='zipcode'">
-          <input name="postalCode" ng-model="searchFilter.zipcode" placeholder="zipcode (22205)" required ng-pattern="/^[0-9]{5}$/" md-maxlength="5">
+          <input name="postalCode" ng-model="searchFilter.zipcode" placeholder="zipcode" required ng-pattern="/^(\d{5}(\d{4})?)?$/">
+          <div class="hint">##### or #########</div>
+          <div ng-messages="searchFilter.zipcode.$error">
+            <div ng-message="pattern">##### or ######### - Please enter a valid zipcode.</div>
+          </div>
         </md-input-container>
         <div class="text-center">
           <md-button class="md-raised md-primary" ng-disabled="invalid" ng-click="vm.updateDashboard(searchFilter)">Apply Filters</md-button>
