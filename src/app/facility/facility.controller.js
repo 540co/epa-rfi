@@ -5,11 +5,11 @@
     .module('app.facility')
     .controller('FacilityController', FacilityController);
 
-  FacilityController.$inject = ['DataService', '$stateParams'];
+  FacilityController.$inject = ['DataService', '$stateParams', 'logger'];
 
   /** @ngInject */
 
-  function FacilityController(DataService, $stateParams) {
+  function FacilityController(DataService, $stateParams, logger) {
     var vm = this;
 
     activate();
@@ -66,8 +66,9 @@
       }, errorCallback);
     }
 
-    function errorHandler(error) {
-      console.log(error);
+    function errorHandler(err) {
+      vm.showError = true;
+      logger.error(err.status.toString() + ' ' + err.statusText, err.data, 'Error!');
     }
 
   }

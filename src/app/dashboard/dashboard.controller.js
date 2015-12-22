@@ -37,7 +37,7 @@
       ReportService.getStateList(
         function(data) {
           vm.stateFilters = data;
-        })
+        }, errorHandler)
     }
 
     function buildChart(fugitiveAir, stackAir, total, years) {
@@ -95,7 +95,7 @@
         } else {
           vm.showNoReportError = true;
         }
-      });
+      }, errorHandler);
     }
 
     vm.resetDashboard = function(filter) {
@@ -115,7 +115,7 @@
         vm.totalYears = data.years.length;
 
         buildChart(data.fugitiveAirPerYear, data.stackAirPerYear, data.totalAirPerYear, data.years);
-      });
+      }, errorHandler);
     }
 
     vm.toggle = {
