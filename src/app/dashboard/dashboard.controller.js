@@ -3,7 +3,14 @@
 
   angular
     .module('app.dashboard')
-    .controller('DashboardController', DashboardController);
+    .controller('DashboardController', DashboardController)
+    .filter('abs', function() {
+      return function(val) {
+        if (typeof val !== 'undefined') {
+          return Math.abs(val);
+        }
+      }
+    });
 
   /** @ngInject */
   DashboardController.$inject = ['ReportService', '$log', 'logger'];
@@ -18,13 +25,16 @@
     }
 
     function initDashboard() {
-      vm.showNoReportError = false;
-
       ReportService.getYearlyAirPollutionReport({}, function(data) {
+
+        vm.showNoReportError = false;
+
         // update whatever with data;
         vm.netReductionPounds = data.totalReduction;
         vm.netReductionPercent = data.cumulativeReductionPercentage * 100;
         vm.netProductionPounds = data.totalProduction;
+        vm.netPounds = data.totalReduction;
+
         // set list of states for dropdown filter
         setDropdownValues();
         vm.yearFilters = data.years;
@@ -82,14 +92,15 @@
 
     vm.updateDashboard = function(filter) {
       $log.info('Update dashboard with: ', filter);
-
+      //Update the key variables to match filtered data
       ReportService.getYearlyAirPollutionReport(filter, function(data) {
         if (!_.isEmpty(data)) {
           vm.showNoReportError = false;
-          vm.netReductionPounds = data.totalReduction;
           vm.netReductionPercent = (data.cumulativeReductionPercentage * 100);
-
           vm.totalYears = data.years.length;
+
+          vm.netProductionPounds = data.totalProduction;
+          vm.netReductionPounds = data.totalReduction;
 
           buildChart(data.fugitiveAirPerYear, data.stackAirPerYear, data.totalAirPerYear, data.years);
         } else {
@@ -108,6 +119,7 @@
 
       ReportService.getYearlyAirPollutionReport({}, function(data) {
 
+        //Update the key variables to match filtered data
         vm.netReductionPounds = data.totalReduction;
         vm.netReductionPercent = (data.cumulativeReductionPercentage * 100);
         vm.netProductionPounds = data.totalProduction;
@@ -118,9 +130,6 @@
       }, errorHandler);
     }
 
-    vm.toggle = {
-      cb2: 'Air Production'
-    };
   }
 
 })();

@@ -41,9 +41,9 @@
         <p>
           <i class="fa fa-info-circle"></i> Select filters below to change the dashboard
         </p>
-        <md-switch ng-model="data.cb1" aria-label="Switch 1">
-          Toggle production/reduction data
-        </md-switch>
+        <!-- <md-switch ng-model="vm.toggle" aria-label="Switch 2" ng-true-value="'Air Pollution Production'" ng-false-value="'Air Pollution Reduction'" ng-change="vm.toggleDashboard(vm.toggle)" class="md-warn">
+          {{ vm.toggle }}
+        </md-switch> -->
         <md-select ng-model="searchFilter.start_year" placeholder="Start Year">
           <md-option ng-value="opt" ng-repeat="opt in vm.yearFilters">{{ opt }}</md-option>
         </md-select>
@@ -89,29 +89,46 @@
               <div class="row" ng-show="!vm.showNoReportError">
                 <div class="col-md-8">
                   <div class="card">
+                  </br>
                     <div class="text-center">
                       <h1 id="dash-main-number">{{vm.netReductionPounds | number:0}}</h1>
-                      <h1 class="lead">Pounds of Air Pollutant Reduction from {{searchFilter.start_year || 1987}} to {{searchFilter.end_year || 2013}}</h1>
-                      <div class="card-content">
-                        <p>Figure only contains reported Air Releases</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="card">
-                    <div class="text-center">
-                      <h1 id="dash-side-number">{{vm.netReductionPercent | number:1}} %</h1>
-                      <p class="lead">
-                        Decrease of Net Air Releases
-                      </p>
+                      <h1 class="lead">Pounds of Air Pollution <b ng-show="vm.netReductionPounds > 0" id="reduced">Reduced</b><b ng-show="vm.netReductionPounds < 0" id="produced">Reduced</b> between {{vm.start_year || 1987}} and {{vm.end_year || 2013}}</h1>
                       <div class="card-content">
                         <p>Over {{vm.totalYears || vm.yearFilters.length}} years</p>
                       </div>
                     </div>
+                  </br>
                   </div>
                 </div>
+
+                <div class="col-md-4">
+                  <div class="row right-card">
+                    <div class="col-md-12">
+                    <div class="card ">
+                      <div class="text-center">
+                        <h1 id="dash-side-number"><i ng-show="vm.netReductionPercent < 0" class="fa fa-arrow-up"></i><i ng-show="vm.netReductionPercent > 0" class="fa fa-arrow-down"></i> {{vm.netReductionPercent | number:1 | abs}} %</h1>
+                        <p class="lead right-lead">
+                          Chemical Air Releases
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row right-card">
+                  <div class="col-md-12">
+                  <div class="card">
+                    <div class="text-center">
+                      <h1 id="dash-small-number">{{vm.netProductionPounds | number:0}}</h1>
+                      <h3 class="lead right-lead">Pounds <b id="produced">Produced</b> between {{searchFilter.start_year || 1987}} and {{searchFilter.end_year || 2013}}</h3>
+                    </div>
+                    </div>
+                  </div>
+                </div>
+                </div>
               </div>
+
+
+
               <br>
               <div class="row" ng-show="!vm.showNoReportError">
                 <div class="col-md-12">
