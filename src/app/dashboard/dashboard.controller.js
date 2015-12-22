@@ -6,9 +6,9 @@
     .controller('DashboardController', DashboardController);
 
   /** @ngInject */
-  DashboardController.$inject = ['ReportService', '$log'];
+  DashboardController.$inject = ['ReportService', '$log', 'logger'];
 
-  function DashboardController(ReportService, $log) {
+  function DashboardController(ReportService, $log, logger) {
     var vm = this;
 
     activate();
@@ -30,7 +30,7 @@
         vm.yearFilters = data.years;
 
         buildChart(data.fugitiveAirPerYear, data.stackAirPerYear, data.totalAirPerYear, data.years);
-      });
+      }, errorHandler);
     }
 
     function setDropdownValues() {
@@ -73,6 +73,11 @@
 
       return vm.airData;
 
+    }
+
+    function errorHandler(err) {
+      vm.showError = true;
+      logger.error(err.status.toString() + ' ' + err.statusText, err.data, 'Error!');
     }
 
     vm.updateDashboard = function(filter) {
