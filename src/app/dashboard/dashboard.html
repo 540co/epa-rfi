@@ -48,6 +48,7 @@
           <md-select ng-model="searchFilter.end_year" placeholder="End Year">
             <md-option ng-value="opt" ng-repeat="opt in vm.yearFilters">{{ opt }}</md-option>
           </md-select>
+          <div ng-show="invalid = searchFilter.start_year>searchFilter.end_year" class="error">The start year must be less than the end year!</div>
           <p class="text-center">
             Filter by state OR zipcode
           </p>
@@ -63,7 +64,7 @@
                   required ng-pattern="/^[0-9]{5}$/" md-maxlength="5">
          </md-input-container>
           <div class="text-center">
-            <md-button class="md-raised md-primary" ng-click="vm.updateDashboard(searchFilter)">Apply Filters</md-button>
+            <md-button class="md-raised md-primary" ng-disabled="invalid" ng-click="vm.updateDashboard(searchFilter)">Apply Filters</md-button>
             <md-button class="md-raised md-primary" ng-click="vm.resetDashboard(searchFilter)">Reset</md-button>
           </div>
       </md-content>
