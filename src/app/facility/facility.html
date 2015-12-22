@@ -5,7 +5,7 @@
     <div class="col-md-10">
       <div class="row">
         <div class="col-md-12">
-          <div class="card">
+          <div class="card" ng-show="!vm.showError">
             <div class="text-center">
               <h4 id="dash-side-name">{{ vm.facility.name }}</h4>
               <div class="card-content">
@@ -56,6 +56,12 @@
               <br>
             </div>
           </div>
+          <div class="card graph-card" ng-show="vm.showError">
+            <div class="text-center">
+              <h4><i class="fa fa-exclamation-triangle error"></i> Error retrieving reports.</h4>
+            </div>
+          </div>
+          <br>
         </div>
       </div>
     </div>

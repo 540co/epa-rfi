@@ -13,9 +13,9 @@
     });
 
   /** @ngInject */
-  DashboardController.$inject = ['ReportService', '$log'];
+  DashboardController.$inject = ['ReportService', '$log', 'logger'];
 
-  function DashboardController(ReportService, $log) {
+  function DashboardController(ReportService, $log, logger) {
     var vm = this;
 
     activate();
@@ -40,14 +40,14 @@
         vm.yearFilters = data.years;
 
         buildChart(data.fugitiveAirPerYear, data.stackAirPerYear, data.totalAirPerYear, data.years);
-      });
+      }, errorHandler);
     }
 
     function setDropdownValues() {
       ReportService.getStateList(
         function(data) {
           vm.stateFilters = data;
-        });
+        }, errorHandler)
     }
 
     function buildChart(fugitiveAir, stackAir, total, years) {
@@ -85,6 +85,11 @@
 
     }
 
+    function errorHandler(err) {
+      vm.showError = true;
+      logger.error(err.status.toString() + ' ' + err.statusText, err.data, 'Error!');
+    }
+
     vm.updateDashboard = function(filter) {
       $log.info('Update dashboard with: ', filter);
       //Update the key variables to match filtered data
@@ -101,8 +106,8 @@
         } else {
           vm.showNoReportError = true;
         }
-      });
-    };
+      }, errorHandler);
+    }
 
     vm.resetDashboard = function(filter) {
       $log.info('Dashboard reset!');
@@ -122,10 +127,8 @@
         vm.totalYears = data.years.length;
 
         buildChart(data.fugitiveAirPerYear, data.stackAirPerYear, data.totalAirPerYear, data.years);
-      });
-    };
-
-
+      }, errorHandler);
+    }
 
   }
 
