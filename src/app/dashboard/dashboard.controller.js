@@ -1,42 +1,44 @@
 (function() {
-    'use strict';
+  'use strict';
 
-    angular
-      .module('app.dashboard')
-      .controller('DashboardController', DashboardController);
+  angular
+    .module('app.dashboard')
+    .controller('DashboardController', DashboardController);
 
-    /** @ngInject */
-    DashboardController.$inject = ['ReportService', '$log'];
+  /** @ngInject */
+  DashboardController.$inject = ['ReportService', '$log'];
 
-    function DashboardController(ReportService, $log) {
-      var vm = this;
+  function DashboardController(ReportService, $log) {
+    var vm = this;
 
-      activate();
+    activate();
 
-      function activate() {
-        initDashboard();
-      }
+    function activate() {
+      initDashboard();
+    }
 
-      function initDashboard() {
-        ReportService.getYearlyAirPollutionReport({},function(data){
-          // update whatever with data;
-          vm.netReductionPounds = data.totalReduction;
-          vm.netReductionPercent = data.cumulativeReductionPercentage * 100;
-          vm.netProductionPounds = data.totalProduction;
-          // set list of states for dropdown filter
-          setDropdownValues();
-          vm.yearFilters = data.years;
+    function initDashboard() {
+      vm.showNoReportError = false;
 
-          buildChart(data.fugitiveAirPerYear, data.stackAirPerYear, data.totalAirPerYear, data.years);
-        });
-      }
+      ReportService.getYearlyAirPollutionReport({}, function(data) {
+        // update whatever with data;
+        vm.netReductionPounds = data.totalReduction;
+        vm.netReductionPercent = data.cumulativeReductionPercentage * 100;
+        vm.netProductionPounds = data.totalProduction;
+        // set list of states for dropdown filter
+        setDropdownValues();
+        vm.yearFilters = data.years;
 
-      function setDropdownValues() {
-        ReportService.getStateList(
-          function(data) {
-            vm.stateFilters = data;
-          })
-      }
+        buildChart(data.fugitiveAirPerYear, data.stackAirPerYear, data.totalAirPerYear, data.years);
+      });
+    }
+
+    function setDropdownValues() {
+      ReportService.getStateList(
+        function(data) {
+          vm.stateFilters = data;
+        })
+    }
 
     function buildChart(fugitiveAir, stackAir, total, years) {
       populateLabels(years);
@@ -76,13 +78,18 @@
     vm.updateDashboard = function(filter) {
       $log.info('Update dashboard with: ', filter);
 
-      ReportService.getYearlyAirPollutionReport(filter,function(data){
-        vm.netReductionPounds = data.totalReduction;
-        vm.netReductionPercent = (data.cumulativeReductionPercentage * 100);
+      ReportService.getYearlyAirPollutionReport(filter, function(data) {
+        if (!_.isEmpty(data)) {
+          vm.showNoReportError = false;
+          vm.netReductionPounds = data.totalReduction;
+          vm.netReductionPercent = (data.cumulativeReductionPercentage * 100);
 
-        vm.totalYears = data.years.length;
+          vm.totalYears = data.years.length;
 
-        buildChart(data.fugitiveAirPerYear, data.stackAirPerYear, data.totalAirPerYear, data.years);
+          buildChart(data.fugitiveAirPerYear, data.stackAirPerYear, data.totalAirPerYear, data.years);
+        } else {
+          vm.showNoReportError = true;
+        }
       });
     }
 
@@ -94,7 +101,7 @@
       filter.state = '';
       filter.zipcode = '';
 
-      ReportService.getYearlyAirPollutionReport({},function(data){
+      ReportService.getYearlyAirPollutionReport({}, function(data) {
 
         vm.netReductionPounds = data.totalReduction;
         vm.netReductionPercent = (data.cumulativeReductionPercentage * 100);
