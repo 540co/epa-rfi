@@ -76,13 +76,13 @@
         <div class="container">
           <div class="row">
             <div class="col-md-12">
-              <div ng-show="searchFilter.group=='zipcode'">
+              <div ng-show="searchFilter.group=='zipcode' && !vm.showNoReportError">
                 <h4>View list of facilities for zipcode: <a>{{searchFilter.zipcode}}</a></h4>
               </div>
               <div ng-show="searchFilter.group=='state'">
                 <h4>Filtered on state: {{searchFilter.state}}</h4>
               </div>
-              <div class="row">
+              <div class="row" ng-show="!vm.showNoReportError">
                 <div class="col-md-8">
                   <div class="card">
                     <div class="text-center">
@@ -109,13 +109,23 @@
                 </div>
               </div>
               <br>
-              <div class="row">
+              <div class="row" ng-show="!vm.showNoReportError">
                 <div class="col-md-12">
                   <div class="card graph-card">
                     <div class="text-center">
                       <h4>Reduction of Air Pollutants By Year (Pounds)</h4>
                       <canvas id="line" class="chart chart-line" chart-data="vm.airData" chart-labels="vm.labels" chart-legend="true" chart-series="vm.series" chart-options="vm.options" chart-click="onClick" height="100">
                       </canvas>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="row" ng-show="vm.showNoReportError">
+                <div class="col-md-12">
+                  <div class="card graph-card">
+                    <div class="text-center">
+                      <i class="fa fa-exclamation-triangle error"></i> No reports for zipcode {{ searchFilter.zipcode }}
                     </div>
                   </div>
                 </div>
