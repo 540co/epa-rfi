@@ -3,7 +3,14 @@
 
   angular
     .module('app.dashboard')
-    .controller('DashboardController', DashboardController);
+    .controller('DashboardController', DashboardController)
+    .filter('abs', function() {
+      return function(val) {
+        if (typeof val !== 'undefined') {
+          return Math.abs(val);
+        }
+      }
+    });
 
   /** @ngInject */
   DashboardController.$inject = ['ReportService', '$log'];
@@ -20,13 +27,7 @@
     function initDashboard() {
       ReportService.getYearlyAirPollutionReport({}, function(data) {
 
-        console.log(data);
-
         vm.showNoReportError = false;
-
-        //Set cards with initial values
-        vm.toggle = 'Air Pollution Reduction';
-        vm.toggleDashboard(data.netReductionPounds, data.netProductionPounds);
 
         // update whatever with data;
         vm.netReductionPounds = data.totalReduction;
@@ -46,7 +47,7 @@
       ReportService.getStateList(
         function(data) {
           vm.stateFilters = data;
-        })
+        });
     }
 
     function buildChart(fugitiveAir, stackAir, total, years) {
@@ -93,17 +94,15 @@
           vm.netReductionPercent = (data.cumulativeReductionPercentage * 100);
           vm.totalYears = data.years.length;
 
-          console.log(data);
-
           vm.netProductionPounds = data.totalProduction;
-          vm.netReductionPounds =  data.totalReduction;
+          vm.netReductionPounds = data.totalReduction;
 
           buildChart(data.fugitiveAirPerYear, data.stackAirPerYear, data.totalAirPerYear, data.years);
         } else {
           vm.showNoReportError = true;
         }
       });
-    }
+    };
 
     vm.resetDashboard = function(filter) {
       $log.info('Dashboard reset!');
@@ -122,33 +121,9 @@
 
         vm.totalYears = data.years.length;
 
-        //Update toggle switch state with filtered data
-        vm.setDashboardToggle(data.netReductionPounds, vm.netProductionPounds);
-
         buildChart(data.fugitiveAirPerYear, data.stackAirPerYear, data.totalAirPerYear, data.years);
       });
-    }
-
-    vm.toggleDashboard = function() {
-      if (vm.toggle === 'Air Pollution Production') {
-        vm.netPounds = vm.netProductionPounds;
-        vm.pollutionTrend = 'Produced';
-
-        console.log('Production');
-        console.log(vm.netPounds);
-      } else if (vm.toggle === 'Air Pollution Reduction') {
-        vm.netPounds = vm.netReductionPounds;
-        vm.pollutionTrend = 'Reduced';
-
-        console.log('Reduction');
-        console.log(vm.netPounds);
-      }
-    }
-
-    vm.setDashboardToggle = function(reduction, production) {
-      vm.netReductionPounds = reduction;
-      vm.netProductionPounds = production;
-    }
+    };
 
 
 
