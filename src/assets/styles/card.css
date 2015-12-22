@@ -4,6 +4,7 @@
 
 .card {
   margin-top: 10px;
+  padding-bottom: 10px;
   box-sizing: border-box;
   border-radius: 2px;
   background-clip: padding-box;

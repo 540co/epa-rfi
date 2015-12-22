@@ -20,6 +20,8 @@
     function initDashboard() {
       ReportService.getYearlyAirPollutionReport({}, function(data) {
 
+        console.log(data);
+
         vm.showNoReportError = false;
 
         //Set cards with initial values
@@ -88,13 +90,13 @@
       ReportService.getYearlyAirPollutionReport(filter, function(data) {
         if (!_.isEmpty(data)) {
           vm.showNoReportError = false;
-          vm.netReductionPounds = data.totalReduction;
           vm.netReductionPercent = (data.cumulativeReductionPercentage * 100);
           vm.totalYears = data.years.length;
 
-          //Update toggle switch state with filtered data
-          vm.setDashboardToggle(data.totalReduction, data.totalProduction);
-          vm.toggleDashboard();
+          console.log(data);
+
+          vm.netProductionPounds = data.totalProduction;
+          vm.netReductionPounds =  data.totalReduction;
 
           buildChart(data.fugitiveAirPerYear, data.stackAirPerYear, data.totalAirPerYear, data.years);
         } else {
