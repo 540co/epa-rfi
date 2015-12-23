@@ -42,9 +42,9 @@
                       <td>{{ report.chemical.isCleanAirActChemical }}</td>
                       <td>{{ report.chemical.classification }}</td>
                       <td>{{ report.chemical.isCarcinogen }}</td>
-                      <td>{{ report.quantitiesEnteringEnvironment.fugitiveAir }}</td>
-                      <td>{{ report.quantitiesEnteringEnvironment.stackAir }}</td>
-                      <td>{{ report.quantitiesEnteringEnvironment.fugitiveAir + report.quantitiesEnteringEnvironment.stackAir | number: 1 }}</td>
+                      <td>{{ report.quantitiesEnteringEnvironment.fugitiveAir ? (report.quantitiesEnteringEnvironment.fugitiveAir | number) : 0 }}</td>
+                      <td>{{ report.quantitiesEnteringEnvironment.stackAir ? (report.quantitiesEnteringEnvironment.stackAir | number) : 0 }}</td>
+                      <td>{{ report.quantitiesEnteringEnvironment.fugitiveAir + report.quantitiesEnteringEnvironment.stackAir | number }}</td>
                     </tr>
                     </tr>
                   </tbody>

@@ -26,7 +26,7 @@
 
     function initDashboard() {
       ReportService.getYearlyAirPollutionReport({}, function(data) {
-
+        vm.searchFilter = {};
         vm.showNoReportError = false;
 
         // update whatever with data;
@@ -112,12 +112,12 @@
     vm.resetDashboard = function(filter) {
       $log.info('Dashboard reset!');
 
-      filter.start_year = '';
-      filter.end_year = '';
-      filter.state = '';
-      filter.zipcode = '';
+      vm.searchFilter = angular.copy({});
+      //vm.searchFilter.group=state
 
       ReportService.getYearlyAirPollutionReport({}, function(data) {
+
+        vm.showNoReportError = false;
 
         //Update the key variables to match filtered data
         vm.netReductionPounds = data.totalReduction;
