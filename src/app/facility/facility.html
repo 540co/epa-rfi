@@ -5,7 +5,7 @@
     <div class="col-md-10">
       <div class="row">
         <div class="col-md-12">
-          <div class="card">
+          <div class="card" ng-show="!vm.showError">
             <div class="text-center">
               <h4 id="dash-side-name">{{ vm.facility.name }}</h4>
               <div class="card-content">
@@ -21,10 +21,10 @@
               </md-data-table-toolbar>
               <md-data-table-container ng-show="vm.reports">
                 <table md-data-table md-progress="deferred">
-                  <thead md-order="query.order" md-trigger="onOrderChange">
+                  <thead>
                     <tr>
                       <th name="Year"></th>
-                      <th name="Chemical Name" order-by="name"></th>
+                      <th name="Chemical Name"></th>
                       <th name="CAS Number"></th>
                       <th name="Clean Air Act?"></th>
                       <th name="Classification"></th>
@@ -42,19 +42,26 @@
                       <td>{{ report.chemical.isCleanAirActChemical }}</td>
                       <td>{{ report.chemical.classification }}</td>
                       <td>{{ report.chemical.isCarcinogen }}</td>
-                      <td>{{ report.quantitiesEnteringEnvironment.fugitiveAir }}</td>
-                      <td>{{ report.quantitiesEnteringEnvironment.stackAir }}</td>
-                      <td>{{ report.quantitiesEnteringEnvironment.fugitiveAir + report.quantitiesEnteringEnvironment.stackAir | number: 1 }}</td>
+                      <td>{{ report.quantitiesEnteringEnvironment.fugitiveAir ? (report.quantitiesEnteringEnvironment.fugitiveAir | number) : 0 }}</td>
+                      <td>{{ report.quantitiesEnteringEnvironment.stackAir ? (report.quantitiesEnteringEnvironment.stackAir | number) : 0 }}</td>
+                      <td>{{ report.quantitiesEnteringEnvironment.fugitiveAir + report.quantitiesEnteringEnvironment.stackAir | number }}</td>
                     </tr>
                     </tr>
                   </tbody>
                 </table>
               </md-data-table-container>
+              <md-data-table-pagination md-limit="vm.query.limit" md-page="vm.query.page" md-total="{{vm.reportsTotal}}" md-trigger="vm.onpagechange" ng-show="vm.reports"></md-data-table-pagination>
               <div ng-show="!vm.reports">No reports found!</div>
               <br>
               <br>
             </div>
           </div>
+          <div class="card graph-card" ng-show="vm.showError">
+            <div class="text-center">
+              <h4><i class="fa fa-exclamation-triangle error"></i> Error retrieving reports.</h4>
+            </div>
+          </div>
+          <br>
         </div>
       </div>
     </div>

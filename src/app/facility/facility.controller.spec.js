@@ -6,18 +6,18 @@
       vm,
       DataServiceMock,
       $stateParamsMock,
+      metaMock = {
+        total: 2192555
+      },
       facilityMock = {
         id: 'ABC123',
         name: 'ABC Facility 123'
       },
-      facilityReportsMock = [
-        {
-          documentControlNumber: '123456'
-        },
-        {
-          documentControlNumber: '234567'
-        }
-      ];
+      facilityReportsMock = [{
+        documentControlNumber: '123456'
+      }, {
+        documentControlNumber: '234567'
+      }];
 
     beforeEach(function() {
       module('app.facility', function($provide) {
@@ -35,11 +35,17 @@
         };
 
         spyOn(DataServiceMock.Facilities, 'query').and.callFake(function(queryParams, successCallback) {
-          successCallback({ data: facilityMock });
+          successCallback({
+            meta: metaMock,
+            data: facilityMock
+          });
         });
 
         spyOn(DataServiceMock.FacilityReports, 'query').and.callFake(function(queryParams, successCallback) {
-          successCallback({ data: facilityReportsMock });
+          successCallback({
+            meta: metaMock,
+            data: facilityReportsMock
+          });
         });
 
         vm = $controller('FacilityController', {
@@ -52,12 +58,19 @@
 
       it('should be have a facility object', function() {
         expect(vm.facility).toEqual(facilityMock);
-        expect(DataServiceMock.Facilities.query).toHaveBeenCalledWith({id: 'ABC123'}, jasmine.any(Function), jasmine.any(Function));
+        expect(DataServiceMock.Facilities.query).toHaveBeenCalledWith({
+          id: 'ABC123',
+          limit: 15
+        }, jasmine.any(Function), jasmine.any(Function));
       });
 
       it('should have an array of reports', function() {
         expect(vm.reports).toEqual(facilityReportsMock);
-        expect(DataServiceMock.FacilityReports.query).toHaveBeenCalledWith({id: 'ABC123'}, jasmine.any(Function), jasmine.any(Function));
+        expect(vm.reportsTotal).toEqual(metaMock.total);
+        expect(DataServiceMock.FacilityReports.query).toHaveBeenCalledWith({
+          id: 'ABC123',
+          limit: 15
+        }, jasmine.any(Function), jasmine.any(Function));
       });
 
     });

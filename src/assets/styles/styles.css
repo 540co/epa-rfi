@@ -56,8 +56,10 @@ md-toolbar h1 {
 /* Cards - Graphs - Layout */
 
 #dash-side-number {
-  font-size: 5em;
-  margin-bottom: 25px;
+  font-size: 3.5vw;
+  margin-bottom: 10px;
+  margin-top: 0px;
+  padding-bottom: 10px;
   padding-top: 10px;
 }
 
@@ -66,14 +68,24 @@ md-toolbar h1 {
 }
 
 #dash-main-number {
-  font-size: 5em;
+  font-size: 5.5vw;
   padding-top: 10px;
   margin-bottom: 25px;
+}
+
+#dash-small-number {
+  font-size: 3.0vw;
+  padding-top: 10px;
+  margin-bottom: 10px;
 }
 
 #spacer {
   margin-top: 50px;
   margin-bottom: 50px;
+}
+
+.right-lead {
+  margin: 10px;
 }
 
 #line-chart{
@@ -88,6 +100,21 @@ md-toolbar h1 {
 
 .graph-card {
   padding: 20px;
+  margin-top: 0px;
+}
+
+.right-card {
+  padding-top: 0px;
+  margin-top: 0px;
+  margin-bottom: 10px;
+}
+
+.fa-arrow-down {
+  color: green;
+}
+
+.fa-arrow-up {
+  color: red;
 }
 
 /* Footer */
@@ -119,6 +146,14 @@ footer a {
   padding-bottom: 40px;
 }
 
+#produced {
+  color: red;
+}
+
+#reduced {
+  color: green;
+}
+
 
 /* 404 message */
 
@@ -134,6 +169,20 @@ footer a {
 #status h3 {
   font-weight:200;
   color: #444444;
+}
+
+.error {
+  color: red;
+}
+
+.hint {
+    position: absolute;
+    right: auto;
+    bottom: 7px;
+    font-size: 12px;
+    line-height: 14px;
+    transition: all 0.3s cubic-bezier(0.55, 0, 0.55, 0.2);
+    color: grey;
 }
 
 

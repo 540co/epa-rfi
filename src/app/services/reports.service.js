@@ -116,7 +116,8 @@
         filterMappings = {
           'state': 'facility.address.state',
           'county': 'facility.address.county',
-          'city': 'facility.address.city'
+          'city': 'facility.address.city',
+          'zipcode': 'facility.address.zipcode'
         };
 
       //Filter by year query param
@@ -158,7 +159,7 @@
     function calculateReportTotals(reportData) {
       // Total years
       var numReportRows = reportData.length;
-
+      if(numReportRows > 0) {
       // Add totals to reports
       reportData = reportData.map(function(reportRow){
         reportRow.total = reportRow.quantitiesEnteringEnvironment.fugitiveAir + reportRow.quantitiesEnteringEnvironment.stackAir;
@@ -204,6 +205,10 @@
         fugitiveAirPerYear: fugitiveAirPerYear,
         stackAirPerYear: stackAirPerYear
       };
+    } else {
+      data = {};
+    }
+
 
       return data;
     }
