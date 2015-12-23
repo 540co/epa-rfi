@@ -1,0 +1,51 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-1">
+    </div>
+    <div class="col-md-10">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="text-center">
+              <h4 id="dash-side-name">List of Facilities</h4>
+              <ng-map zoom="16" style="height:400px;">
+                <marker ng-repeat="facility in vm.facilities" position="{{ facility.latitude }}, {{ facility.longitude }}" title="{{ facility.name }}"></marker>
+              </ng-map>
+              <br>
+              <md-data-table-container ng-show="vm.facilities">
+                <table md-data-table md-progress="deferred">
+                  <thead md-order="query.order" md-trigger="onOrderChange">
+                    <tr>
+                      <th name="Name"></th>
+                      <th name="Steet Address"></th>
+                      <th name="City"></th>
+                      <th name="County"></th>
+                      <th name="State"></th>
+                      <th name="Zipcode"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr md-auto-select ng-repeat="facility in vm.facilities">
+                      <td>{{ facility.name }}</td>
+                      <td>{{ facility.address.streetAddress }}</td>
+                      <td>{{ facility.address.city }}</td>
+                      <td>{{ facility.address.county }}</td>
+                      <td>{{ facility.address.state }}</td>
+                      <td>{{ facility.address.zipcode }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </md-data-table-container>
+              <md-data-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{desserts.total}}" md-trigger="onPaginationChange"></md-data-table-pagination>
+              <div ng-show="!vm.facilities">No facilities found!</div>
+              <br>
+              <br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-1">
+    </div>
+  </div>
+</div>

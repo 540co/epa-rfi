@@ -15,6 +15,14 @@
         controllerAs: 'vm'
       });
 
+    $stateProvider
+      .state('facilities', {
+        url: '/facilities',
+        templateUrl: 'app/facility/facilityList.html',
+        controller: 'FacilityListController',
+        controllerAs: 'vm'
+      });
+
     $urlRouterProvider.otherwise('/');
   }
 
