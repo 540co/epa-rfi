@@ -12,7 +12,7 @@
                 <p> {{ vm.facility.address.streetAddress }}</p>
                 <p> {{ vm.facility.address.city }}, {{ vm.facility.address.state }} {{ vm.facility.address.zipcode }} </p>
               </div>
-              <ng-map center="{{ vm.facility.latitude }}, {{ vm.facility.longitude }}" zoom="16" style="height:200px;">
+              <ng-map id="individualFacility" center="{{ vm.facility.latitude }}, {{ vm.facility.longitude }}" zoom="16" style="height:200px;">
                 <marker position="{{ vm.facility.latitude }}, {{ vm.facility.longitude }}" title="{{ vm.facility.name }}"></marker>
               </ng-map>
               <br>
