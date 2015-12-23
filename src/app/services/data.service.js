@@ -28,6 +28,12 @@
           {
             'query':  {method: 'GET', isArray: false, cache: true}
           }),
+        CleanAirActReports: $resource(
+            TRI_API_ENDPOINT + '/reports/clean-air',
+            {},
+            {
+              'query':  {method: 'GET', isArray: false, cache: true}
+            }),
         FacilityReports: $resource(
           TRI_API_ENDPOINT + '/facilities/:id/releases',
           {id: '@id'},

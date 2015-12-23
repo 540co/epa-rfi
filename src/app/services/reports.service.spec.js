@@ -144,7 +144,7 @@
         }
       })
 
-      spyOn(DataServiceMock.Reports, 'query').and.callFake(function() {
+      spyOn(DataServiceMock.CleanAirActReports, 'query').and.callFake(function() {
         return {
           $promise: {}
         };
@@ -156,8 +156,8 @@
         done();
       }, errorCallback);
 
-      expect(DataServiceMock.Reports.query).toHaveBeenCalledWith(expectedPoundsQueryParams);
-      expect(DataServiceMock.Reports.query).toHaveBeenCalledWith(expectedGramsQueryParams);
+      expect(DataServiceMock.CleanAirActReports.query).toHaveBeenCalledWith(expectedPoundsQueryParams);
+      expect(DataServiceMock.CleanAirActReports.query).toHaveBeenCalledWith(expectedGramsQueryParams);
 
       expect(errorCallback).not.toHaveBeenCalled();
     });
@@ -174,7 +174,7 @@
         };
       });
 
-      spyOn(DataServiceMock.Reports, 'query').and.callFake(function() {
+      spyOn(DataServiceMock.CleanAirActReports, 'query').and.callFake(function() {
         return {
           $promise: {}
         };
@@ -182,7 +182,7 @@
 
       ReportService.getYearlyAirPollutionReport({}, successCallback, errorCallback);
 
-      expect(DataServiceMock.Reports.query).toHaveBeenCalled();
+      expect(DataServiceMock.CleanAirActReports.query).toHaveBeenCalled();
 
       expect(successCallback).not.toHaveBeenCalled();
       expect(errorCallback).toHaveBeenCalled();
@@ -204,7 +204,7 @@
         successCallback = jasmine.createSpy('successCallback'),
         errorCallback = jasmine.createSpy('errorCallback');
 
-      spyOn(DataServiceMock.Reports, 'query').and.callFake(function() {
+      spyOn(DataServiceMock.CleanAirActReports, 'query').and.callFake(function() {
         return {
           $promise: {}
         };
@@ -215,8 +215,8 @@
           end_year: 2009
         }, successCallback, errorCallback);
 
-      expect(DataServiceMock.Reports.query.calls.argsFor(0)).toEqual([expectedPoundsQueryParams]);
-      expect(DataServiceMock.Reports.query.calls.argsFor(1)).toEqual([expectedGramsQueryParams]);
+      expect(DataServiceMock.CleanAirActReports.query.calls.argsFor(0)).toEqual([expectedPoundsQueryParams]);
+      expect(DataServiceMock.CleanAirActReports.query.calls.argsFor(1)).toEqual([expectedGramsQueryParams]);
     });
 
     it('should add start year to query params', function() {
@@ -235,7 +235,7 @@
         successCallback = jasmine.createSpy('successCallback'),
         errorCallback = jasmine.createSpy('errorCallback');
 
-      spyOn(DataServiceMock.Reports, 'query').and.callFake(function() {
+      spyOn(DataServiceMock.CleanAirActReports, 'query').and.callFake(function() {
         return {
           $promise: {}
         };
@@ -245,8 +245,8 @@
           start_year: 2005
         }, successCallback, errorCallback);
 
-      expect(DataServiceMock.Reports.query.calls.argsFor(0)).toEqual([expectedPoundsQueryParams]);
-      expect(DataServiceMock.Reports.query.calls.argsFor(1)).toEqual([expectedGramsQueryParams]);
+      expect(DataServiceMock.CleanAirActReports.query.calls.argsFor(0)).toEqual([expectedPoundsQueryParams]);
+      expect(DataServiceMock.CleanAirActReports.query.calls.argsFor(1)).toEqual([expectedGramsQueryParams]);
     });
 
     it('should add end year to query params', function() {
@@ -265,7 +265,7 @@
         successCallback = jasmine.createSpy('successCallback'),
         errorCallback = jasmine.createSpy('errorCallback');
 
-      spyOn(DataServiceMock.Reports, 'query').and.callFake(function() {
+      spyOn(DataServiceMock.CleanAirActReports, 'query').and.callFake(function() {
         return {
           $promise: {}
         };
@@ -275,8 +275,8 @@
           end_year: 2009
         }, successCallback, errorCallback);
 
-      expect(DataServiceMock.Reports.query.calls.argsFor(0)).toEqual([expectedPoundsQueryParams]);
-      expect(DataServiceMock.Reports.query.calls.argsFor(1)).toEqual([expectedGramsQueryParams]);
+      expect(DataServiceMock.CleanAirActReports.query.calls.argsFor(0)).toEqual([expectedPoundsQueryParams]);
+      expect(DataServiceMock.CleanAirActReports.query.calls.argsFor(1)).toEqual([expectedGramsQueryParams]);
     });
 
     it('should add filters to query params', function() {
@@ -295,7 +295,7 @@
         successCallback = jasmine.createSpy('successCallback'),
         errorCallback = jasmine.createSpy('errorCallback');
 
-      spyOn(DataServiceMock.Reports, 'query').and.callFake(function() {
+      spyOn(DataServiceMock.CleanAirActReports, 'query').and.callFake(function() {
         return {
           $promise: {}
         };
@@ -308,8 +308,8 @@
           county: 'HARRIS'
         }, successCallback, errorCallback);
 
-      expect(DataServiceMock.Reports.query.calls.argsFor(0)).toEqual([expectedPoundsQueryParams]);
-      expect(DataServiceMock.Reports.query.calls.argsFor(1)).toEqual([expectedGramsQueryParams]);
+      expect(DataServiceMock.CleanAirActReports.query.calls.argsFor(0)).toEqual([expectedPoundsQueryParams]);
+      expect(DataServiceMock.CleanAirActReports.query.calls.argsFor(1)).toEqual([expectedGramsQueryParams]);
     });
   });
 })();

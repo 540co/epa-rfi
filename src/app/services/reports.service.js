@@ -27,8 +27,8 @@
         gramsQueryParams = buildQueryParams(filters, 'grams');
 
       $q.all([
-        DataService.Reports.query(poundsQueryParams).$promise,
-        DataService.Reports.query(gramsQueryParams).$promise
+        DataService.CleanAirActReports.query(poundsQueryParams).$promise,
+        DataService.CleanAirActReports.query(gramsQueryParams).$promise
       ]).then(function(responses) {
         var poundsReportData = responses[0].data,
           gramsReportData = responses[1].data,
@@ -53,7 +53,7 @@
       queryParams.operation = 'sum';
       queryParams.agg_fields = 'fugitiveAir,stackAir';
 
-      DataService.Reports.query(queryParams, function(response) {
+      DataService.CleanAirActReports.query(queryParams, function(response) {
         var reportData = calculateReportTotals(response.data);
 
         successCallback(reportData);
@@ -67,7 +67,7 @@
       queryParams.operation = 'sum';
       queryParams.agg_fields = 'fugitiveAir,stackAir';
 
-      DataService.Reports.query(queryParams, function(response) {
+      DataService.CleanAirActReports.query(queryParams, function(response) {
         var reportData = extractStateList(response.data);
 
         successCallback(reportData);
