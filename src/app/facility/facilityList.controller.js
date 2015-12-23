@@ -13,6 +13,17 @@
     var vm = this,
       params = $location.search();
 
+    NgMap.getMap().then(function(map) {
+     vm.map = map;
+     console.log(vm.map);
+   });
+
+    vm.showFacilityInfoWindow = function(event, facility) {
+      vm.currentFacility = facility;
+
+      vm.map.showInfoWindow('facilityInfoWindow', this);
+    };
+
     getFacilities(params, function(facilities) {
       vm.facilities = facilities;
 

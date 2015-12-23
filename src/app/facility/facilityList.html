@@ -9,7 +9,18 @@
             <div class="text-center">
               <h4 id="dash-side-name">List of Facilities</h4>
               <ng-map zoom="16" style="height:400px;">
-                <marker ng-repeat="facility in vm.facilities" position="{{ facility.latitude }}, {{ facility.longitude }}" title="{{ facility.name }}"></marker>
+                <marker ng-repeat="facility in vm.facilities"
+                  position="{{ facility.latitude }}, {{ facility.longitude }}"
+                  title="{{ facility.name }}"
+                  on-click="vm.showFacilityInfoWindow(event, facility)"></marker>
+
+                <info-window id="facilityInfoWindow">
+                  <div>
+                    <strong>{{ vm.currentFacility.name }}</strong>
+                    <div>{{ vm.currentFacility.address.streetAddress }}</div>
+                    <div>{{ vm.currentFacility.address.city }}, {{ vm.currentFacility.address.state }} {{ vm.currentFacility.address.zipcode }}</div>
+                  </div>
+                </info-window>
               </ng-map>
               <br>
               <md-data-table-container ng-show="vm.facilities">
