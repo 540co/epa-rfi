@@ -81,11 +81,11 @@
         <div class="container" ng-show="!vm.showError">
           <div class="row">
             <div class="col-md-12">
-              <div ng-show="vm.searchFilter.group=='zipcode' && !vm.showNoReportError">
-                <h4>View list of facilities for zipcode: <a>{{searchFilter.zipcode}}</a></h4>
+              <div ng-show="vm.updatedFilter.group=='zipcode' && !vm.showNoReportError">
+                <h4>View list of facilities for zipcode: <a>{{vm.updatedFilter.zipcode}}</a></h4>
               </div>
-              <div ng-show="vm.searchFilter.group=='state'">
-                <h4>Filtered on state: {{vm.searchFilter.state}}</h4>
+              <div ng-show="vm.updatedFilter.group=='state'">
+                <h4>Filtered on state: {{vm.updatedFilter.state}}</h4>
               </div>
               <div class="row" ng-show="!vm.showNoReportError">
                 <div class="col-md-8">
@@ -93,7 +93,7 @@
                   </br>
                     <div class="text-center">
                       <h1 id="dash-main-number">{{vm.netReductionPounds | number:0}}</h1>
-                      <h1 class="lead">Pounds of Air Pollution <b ng-show="vm.netReductionPounds > 0" id="reduced">Reduced</b><b ng-show="vm.netReductionPounds < 0" id="produced">Reduced</b> between {{vm.start_year || 1987}} and {{vm.end_year || 2013}}</h1>
+                      <h1 class="lead">Pounds of Air Pollution <b ng-show="vm.netReductionPounds > 0" id="reduced">Reduced</b><b ng-show="vm.netReductionPounds < 0" id="produced">Reduced</b> between {{vm.updatedFilter.start_year || 1987}} and {{vm.updatedFilter.end_year || 2013}}</h1>
                       <div class="card-content">
                         <p>Over {{vm.totalYears || vm.yearFilters.length}} years</p>
                       </div>
@@ -120,7 +120,7 @@
                   <div class="card">
                     <div class="text-center">
                       <h1 id="dash-small-number">{{vm.netProductionPounds | number:0}}</h1>
-                      <h3 class="lead right-lead">Pounds <b id="produced">Produced</b> between {{vm.searchFilter.start_year || 1987}} and {{vm.searchFilter.end_year || 2013}}</h3>
+                      <h3 class="lead right-lead">Pounds <b id="produced">Produced</b> between {{vm.updatedFilter.start_year || 1987}} and {{vm.updatedFilter.end_year || 2013}}</h3>
                     </div>
                     </div>
                   </div>

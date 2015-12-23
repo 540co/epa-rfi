@@ -95,6 +95,9 @@
       //Update the key variables to match filtered data
       ReportService.getYearlyAirPollutionReport(filter, function(data) {
         if (!_.isEmpty(data)) {
+
+          vm.updatedFilter = angular.copy(filter);
+
           vm.showNoReportError = false;
           vm.netReductionPercent = (data.cumulativeReductionPercentage * 100);
           vm.totalYears = data.years.length;
@@ -118,7 +121,7 @@
       ReportService.getYearlyAirPollutionReport({}, function(data) {
 
         vm.showNoReportError = false;
-
+        vm.updatedFilter = {};
         //Update the key variables to match filtered data
         vm.netReductionPounds = data.totalReduction;
         vm.netReductionPercent = (data.cumulativeReductionPercentage * 100);
