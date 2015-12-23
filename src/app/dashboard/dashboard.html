@@ -44,47 +44,48 @@
         <!-- <md-switch ng-model="vm.toggle" aria-label="Switch 2" ng-true-value="'Air Pollution Production'" ng-false-value="'Air Pollution Reduction'" ng-change="vm.toggleDashboard(vm.toggle)" class="md-warn">
           {{ vm.toggle }}
         </md-switch> -->
-        <md-select ng-model="searchFilter.start_year" placeholder="Start Year">
+        <form name="vm.filterForm">
+        <md-select ng-model="vm.searchFilter.start_year" placeholder="Start Year">
           <md-option ng-value="opt" ng-repeat="opt in vm.yearFilters">{{ opt }}</md-option>
         </md-select>
-        <md-select ng-model="searchFilter.end_year" placeholder="End Year">
+        <md-select ng-model="vm.searchFilter.end_year" placeholder="End Year">
           <md-option ng-value="opt" ng-repeat="opt in vm.yearFilters">{{ opt }}</md-option>
         </md-select>
-        <div ng-show="invalid = searchFilter.start_year>searchFilter.end_year" class="error">The start year must be less than the end year!</div>
+        <div ng-show="invalid = vm.searchFilter.start_year>searchFilter.end_year" class="error">The start year must be less than the end year!</div>
         <p class="text-center">
           Filter by state OR zipcode
         </p>
-        <md-radio-group ng-model="searchFilter.group" ng-init="searchFilter.group=state">
+        <md-radio-group ng-model="vm.searchFilter.group" ng-init="vm.searchFilter.group=state">
           <md-radio-button value="state">State</md-radio-button>
           <md-radio-button value="zipcode"> Zipcode </md-radio-button>
         </md-radio-group>
-        <md-select ng-model="searchFilter.state" placeholder="State" ng-show="searchFilter.group=='state'">
+        <md-select ng-model="vm.searchFilter.state" placeholder="State" ng-show="vm.searchFilter.group=='state'">
           <md-option ng-value="opt" ng-repeat="opt in vm.stateFilters" ng-checked>{{ opt }}</md-option>
         </md-select>
-        <md-input-container class="md-block" flex-gt-sm ng-show="searchFilter.group=='zipcode'">
-          <input name="postalCode" ng-model="searchFilter.zipcode" placeholder="zipcode" required ng-pattern="/^(\d{5}(\d{4})?)?$/">
+        <md-input-container class="md-block" flex-gt-sm ng-show="vm.searchFilter.group=='zipcode'">
+          <input name="postalCode" ng-model="vm.searchFilter.zipcode" placeholder="zipcode" ng-pattern="/^(\d{5}(\d{4})?)?$/">
           <div class="hint">##### or #########</div>
-          <div ng-messages="searchFilter.zipcode.$error">
+          <div ng-messages="vm.searchFilter.zipcode.$error">
             <div ng-message="pattern">##### or ######### - Please enter a valid zipcode.</div>
           </div>
         </md-input-container>
         <div class="text-center">
-          <md-button class="md-raised md-primary" ng-disabled="invalid" ng-click="vm.updateDashboard(searchFilter)">Apply Filters</md-button>
-          <md-button class="md-raised md-primary" ng-click="vm.resetDashboard(searchFilter)">Reset</md-button>
+          <md-button class="md-raised md-primary" ng-disabled="invalid" ng-click="vm.updateDashboard(vm.searchFilter)">Apply Filters</md-button>
+          <md-button class="md-raised md-primary" ng-click="vm.resetDashboard(vm.searchFilter)">Reset</md-button>
         </div>
+        </form>
       </md-content>
-
     </md-sidenav>
     <md-content flex layout-padding>
       <div layout="column" layout-fill layout-align="top center">
         <div class="container" ng-show="!vm.showError">
           <div class="row">
             <div class="col-md-12">
-              <div ng-show="searchFilter.group=='zipcode' && !vm.showNoReportError">
+              <div ng-show="vm.searchFilter.group=='zipcode' && !vm.showNoReportError">
                 <h4>View list of facilities for zipcode: <a>{{searchFilter.zipcode}}</a></h4>
               </div>
-              <div ng-show="searchFilter.group=='state'">
-                <h4>Filtered on state: {{searchFilter.state}}</h4>
+              <div ng-show="vm.searchFilter.group=='state'">
+                <h4>Filtered on state: {{vm.searchFilter.state}}</h4>
               </div>
               <div class="row" ng-show="!vm.showNoReportError">
                 <div class="col-md-8">
@@ -119,7 +120,7 @@
                   <div class="card">
                     <div class="text-center">
                       <h1 id="dash-small-number">{{vm.netProductionPounds | number:0}}</h1>
-                      <h3 class="lead right-lead">Pounds <b id="produced">Produced</b> between {{searchFilter.start_year || 1987}} and {{searchFilter.end_year || 2013}}</h3>
+                      <h3 class="lead right-lead">Pounds <b id="produced">Produced</b> between {{vm.searchFilter.start_year || 1987}} and {{vm.searchFilter.end_year || 2013}}</h3>
                     </div>
                     </div>
                   </div>
@@ -146,7 +147,7 @@
                 <div class="col-md-12">
                   <div class="card graph-card">
                     <div class="text-center">
-                      <h4><i class="fa fa-exclamation-triangle error"></i> No reports for zipcode {{ searchFilter.zipcode }}</h4>
+                      <h4><i class="fa fa-exclamation-triangle error"></i> No reports for zipcode {{ vm.searchFilter.zipcode }}</h4>
                     </div>
                   </div>
                 </div>
