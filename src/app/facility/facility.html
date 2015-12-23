@@ -16,18 +16,16 @@
                 <marker position="{{ vm.facility.latitude }}, {{ vm.facility.longitude }}" title="{{ vm.facility.name }}"></marker>
               </ng-map>
               <br>
+              <p><em>Note: Scroll to the right to see any additional columns of data</em></p>
               <md-data-table-toolbar>
                 <h2 class="md-title">Toxic Release Inventory Reports</h2>
               </md-data-table-toolbar>
               <md-data-table-container ng-show="vm.reports">
                 <table md-data-table md-progress="deferred">
-                  <thead>
                     <tr>
                       <th name="Year"></th>
                       <th name="Chemical Name"></th>
                       <th name="CAS Number"></th>
-                      <th name="Clean Air Act?"></th>
-                      <th name="Classification"></th>
                       <th name="Carcinogenic?"></th>
                       <th name="Fugitive Air" unit="lbs"></th>
                       <th name="Stack Air" unit="lbs"></th>
@@ -39,8 +37,6 @@
                       <td>{{ report.year }}</td>
                       <td>{{ report.chemical.name }}</td>
                       <td>{{ report.chemical.casNumber }}</td>
-                      <td>{{ report.chemical.isCleanAirActChemical }}</td>
-                      <td>{{ report.chemical.classification }}</td>
                       <td>{{ report.chemical.isCarcinogen }}</td>
                       <td>{{ report.quantitiesEnteringEnvironment.fugitiveAir ? (report.quantitiesEnteringEnvironment.fugitiveAir | number) : 0 }}</td>
                       <td>{{ report.quantitiesEnteringEnvironment.stackAir ? (report.quantitiesEnteringEnvironment.stackAir | number) : 0 }}</td>
