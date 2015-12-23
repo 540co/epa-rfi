@@ -60,6 +60,7 @@
     }
 
     function getReports(queryParams, successCallback, errorCallback) {
+      queryParams.filters = 'chemical.isCleanAirActChemical:true';
 
       DataService.FacilityReports.query(queryParams, function(response) {
         successCallback(response);

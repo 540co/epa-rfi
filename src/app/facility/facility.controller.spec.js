@@ -60,7 +60,8 @@
         expect(vm.facility).toEqual(facilityMock);
         expect(DataServiceMock.Facilities.query).toHaveBeenCalledWith({
           id: 'ABC123',
-          limit: 15
+          limit: 15,
+          filters: 'chemical.isCleanAirActChemical:true'
         }, jasmine.any(Function), jasmine.any(Function));
       });
 
@@ -69,7 +70,8 @@
         expect(vm.reportsTotal).toEqual(metaMock.total);
         expect(DataServiceMock.FacilityReports.query).toHaveBeenCalledWith({
           id: 'ABC123',
-          limit: 15
+          limit: 15,
+          filters: 'chemical.isCleanAirActChemical:true'
         }, jasmine.any(Function), jasmine.any(Function));
       });
 
