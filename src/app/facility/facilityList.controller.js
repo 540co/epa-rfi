@@ -3,15 +3,19 @@
 
   angular
     .module('app.facility')
+    .factory('$google', function() {
+      return google;
+    })
     .controller('FacilityListController', FacilityListController);
 
-  FacilityListController.$inject = ['DataService', '$stateParams', '$location', 'NgMap'];
+  FacilityListController.$inject = ['DataService', '$location', 'NgMap', '$google'];
 
   /** @ngInject */
 
-  function FacilityListController(DataService, $stateParams, $location, NgMap) {
+  function FacilityListController(DataService, $location, NgMap, $google) {
     var vm = this,
-      params = $location.search();
+      params = $location.search(),
+      google = $google;
 
     vm.query = {
       total: 0,
@@ -25,7 +29,6 @@
 
     NgMap.getMap().then(function(map) {
      vm.map = map;
-     console.log(vm.map);
     });
 
     vm.onPaginationChange = function(page, limit) {
@@ -81,7 +84,9 @@
         }
       });
 
-      queryParams.filters = filters.join(' AND ');
+      if (filters.length) {
+        queryParams.filters = filters.join(' AND ');
+      }
 
       queryParams.offset = (vm.query.page - 1) * vm.query.limit;
       queryParams.limit = vm.query.limit;
