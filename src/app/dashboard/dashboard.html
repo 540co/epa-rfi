@@ -82,10 +82,10 @@
           <div class="row">
             <div class="col-md-12">
               <div ng-show="vm.updatedFilter.group=='zipcode' && !vm.showNoReportError">
-                <h4>View list of facilities for zipcode: <a>{{vm.updatedFilter.zipcode}}</a></h4>
+                <h4>View list of facilities for zipcode: <a ng-href="#/facilities?zipcode={{vm.updatedFilter.zipcode}}">{{vm.updatedFilter.zipcode}}</a></h4>
               </div>
               <div ng-show="vm.updatedFilter.group=='state'">
-                <h4>Filtered on state: {{vm.updatedFilter.state}}</h4>
+                <h4>View list of facilities for state: <a ng-href="#/facilities?state={{vm.updatedFilter.state}}">{{vm.updatedFilter.state}}</a></h4>
               </div>
               <div class="row" ng-show="!vm.showNoReportError">
                 <div class="col-md-8">
