@@ -25,7 +25,7 @@
     }
 
     function initDashboard() {
-      ReportService.getYearlyAirPollutionReport({}, function(data) {
+      ReportService.getYearlyAirPollutionReport({start_year: 1998}, function(data) {
         vm.searchFilter = {};
         vm.showNoReportError = false;
 
@@ -38,6 +38,17 @@
         // set list of states for dropdown filter
         setDropdownValues();
         vm.yearFilters = data.years;
+
+        console.log(data.years);
+
+        // vm.yearFilters = _.filter(data.years, function(n) {
+        //     return n >= 1999;
+        //   });
+
+        console.log(vm.yearFilters);
+        console.log(data.years);
+
+        console.log(data);
 
         buildChart(data.fugitiveAirPerYear, data.stackAirPerYear, data.totalAirPerYear, data.years);
       }, errorHandler);
@@ -92,9 +103,17 @@
 
     vm.updateDashboard = function(filter) {
       $log.info('Update dashboard with: ', filter);
+      if (!_.has(filter, 'start_year')) {
+        console.log('HELLOOOOOO');
+        filter.start_year = "1998";
+        console.log(filter);
+
+      }
+
       //Update the key variables to match filtered data
       ReportService.getYearlyAirPollutionReport(filter, function(data) {
         if (!_.isEmpty(data)) {
+          console.log(data);
 
           vm.updatedFilter = angular.copy(filter);
 
@@ -118,7 +137,7 @@
       vm.searchFilter = angular.copy({});
       //vm.searchFilter.group=state
 
-      ReportService.getYearlyAirPollutionReport({}, function(data) {
+      ReportService.getYearlyAirPollutionReport({start_year: 1998}, function(data) {
 
         vm.showNoReportError = false;
         vm.updatedFilter = {};
