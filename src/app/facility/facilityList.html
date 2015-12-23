@@ -20,7 +20,7 @@
 
                 <info-window id="facilityInfoWindow">
                   <div>
-                    <strong>{{ vm.currentFacility.name }}</strong>
+                    <strong><a ng-href="#/facility/{{ vm.currentFacility.id }}">{{ vm.currentFacility.name }}</a></strong>
                     <div>{{ vm.currentFacility.address.streetAddress }}</div>
                     <div>{{ vm.currentFacility.address.city }}, {{ vm.currentFacility.address.state }} {{ vm.currentFacility.address.zipcode }}</div>
                   </div>
@@ -40,7 +40,7 @@
                   </thead>
                   <tbody>
                     <tr md-auto-select ng-repeat="facility in vm.facilities">
-                      <td>{{ facility.name }}</td>
+                      <td><a ng-href="#/facility/{{ facility.id }}">{{ facility.name }}</a></td>
                       <td>{{ facility.address.streetAddress }}</td>
                       <td>{{ facility.address.city }}</td>
                       <td>{{ facility.address.county }}</td>
