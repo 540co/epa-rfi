@@ -30,7 +30,7 @@
       vm.query.page = page;
       vm.query.limit = limit;
 
-      loadFacilities();
+      return loadFacilities();
     }
 
     vm.showFacilityInfoWindow = function(event, facility) {
@@ -42,7 +42,7 @@
     loadFacilities();
 
     function loadFacilities() {
-      getFacilities(params, function(response) {
+      return getFacilities(params, function(response) {
         vm.facilities = response.data;
         vm.query.total = response.meta.total;
 
@@ -84,9 +84,9 @@
       queryParams.offset = (vm.query.page - 1) * vm.query.limit;
       queryParams.limit = vm.query.limit;
 
-      DataService.Facilities.query(queryParams, function(response) {
+      return DataService.Facilities.query(queryParams, function(response) {
         successCallback(response);
-      }, errorCallback);
+      }, errorCallback).$promise;
     }
 
   }
