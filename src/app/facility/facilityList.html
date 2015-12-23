@@ -7,7 +7,11 @@
         <div class="col-md-12">
           <div class="card">
             <div class="text-center">
-              <h4 id="dash-side-name">List of Facilities</h4>
+              <h4 id="dash-side-name">
+                List of Facilities
+                <span ng-if="vm.params.state">for {{ vm.params.state }}</span>
+                <span ng-if="vm.params.zipcode">for {{ vm.params.zipcode }}</span>
+              </h4>
               <ng-map zoom="16" style="height:400px;">
                 <marker ng-repeat="facility in vm.facilities"
                   position="{{ facility.latitude }}, {{ facility.longitude }}"

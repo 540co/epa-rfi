@@ -21,6 +21,8 @@
 
     vm.pageOptions = [25, 50, 100];
 
+    vm.params = params;
+
     NgMap.getMap().then(function(map) {
      vm.map = map;
      console.log(vm.map);
