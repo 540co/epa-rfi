@@ -13,10 +13,25 @@
     var vm = this,
       params = $location.search();
 
+    vm.query = {
+      total: 0,
+      limit: 25,
+      page: 1
+    };
+
+    vm.pageOptions = [25, 50, 100];
+
     NgMap.getMap().then(function(map) {
      vm.map = map;
      console.log(vm.map);
-   });
+    });
+
+    vm.onPaginationChange = function(page, limit) {
+      vm.query.page = page;
+      vm.query.limit = limit;
+
+      loadFacilities();
+    }
 
     vm.showFacilityInfoWindow = function(event, facility) {
       vm.currentFacility = facility;
@@ -24,13 +39,18 @@
       vm.map.showInfoWindow('facilityInfoWindow', this);
     };
 
-    getFacilities(params, function(facilities) {
-      vm.facilities = facilities;
+    loadFacilities();
 
-      fitBoundsToFacilities(facilities);
-    }, function() {
-      vm.facilities = {};
-    });
+    function loadFacilities() {
+      getFacilities(params, function(response) {
+        vm.facilities = response.data;
+        vm.query.total = response.meta.total;
+
+        fitBoundsToFacilities(vm.facilities);
+      }, function() {
+        vm.facilities = {};
+      });
+    }
 
     function fitBoundsToFacilities(facilities) {
       var bounds = new google.maps.LatLngBounds();
@@ -50,7 +70,8 @@
           'zipcode': 'facility.address.zipcode',
           'state': 'facility.address.state'
         },
-        filters = [];
+        filters = [],
+        queryParams = {};
 
       angular.forEach(params, function(value, key) {
         if (typeof paramMap[key] !== 'undefined') {
@@ -58,8 +79,13 @@
         }
       });
 
-      DataService.Facilities.query({ filters: filters.join(' AND ') }, function(response) {
-        successCallback(response.data);
+      queryParams.filters = filters.join(' AND ');
+
+      queryParams.offset = (vm.query.page - 1) * vm.query.limit;
+      queryParams.limit = vm.query.limit;
+
+      DataService.Facilities.query(queryParams, function(response) {
+        successCallback(response);
       }, errorCallback);
     }
 
