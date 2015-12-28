@@ -20,8 +20,9 @@ before_script:
 script:
 - gulp test
 after_success:
+- cp coverage/*/lcov.info .
+- codeclimate-test-reporter < lcov.info
 - ./deploy.sh
-- codeclimate-test-reporter < ./lcov.info
 notifications:
   slack:
     secure: tjvHGBSvtLP9YbeKa1Y6CbcY7mDUZUsmfNnrrjqqtiw2hJi/C4hFs5I7M8yP4iKMtcUof4ihByCs7RD3n1zn75d5PpiGEgOH4H5Z+Wvcp3foNX6eM0oW1xUSXQn3NqwnYMZl5dqw2OUpzPuXlp+AFQa3pw2kJ3o8bQ/DjqQyRU0vJm+aRBhiZebtqBfU0AnLGenWX2+it4069c72UVAyzk+VKLmtqE8VW0fkYZxijafJjWd3w4+SiHpsjfqFI6VuuAPZ30evOhnttFbseB6W7Xt4p6NR3YD4uggNLxLz6uE2bZ72ntPxzUQlmbAYmZi2clt6bSRecXlGx8ro/PJACw054MAAGNPR12Mwv5ArwWaM2Epx/oyuZTUcGeZXoVQJdLHKSHNZPEFC9ss+TfY7w2Sb38tEYEQ63I7gtKNYrvuBmajWrfG8xzxmDCsRsvQfBSzxdst9/yeqFNKyAYJ77+70UCt9CeBjt08tfyLMzMcvcYpeTyMMRSjUDzdwb6I2fXs4mFf9BiLKSJ/QmUVWMt3wIzJCD0cVX71vsULxnA7LfQ2UkL6jEmjPetDItB/336FK6SAnb5kgT0ffj6Lx0j/47HnKcECQUrcPlelJc8blBz75KOw8Alrp/AybhPrcyKyfKYm+H/01FyFX/aBJHYTNrmWKA3tm/disr5e2km8=
