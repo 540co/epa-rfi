@@ -7,7 +7,7 @@
       <div class="col-md-9 col-md-offset-1">
         <h4>Helping You Sniff Out Clean Air</h4>
         <p class="lead">
-          Air Hound is a lightweight application that gives you information on air quality in any location in the United States over time. The United States Environmental Protection Agency's Toxic Release Inventory feeds Air Hound information on the the release of hazardous air pollutants identified in the Clean Air Act. Air Hound shows you the magnitude and trends of these releases over time in specific geographic areas.
+          Air Hound is a lightweight application that gives you information on air quality in any location in the United States over time. The United States Environmental Protection Agency's Toxic Release Inventory feeds Air Hound information on the release of hazardous air pollutants identified in the Clean Air Act. Air Hound shows you the magnitude and trends of these releases over time in specific geographic areas.
         </p>
         <div class="row">
           <div class="col-md-3">
@@ -50,9 +50,9 @@
           <md-select ng-model="vm.searchFilter.end_year" placeholder="End Year">
             <md-option ng-value="opt" ng-repeat="opt in vm.yearFilters">{{ opt }}</md-option>
           </md-select>
-          <div ng-show="invalid = vm.searchFilter.start_year>searchFilter.end_year" class="error">The start year must be less than the end year!</div>
+          <div ng-show="invalid = vm.searchFilter.start_year>vm.searchFilter.end_year" class="error">The start year must be less than the end year!</div>
           <p class="text-center">
-            Filter by state OR zipcode
+            Filter by state OR zipcode {{ invalid }}
           </p>
           <md-radio-group ng-model="vm.searchFilter.group" ng-init="vm.searchFilter.group=state">
             <md-radio-button value="state">State</md-radio-button>
