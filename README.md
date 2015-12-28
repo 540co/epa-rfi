@@ -1,6 +1,7 @@
 # Air Hound
 
 [![Build Status](https://travis-ci.org/540co/epa-rfi.svg?branch=develop)](https://travis-ci.org/540co/epa-rfi)
+[![Test Coverage](https://codeclimate.com/github/540co/epa-rfi/badges/coverage.svg)](https://codeclimate.com/github/540co/epa-rfi/coverage)
 [![Code Climate](https://codeclimate.com/github/540co/epa-rfi/badges/gpa.svg)](https://codeclimate.com/github/540co/epa-rfi)
 
 Front end development for the EPA RFI (Air Hound).
