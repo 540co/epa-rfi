@@ -27,8 +27,8 @@
       getReports(queryParams, function(data) {
         vm.reports = data.data;
         vm.reportsTotal = data.meta.total;
-        $('md-data-table-pagination').find('.label').css( "color", "rgba(0,0,0,.54)" );
-        $('md-data-table-pagination').find('.label').css( "font-size", "100%" );
+        angular.element('md-data-table-pagination').find('.label').css( "color", "rgba(0,0,0,.54)" );
+        angular.element('md-data-table-pagination').find('.label').css( "font-size", "100%" );
       }, errorHandler);
 
       vm.query = {

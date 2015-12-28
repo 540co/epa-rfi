@@ -41,7 +41,7 @@
     vm.showFacilityInfoWindow = function(event, facility) {
       vm.currentFacility = facility;
 
-      vm.map.showInfoWindow('facilityInfoWindow', this);
+      vm.map.showInfoWindow('facilityInfoWindow', vm);
     };
 
     loadFacilities();
