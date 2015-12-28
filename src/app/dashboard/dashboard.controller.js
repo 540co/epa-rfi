@@ -117,7 +117,7 @@
       }, errorHandler);
     }
 
-    vm.resetDashboard = function(filter) {
+    vm.resetDashboard = function() {
       $log.info('Dashboard reset!');
 
       vm.searchFilter = angular.copy({});
