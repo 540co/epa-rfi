@@ -1,0 +1,60 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <div class="card card-spacing" ng-show="!vm.showError">
+        <div class="text-center">
+          <h4 id="dash-side-name">{{ vm.facility.name }}</h4>
+          <div class="card-content">
+            <p> {{ vm.facility.address.streetAddress }}</p>
+            <p> {{ vm.facility.address.city }}, {{ vm.facility.address.state }} {{ vm.facility.address.zipcode }} </p>
+          </div>
+          <ng-map id="individualFacility" center="{{ vm.facility.latitude }}, {{ vm.facility.longitude }}" zoom="16" style="height:400px;" ng-if=" vm.mapReady ">
+            <marker position="{{ vm.facility.latitude }}, {{ vm.facility.longitude }} " title="{{ vm.facility.name }} " st></marker>
+          </ng-map>
+          <br>
+          <p>
+            <em>Note: Scroll to the right to see any additional columns of data</em>
+          </p>
+          <md-data-table-toolbar>
+            <h2 class="md-title ">Toxic Release Inventory Reports</h2>
+          </md-data-table-toolbar>
+          <md-data-table-container ng-show="vm.reports ">
+            <table md-data-table md-progress="deferred ">
+              <tr>
+                <th name="Year "></th>
+                <th name="Chemical Name "></th>
+                <th name="CAS Number "></th>
+                <th name="Carcinogenic? "></th>
+                <th name="Fugitive Air " unit="lbs "></th>
+                <th name="Stack Air " unit="lbs "></th>
+                <th name="Total Air Releases " unit="lbs "></th>
+              </tr>
+              </thead>
+              <tbody>
+                <tr md-auto-select ng-repeat="report in vm.reports ">
+                  <td>{{ report.year }}</td>
+                  <td>{{ report.chemical.name }}</td>
+                  <td>{{ report.chemical.casNumber }}</td>
+                  <td>{{ report.chemical.isCarcinogen }}</td>
+                  <td>{{ report.quantitiesEnteringEnvironment.fugitiveAir ? (report.quantitiesEnteringEnvironment.fugitiveAir | number) : 0 }}</td>
+                  <td>{{ report.quantitiesEnteringEnvironment.stackAir ? (report.quantitiesEnteringEnvironment.stackAir | number) : 0 }}</td>
+                  <td>{{ report.quantitiesEnteringEnvironment.fugitiveAir + report.quantitiesEnteringEnvironment.stackAir | number }}</td>
+                </tr>
+                </tr>
+              </tbody>
+            </table>
+          </md-data-table-container>
+          <md-data-table-pagination md-limit="vm.query.limit " md-page="vm.query.page " md-total="{{vm.reportsTotal}} " md-trigger="vm.onpagechange " ng-show="vm.reports "></md-data-table-pagination>
+          <div ng-show="!vm.reports ">No reports found!</div>
+          <br>
+          <br>
+        </div>
+      </div>
+      <div class="card graph-card " ng-show="vm.showError ">
+        <div class="text-center ">
+          <h4><i class="fa fa-exclamation-triangle error "></i> Error retrieving reports.</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

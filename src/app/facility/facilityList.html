@@ -1,0 +1,65 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-1">
+    </div>
+    <div class="col-md-10">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card card-spacing">
+            <div class="text-center">
+              <h4 id="dash-side-name">
+                List of Facilities
+                <span ng-if="vm.params.state">for {{ vm.params.state }}</span>
+                <span ng-if="vm.params.zipcode">for {{ vm.params.zipcode }}</span>
+              </h4>
+              <ng-map zoom="16" style="height:400px;" ng-if="vm.mapReady">
+                <marker id="facility_{{facility.id}}" ng-repeat="facility in vm.facilities"
+                  position="{{ facility.latitude }}, {{ facility.longitude }}"
+                  title="{{ facility.name }}"
+                  on-click="vm.showFacilityInfoWindow(event, facility)"></marker>
+
+                <info-window id="facilityInfoWindow">
+                  <div>
+                    <strong><a ng-href="#/facility/{{ vm.currentFacility.id }}">{{ vm.currentFacility.name }}</a></strong>
+                    <div>{{ vm.currentFacility.address.streetAddress }}</div>
+                    <div>{{ vm.currentFacility.address.city }}, {{ vm.currentFacility.address.state }} {{ vm.currentFacility.address.zipcode }}</div>
+                  </div>
+                </info-window>
+              </ng-map>
+              <md-data-table-container ng-show="vm.facilities">
+                <table md-data-table md-progress="deferred">
+                  <thead md-order="query.order" md-trigger="onOrderChange">
+                    <tr>
+                      <th name="Name"></th>
+                      <th name="Steet Address"></th>
+                      <th name="City"></th>
+                      <th name="County"></th>
+                      <th name="State"></th>
+                      <th name="Zipcode"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr md-auto-select ng-repeat="facility in vm.facilities">
+                      <td><a ng-href="#/facility/{{ facility.id }}">{{ facility.name }}</a></td>
+                      <td>{{ facility.address.streetAddress }}</td>
+                      <td>{{ facility.address.city }}</td>
+                      <td>{{ facility.address.county }}</td>
+                      <td>{{ facility.address.state }}</td>
+                      <td>{{ facility.address.zipcode }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </md-data-table-container>
+              <md-data-table-pagination md-row-select="vm.pageOptions" md-limit="vm.query.limit" md-page="vm.query.page" md-total="{{vm.query.total}}" md-trigger="vm.onPaginationChange"></md-data-table-pagination>
+              <div ng-show="vm.mapReady && !vm.facilities.length">No facilities found!</div>
+              <br>
+              <br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-1">
+    </div>
+  </div>
+</div>

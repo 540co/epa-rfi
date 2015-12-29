@@ -1,0 +1,196 @@
+<div id="about-section" ng-hide="hide">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-2" id="about-logo">
+        <img src="./../assets/images/airhound-logo.png" height="200px">
+      </div>
+      <div class="col-md-9 col-md-offset-1">
+        <h4>Helping You Sniff Out Clean Air</h4>
+        <p class="lead">
+          Air Hound is a lightweight application that gives you information on air quality in any location in the United States over time. The United States Environmental Protection Agency's Toxic Release Inventory feeds Air Hound information on the release of
+          hazardous air pollutants identified in the Clean Air Act. Air Hound shows you the magnitude and trends of these releases over time in specific geographic areas.
+        </p>
+        <div class="row">
+          <div class="col-md-3">
+            <h5 class="lead"><i class="gi gi-cloud"></i> Air pollutants</h5>
+          </div>
+          <div class="col-md-3">
+            <h5 class="lead"><i class="gi gi-line-chart"></i> Visualize data</h5>
+          </div>
+          <div class="col-md-3">
+            <h5 class="lead"><i class="gi gi-building"></i> Facility info</h5>
+          </div>
+          <div class="col-md-3">
+            <h5 class="lead"><i class="gi gi-leaf"></i> Footprint</h5>
+          </div>
+        </div>
+        <div class="pull-left">
+          <a href="" ng-click="hide=true">Hide this section</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div layout="column" ng-cloak>
+  <section layout="row" flex>
+    <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('min-width: 933px')">
+      <md-toolbar class="md-theme-pink">
+        <h1 class="md-toolbar-tools">Dashboard Options</h1>
+      </md-toolbar>
+      <md-content layout-padding>
+        <p>
+          <i class="fa fa-info-circle"></i> Select filters below to change the dashboard
+        </p>
+
+        <form name="vm.filterForm">
+          <md-select ng-model="vm.searchFilter.start_year" placeholder="Start Year">
+            <md-option ng-value="opt" ng-repeat="opt in vm.yearFilters">{{ opt }}</md-option>
+          </md-select>
+          <md-select ng-model="vm.searchFilter.end_year" placeholder="End Year">
+            <md-option ng-value="opt" ng-repeat="opt in vm.yearFilters">{{ opt }}</md-option>
+          </md-select>
+          <div ng-show="invalid = vm.searchFilter.start_year>vm.searchFilter.end_year" class="error">The start year must be less than the end year!</div>
+          <p class="text-center">
+            Filter by state or ZIP code
+          </p>
+
+          <div class="row">
+            <div class="col-md-10 col-sm-9">
+              <md-select ng-disabled="!!vm.searchFilter.zipcode" ng-model="vm.searchFilter.state" placeholder="State" ng-click="vm.searchFilter.group = 'state'">
+                <md-option ng-value="opt" ng-repeat="opt in vm.stateFilters" ng-checked>{{ opt }}</md-option>
+              </md-select>
+            </div>
+            <div class="col-md-2 col-sm-3">
+              <i ng-click="vm.clearStateValue()" ng-disabled="!vm.searchFilter.state" class="fa fa-times clear-value"></i>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-10 col-sm-9">
+              <md-input-container class="md-block" flex-gt-sm>
+                <input ng-disabled="!!vm.searchFilter.state" name="postalCode" ng-model="vm.searchFilter.zipcode" placeholder="Zipcode" ng-pattern="/^[0-9]*$/" minlength="3" maxlength="9" ng-click="vm.searchFilter.group = 'zipcode'">
+                <div ng-messages="vm.filterForm.postalCode.$error" multiple md-auto-hide="true">
+                  <div ng-message="pattern">
+                    Numeric characters only.
+                  </div>
+                  <div ng-message="maxlength">
+                    Max length of 9 digits.
+                  </div>
+                  <div ng-message="minlength">
+                    Min length of 3 digits.
+                  </div>
+                </div>
+              </md-input-container>
+            </div>
+            <div class="col-md-2 col-sm-3">
+              <i ng-click="vm.clearZipcodeValue()" ng-disabled="!vm.searchFilter.zipcode" class="fa fa-times clear-value"></i>
+            </div>
+          </div>
+
+          <div class="text-center">
+            <md-button class="md-raised md-primary" ng-disabled="invalid" ng-click="vm.updateDashboard(vm.searchFilter)">Apply Filters</md-button>
+            <md-button class="md-raised md-primary" ng-click="vm.resetDashboard()">Reset</md-button>
+          </div>
+        </form>
+      </md-content>
+    </md-sidenav>
+    <md-content flex layout-padding>
+      <div layout="column" layout-fill layout-align="top center">
+        <div class="container" ng-show="!vm.showError">
+          <div class="row">
+            <div class="col-md-12">
+              <div ng-show="vm.updatedFilter.group=='zipcode' && !vm.showNoReportError">
+                <h4>View list of facilities for zipcode: <a ng-href="#/facilities?zipcode={{vm.updatedFilter.zipcode}}">{{vm.updatedFilter.zipcode}}</a></h4>
+              </div>
+              <div ng-show="vm.updatedFilter.group=='state'">
+                <h4>View list of facilities for state: <a ng-href="#/facilities?state={{vm.updatedFilter.state}}">{{vm.updatedFilter.state}}</a></h4>
+              </div>
+              <div class="row" ng-show="!vm.showNoReportError">
+                <div class="col-md-8">
+                  <div class="card">
+                    </br>
+                    <div class="text-center">
+                      <h1 id="dash-main-number">{{vm.netReductionPounds | number:0}}</h1>
+                      <h1 class="lead">Pounds of Air Pollution <b ng-show="vm.netReductionPounds > 0" id="reduced">Reduced</b><b ng-show="vm.netReductionPounds < 0" id="produced">Reduced</b> between {{vm.updatedFilter.start_year || 1998}} and {{vm.updatedFilter.end_year
+                        || 2013}}</h1>
+                      <div class="card-content">
+                        <p>Over {{vm.totalYears || vm.yearFilters.length}} years</p>
+                      </div>
+                    </div>
+                    </br>
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="row right-card">
+                    <div class="col-md-12">
+                      <div class="card ">
+                        <div class="text-center">
+                          <h1 id="dash-side-number"><i ng-show="vm.netReductionPercent < 0" class="fa fa-arrow-up"></i><i ng-show="vm.netReductionPercent > 0" class="fa fa-arrow-down"></i> {{vm.netReductionPercent | number:1 | abs}} %</h1>
+                          <p class="lead right-lead">
+                            Chemical Air Releases
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row right-card">
+                    <div class="col-md-12">
+                      <div class="card">
+                        <div class="text-center">
+                          <h1 id="dash-small-number">{{vm.netProductionPounds | number:0}}</h1>
+                          <h3 class="lead right-lead">Pounds <b id="produced">Produced</b> between {{vm.updatedFilter.start_year || 1998}} and {{vm.updatedFilter.end_year || 2013}}</h3>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="row" ng-show="!vm.showNoReportError">
+                <div class="col-md-12">
+                  <div class="card graph-card">
+                    <div class="text-center">
+                      <h4>Reduction of Air Pollutants By Year (Pounds)</h4>
+                      <canvas id="line" class="chart chart-line" chart-data="vm.airData" chart-labels="vm.labels" chart-legend="true" chart-series="vm.series" chart-options="vm.options" chart-click="onClick" height="100">
+                      </canvas>
+                    </div>
+                    <ul>
+                      <li><b>Fugitive Air</b> Emissions are releases to the air that are not through a confined air stream, such as leaks or evaporation. This is also known as non-point source emissions.</li>
+                      <li><b>Stack Air</b> Emissions are releases to the air through a confined air stream. This is also known as point source emissions.</li>
+                      <li><b>Total Air</b> is the combination of all TRI releases emitted by a stationary source’s smoke stack and non-point sources.</li>
+                    </ul>
+                  </div>
+
+                </div>
+              </div>
+              <br>
+              <div class="row" ng-show="vm.showNoReportError">
+                <div class="col-md-12">
+                  <div class="card graph-card">
+                    <div class="text-center">
+                      <h4><i class="fa fa-exclamation-triangle error"></i> No reports for zipcode {{ vm.searchFilter.zipcode }}</h4>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="container" ng-show="vm.showError">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card graph-card">
+                <div class="text-center">
+                  <h4><i class="fa fa-exclamation-triangle error"></i> Error retrieving reports.</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <br>
+    </md-content>
+  </section>
+</div>
