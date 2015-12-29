@@ -25,7 +25,9 @@
     }
 
     function initDashboard() {
-      ReportService.getYearlyAirPollutionReport({start_year: 1998}, function(data) {
+      ReportService.getYearlyAirPollutionReport({
+        start_year: 1998
+      }, function(data) {
         vm.searchFilter = {};
         vm.showNoReportError = false;
 
@@ -94,13 +96,14 @@
       $log.info('Update dashboard with: ', filter);
       if (!_.has(filter, 'start_year')) {
         filter.start_year = "1998";
-
+      }
+      if (!_.has(filter, 'end_year')) {
+        filter.end_year = "2013";
       }
 
       //Update the key variables to match filtered data
       ReportService.getYearlyAirPollutionReport(filter, function(data) {
         if (!_.isEmpty(data)) {
-
           vm.updatedFilter = angular.copy(filter);
 
           vm.showNoReportError = false;
@@ -121,9 +124,11 @@
       $log.info('Dashboard reset!');
 
       vm.searchFilter = angular.copy({});
-      //vm.searchFilter.group=state
+      vm.searchFilter.zipcode = undefined;
 
-      ReportService.getYearlyAirPollutionReport({start_year: 1998}, function(data) {
+      ReportService.getYearlyAirPollutionReport({
+        start_year: 1998
+      }, function(data) {
 
         vm.showNoReportError = false;
         vm.updatedFilter = {};
@@ -136,6 +141,17 @@
 
         buildChart(data.fugitiveAirPerYear, data.stackAirPerYear, data.totalAirPerYear, data.years);
       }, errorHandler);
+    }
+
+    vm.clearZipcodeValue = function() {
+      vm.searchFilter.zipcode = undefined;
+      vm.searchFilter.group = undefined;
+    }
+
+    vm.clearStateValue = function() {
+      vm.searchFilter.state = undefined;
+      vm.searchFilter.group = undefined;
+
     }
 
   }
