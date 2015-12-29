@@ -13,7 +13,7 @@
                 <span ng-if="vm.params.zipcode">for {{ vm.params.zipcode }}</span>
               </h4>
               <ng-map zoom="16" style="height:400px;">
-                <marker ng-repeat="facility in vm.facilities"
+                <marker id="facility_{{facility.id}}" ng-repeat="facility in vm.facilities"
                   position="{{ facility.latitude }}, {{ facility.longitude }}"
                   title="{{ facility.name }}"
                   on-click="vm.showFacilityInfoWindow(event, facility)"></marker>
