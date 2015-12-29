@@ -32,7 +32,10 @@
             this.extend = function() {};
             this.getCenter = function() {};
           },
-          LatLng: function() {}
+          LatLng: function() {},
+          event: {
+            trigger: function() {}
+          }
         }
       };
 
@@ -43,7 +46,7 @@
     });
 
     describe('FacilityListController', function() {
-      beforeEach(inject(function(_$controller_, $rootScope, _DataService_, _NgMap_) {
+      beforeEach(inject(function(_$controller_, $rootScope, _DataService_, _NgMap_,$timeout) {
         scope = $rootScope.$new();
         DataService = _DataService_;
         NgMap = _NgMap_;
