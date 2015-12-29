@@ -359,7 +359,7 @@
     });
 
     it('should call error callback if error occurs pulling state list', function() {
-      var 
+      var
         successCallback = jasmine.createSpy('successCallback'),
         errorCallback = jasmine.createSpy('errorCallback'),
         expectedError = {
