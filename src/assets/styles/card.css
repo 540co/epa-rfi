@@ -39,6 +39,12 @@
   background-clip: padding-box;
   box-sizing: border-box;
 }
+.card .card-about-content {
+  padding: 50px;
+  border-radius: 0 0 2px 2px;
+  background-clip: padding-box;
+  box-sizing: border-box;
+}
 .card .card-content p {
   margin: 0;
   color: inherit;
