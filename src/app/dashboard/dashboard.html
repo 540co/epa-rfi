@@ -7,7 +7,8 @@
       <div class="col-md-9 col-md-offset-1">
         <h4>Helping You Sniff Out Clean Air</h4>
         <p class="lead">
-          Air Hound is a lightweight application that gives you information on air quality in any location in the United States over time. The United States Environmental Protection Agency's Toxic Release Inventory feeds Air Hound information on the release of hazardous air pollutants identified in the Clean Air Act. Air Hound shows you the magnitude and trends of these releases over time in specific geographic areas.
+          Air Hound is a lightweight application that gives you information on air quality in any location in the United States over time. The United States Environmental Protection Agency's Toxic Release Inventory feeds Air Hound information on the release of
+          hazardous air pollutants identified in the Clean Air Act. Air Hound shows you the magnitude and trends of these releases over time in specific geographic areas.
         </p>
         <div class="row">
           <div class="col-md-3">
@@ -53,16 +54,46 @@
             Filter by state OR zipcode {{ invalid }}
           </p>
 
-          <md-select ng-disabled="!!vm.searchFilter.zipcode" ng-model="vm.searchFilter.state" placeholder="State">
-            <md-option ng-value="opt" ng-repeat="opt in vm.stateFilters" ng-checked>{{ opt }}</md-option>
-          </md-select>
-
-          <md-input-container class="md-block" flex-gt-sm>
-            <input ng-disabled="!!vm.searchFilter.state" name="postalCode" ng-model="vm.searchFilter.zipcode" placeholder="Zipcode" ng-pattern="/^(\d{5}(\d{4})?)?$/">
-            <div ng-messages="vm.searchFilter.zipcode.$error">
-              <div ng-message="pattern">##### or ######### - Please enter a valid zipcode.</div>
+          <div class="row">
+            <div class="col-md-10 col-sm-9">
+              <md-select ng-disabled="!!vm.searchFilter.zipcode" ng-model="vm.searchFilter.state" placeholder="State">
+                <md-option ng-value="opt" ng-repeat="opt in vm.stateFilters" ng-checked>{{ opt }}</md-option>
+              </md-select>
             </div>
-          </md-input-container>
+            <div class="col-md-2 col-sm-3">
+              <i ng-click="vm.clearStateValue()" ng-disabled="!vm.searchFilter.state" class="fa fa-times clear-value"></i>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-10 col-sm-9">
+              <md-input-container class="md-block" flex-gt-sm>
+                <input ng-disabled="!!vm.searchFilter.state" name="postalCode" ng-model="vm.searchFilter.zipcode" placeholder="Zipcode" ng-pattern="/^[0-9]*$/" minlength="3" maxlength="9">
+                <div ng-messages="vm.filterForm.postalCode.$error" multiple md-auto-hide="true">
+                  <div ng-message="pattern">
+                    Numeric characters only.
+                  </div>
+                  <div ng-message="maxlength">
+                    Max length of 9 digits.
+                  </div>
+                  <div ng-message="minlength">
+                    Min length of 3 digits.
+                  </div>
+                </div>
+              </md-input-container>
+            </div>
+            <div class="col-md-2 col-sm-3">
+              <i ng-click="vm.clearZipcodeValue()" ng-disabled="!vm.searchFilter.zipcode" class="fa fa-times clear-value"></i>
+            </div>
+          </div>
+
+
+
+
+
+
+
+
           <div class="text-center">
             <md-button class="md-raised md-primary" ng-disabled="invalid" ng-click="vm.updateDashboard(vm.searchFilter)">Apply Filters</md-button>
             <md-button class="md-raised md-primary" ng-click="vm.resetDashboard()">Reset</md-button>

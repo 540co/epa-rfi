@@ -38,6 +38,11 @@ body {
   padding-top: 25px;
 }
 
+.clear-value {
+  padding-top: 30px;
+  outline: none;
+}
+
 
 /* Angular Material overrides */
 md-toolbar:not(.md-menu-toolbar) {
