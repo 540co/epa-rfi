@@ -115,11 +115,11 @@ md-toolbar h1 {
 }
 
 .fa-arrow-down {
-  color: green;
+  color: #009F69;
 }
 
 .fa-arrow-up {
-  color: red;
+  color: #F7464A;
 }
 
 /* Footer */
@@ -152,11 +152,11 @@ footer a {
 }
 
 #produced {
-  color: red;
+  color: #F7464A;
 }
 
 #reduced {
-  color: green;
+  color: #009F69;
 }
 
 
