@@ -17,6 +17,8 @@
       params = $location.search(),
       google = $google;
 
+    vm.mapReady = false;
+
     vm.query = {
       total: 0,
       limit: 25,
@@ -52,6 +54,8 @@
         vm.query.total = response.meta.total;
 
         fitBoundsToFacilities(vm.facilities);
+
+        vm.mapReady = true;
       }, function() {
         vm.facilities = {};
       });
