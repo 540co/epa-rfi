@@ -54,16 +54,14 @@
           <p class="text-center">
             Filter by state OR zipcode {{ invalid }}
           </p>
-          <md-radio-group ng-model="vm.searchFilter.group" ng-init="vm.searchFilter.group=state">
-            <md-radio-button value="state">State</md-radio-button>
-            <md-radio-button value="zipcode"> Zipcode </md-radio-button>
-          </md-radio-group>
-          <md-select ng-model="vm.searchFilter.state" placeholder="State" ng-show="vm.searchFilter.group=='state'">
+          <md-select ng-model="vm.searchFilter.state" placeholder="State">
             <md-option ng-value="opt" ng-repeat="opt in vm.stateFilters" ng-checked>{{ opt }}</md-option>
           </md-select>
-          <md-input-container class="md-block" flex-gt-sm ng-show="vm.searchFilter.group=='zipcode'">
-            <input name="postalCode" ng-model="vm.searchFilter.zipcode" placeholder="zipcode" ng-pattern="/^(\d{5}(\d{4})?)?$/">
-            <div class="hint">##### or #########</div>
+
+          <!-- <label>Click me to toggle: <input type="checkbox" ng-model="checked"></label><br/> -->
+
+          <md-input-container class="md-block" flex-gt-sm>
+            <input name="postalCode" ng-model="vm.searchFilter.zipcode" placeholder="Zipcode" ng-pattern="/^(\d{5}(\d{4})?)?$/">
             <div ng-messages="vm.searchFilter.zipcode.$error">
               <div ng-message="pattern">##### or ######### - Please enter a valid zipcode.</div>
             </div>
