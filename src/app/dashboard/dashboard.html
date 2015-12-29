@@ -62,10 +62,10 @@
             <md-option ng-value="opt" ng-repeat="opt in vm.stateFilters" ng-checked>{{ opt }}</md-option>
           </md-select>
           <md-input-container class="md-block" flex-gt-sm ng-show="vm.searchFilter.group=='zipcode'">
-            <input name="postalCode" ng-model="vm.searchFilter.zipcode" placeholder="zipcode" ng-pattern="/^(\d{5}(\d{4})?)?$/">
-            <div class="hint">##### or #########</div>
-            <div ng-messages="vm.searchFilter.zipcode.$error">
-              <div ng-message="pattern">##### or ######### - Please enter a valid zipcode.</div>
+            <!-- <div class="hint">##### or #########</div> -->
+            <input name="postalCode" ng-model="vm.searchFilter.zipcode" placeholder="ZIP code" ng-pattern="/^(\d{5}(\d{4})?)?$/">
+            <div ng-messages="vm.filterForm.postalCode.$error" role="alert">
+              <div ng-message="pattern">##### or ######### - Please enter a valid ZIP code.</div>
             </div>
           </md-input-container>
           <div class="text-center">
