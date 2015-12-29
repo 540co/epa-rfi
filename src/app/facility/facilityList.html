@@ -12,7 +12,7 @@
                 <span ng-if="vm.params.state">for {{ vm.params.state }}</span>
                 <span ng-if="vm.params.zipcode">for {{ vm.params.zipcode }}</span>
               </h4>
-              <ng-map zoom="16" style="height:400px;">
+              <ng-map zoom="16" style="height:400px;" ng-if="vm.mapReady">
                 <marker id="facility_{{facility.id}}" ng-repeat="facility in vm.facilities"
                   position="{{ facility.latitude }}, {{ facility.longitude }}"
                   title="{{ facility.name }}"
@@ -51,7 +51,7 @@
                 </table>
               </md-data-table-container>
               <md-data-table-pagination md-row-select="vm.pageOptions" md-limit="vm.query.limit" md-page="vm.query.page" md-total="{{vm.query.total}}" md-trigger="vm.onPaginationChange"></md-data-table-pagination>
-              <div ng-show="!vm.facilities">No facilities found!</div>
+              <div ng-show="vm.mapReady && !vm.facilities.length">No facilities found!</div>
               <br>
               <br>
             </div>
