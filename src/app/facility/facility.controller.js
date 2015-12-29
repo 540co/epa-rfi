@@ -16,10 +16,12 @@
 
     function activate() {
       var queryParams = {};
+      vm.mapReady = false;
       queryParams.id = $stateParams.facilityId;
 
       getFacility(queryParams, function(data) {
         vm.facility = data;
+        vm.mapReady = true;
       }, errorHandler);
 
       queryParams.limit = 15;
