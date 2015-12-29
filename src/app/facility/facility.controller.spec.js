@@ -75,6 +75,19 @@
         }, jasmine.any(Function), jasmine.any(Function));
       });
 
+      it('should update reports shown when page is changed', function() {
+        DataServiceMock.FacilityReports.query.calls.reset();
+
+        vm.onpagechange(2, 100);
+
+        expect(DataServiceMock.FacilityReports.query).toHaveBeenCalledWith({
+          id: 'ABC123',
+          limit: 100,
+          offset: 100,
+          filters: 'chemical.isCleanAirActChemical:true'
+        }, jasmine.any(Function), jasmine.any(Function));
+      });
+
     });
   });
 })();
