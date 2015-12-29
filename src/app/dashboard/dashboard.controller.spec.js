@@ -211,5 +211,113 @@
         });
       });
     });
+
+    describe('DashboardController getYearlyAirPollutionReport empty data', function() {
+      beforeEach(inject(function(_$controller_, $rootScope, _ReportService_, _$log_, _logger_) {
+        scope = $rootScope.$new();
+        ReportService = _ReportService_;
+        $controller = _$controller_;
+        $log = _$log_;
+        logger = _logger_;
+
+        spyOn(ReportService, 'getYearlyAirPollutionReport').and.callFake(function(queryParams, successCallback, errorCallback) {
+          successCallback({});
+          return {
+            $promise: {}
+          };
+        });
+
+        spyOn(ReportService, 'getStateList').and.callFake(function(successCallback) {
+          successCallback(mockStateList);
+        });
+
+        vm = $controller('DashboardController', {
+          $scope: scope,
+          ReportService: ReportService,
+          $log: $log,
+          logger: logger
+        });
+
+      }));
+
+      it('should show error occurred while loading report data', function() {
+        vm.updateDashboard({});
+        expect(vm.showNoReportError).toBe(true);
+      });
+    });
+
+    describe('DashboardController getYearlyAirPollutionReport error', function() {
+      beforeEach(inject(function(_$controller_, $rootScope, _ReportService_, _$log_, _logger_) {
+        scope = $rootScope.$new();
+        ReportService = _ReportService_;
+        $controller = _$controller_;
+        $log = _$log_;
+        logger = _logger_;
+
+        spyOn(ReportService, 'getYearlyAirPollutionReport').and.callFake(function(queryParams, successCallback, errorCallback) {
+          errorCallback({
+            status: 400,
+            statusText: 'Error',
+            data: {}
+          });
+          return {
+            $promise: {}
+          };
+        });
+
+        spyOn(ReportService, 'getStateList').and.callFake(function(successCallback) {
+          successCallback(mockStateList);
+        });
+
+        vm = $controller('DashboardController', {
+          $scope: scope,
+          ReportService: ReportService,
+          $log: $log,
+          logger: logger
+        });
+
+      }));
+
+      it('should show error occurred while loading report data', function() {
+        expect(vm.showError).toBe(true);
+      });
+    });
+
+    describe('DashboardController getYearlyAirPollutionReport error', function() {
+      beforeEach(inject(function(_$controller_, $rootScope, _ReportService_, _$log_, _logger_) {
+        scope = $rootScope.$new();
+        ReportService = _ReportService_;
+        $controller = _$controller_;
+        $log = _$log_;
+        logger = _logger_;
+
+        spyOn(ReportService, 'getYearlyAirPollutionReport').and.callFake(function(queryParams, successCallback, errorCallback) {
+          successCallback(mockReportData);
+          return {
+            $promise: {}
+          };
+        });
+
+        spyOn(ReportService, 'getStateList').and.callFake(function(successCallback, errorCallback) {
+          errorCallback({
+            status: 400,
+            statusText: 'Error',
+            data: {}
+          });
+        });
+
+        vm = $controller('DashboardController', {
+          $scope: scope,
+          ReportService: ReportService,
+          $log: $log,
+          logger: logger
+        });
+
+      }));
+
+      it('should show error occurred while loading state data', function() {
+        expect(vm.showError).toBe(true);
+      });
+    });
   });
 })();
