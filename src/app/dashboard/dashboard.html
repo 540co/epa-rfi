@@ -52,11 +52,11 @@
           </md-select>
           <div ng-show="invalid = vm.searchFilter.start_year>vm.searchFilter.end_year" class="error">The start year must be less than the end year!</div>
           <p class="text-center">
-            Filter by state OR zipcode {{ invalid }}
+            Filter by state or ZIP code
           </p>
           <md-radio-group ng-model="vm.searchFilter.group" ng-init="vm.searchFilter.group=state">
             <md-radio-button value="state">State</md-radio-button>
-            <md-radio-button value="zipcode"> Zipcode </md-radio-button>
+            <md-radio-button value="zipcode"> ZIP Code </md-radio-button>
           </md-radio-group>
           <md-select ng-model="vm.searchFilter.state" placeholder="State" ng-show="vm.searchFilter.group=='state'">
             <md-option ng-value="opt" ng-repeat="opt in vm.stateFilters" ng-checked>{{ opt }}</md-option>
