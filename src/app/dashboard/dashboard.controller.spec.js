@@ -220,7 +220,7 @@
         $log = _$log_;
         logger = _logger_;
 
-        spyOn(ReportService, 'getYearlyAirPollutionReport').and.callFake(function(queryParams, successCallback, errorCallback) {
+        spyOn(ReportService, 'getYearlyAirPollutionReport').and.callFake(function(queryParams, successCallback) {
           successCallback({});
           return {
             $promise: {}
@@ -291,7 +291,7 @@
         $log = _$log_;
         logger = _logger_;
 
-        spyOn(ReportService, 'getYearlyAirPollutionReport').and.callFake(function(queryParams, successCallback, errorCallback) {
+        spyOn(ReportService, 'getYearlyAirPollutionReport').and.callFake(function(queryParams, successCallback) {
           successCallback(mockReportData);
           return {
             $promise: {}

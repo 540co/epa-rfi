@@ -12,7 +12,6 @@
 
     var reportService = {
       getYearlyAirPollutionReport: getYearlyAirPollutionReport,
-      getStateAirPollutionReport: getStateAirPollutionReport,
       getStateList: getStateList
     };
 
@@ -38,23 +37,6 @@
         mergedReportData = mergeReportData(poundsReportData, gramsReportData);
 
         reportData = calculateReportTotals(mergedReportData);
-
-        successCallback(reportData);
-      }, errorCallback);
-    }
-
-    function getStateAirPollutionReport(filters, successCallback, errorCallback) {
-      if (!angular.isObject(filters)) {
-        filters = {};
-      }
-
-      var queryParams = buildQueryParams(filters);
-      queryParams.groupBy = 'facility.address.state';
-      queryParams.operation = 'sum';
-      queryParams.agg_fields = 'fugitiveAir,stackAir';
-
-      DataService.CleanAirActReports.query(queryParams, function(response) {
-        var reportData = calculateReportTotals(response.data);
 
         successCallback(reportData);
       }, errorCallback);
