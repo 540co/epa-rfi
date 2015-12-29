@@ -51,12 +51,12 @@
           </md-select>
           <div ng-show="invalid = vm.searchFilter.start_year>vm.searchFilter.end_year" class="error">The start year must be less than the end year!</div>
           <p class="text-center">
-            Filter by state OR zipcode {{ invalid }}
+            Filter by state or ZIP code
           </p>
 
           <div class="row">
             <div class="col-md-10 col-sm-9">
-              <md-select ng-disabled="!!vm.searchFilter.zipcode" ng-model="vm.searchFilter.state" placeholder="State">
+              <md-select ng-disabled="!!vm.searchFilter.zipcode" ng-model="vm.searchFilter.state" placeholder="State" ng-click="vm.searchFilter.group = 'state'">
                 <md-option ng-value="opt" ng-repeat="opt in vm.stateFilters" ng-checked>{{ opt }}</md-option>
               </md-select>
             </div>
@@ -68,7 +68,7 @@
           <div class="row">
             <div class="col-md-10 col-sm-9">
               <md-input-container class="md-block" flex-gt-sm>
-                <input ng-disabled="!!vm.searchFilter.state" name="postalCode" ng-model="vm.searchFilter.zipcode" placeholder="Zipcode" ng-pattern="/^[0-9]*$/" minlength="3" maxlength="9">
+                <input ng-disabled="!!vm.searchFilter.state" name="postalCode" ng-model="vm.searchFilter.zipcode" placeholder="Zipcode" ng-pattern="/^[0-9]*$/" minlength="3" maxlength="9" ng-click="vm.searchFilter.group = 'zipcode'">
                 <div ng-messages="vm.filterForm.postalCode.$error" multiple md-auto-hide="true">
                   <div ng-message="pattern">
                     Numeric characters only.
@@ -86,13 +86,6 @@
               <i ng-click="vm.clearZipcodeValue()" ng-disabled="!vm.searchFilter.zipcode" class="fa fa-times clear-value"></i>
             </div>
           </div>
-
-
-
-
-
-
-
 
           <div class="text-center">
             <md-button class="md-raised md-primary" ng-disabled="invalid" ng-click="vm.updateDashboard(vm.searchFilter)">Apply Filters</md-button>

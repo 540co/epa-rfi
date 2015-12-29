@@ -190,7 +190,9 @@ footer a {
     color: grey;
 }
 
-
+#about-card {
+  margin-bottom: 10px;
+}
 
 /******************************************
 Angular Material Directives

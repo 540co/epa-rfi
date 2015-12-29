@@ -145,10 +145,13 @@
 
     vm.clearZipcodeValue = function() {
       vm.searchFilter.zipcode = undefined;
+      vm.searchFilter.group = undefined;
     }
 
     vm.clearStateValue = function() {
       vm.searchFilter.state = undefined;
+      vm.searchFilter.group = undefined;
+
     }
 
   }
