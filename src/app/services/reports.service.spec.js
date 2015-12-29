@@ -311,5 +311,74 @@
       expect(DataServiceMock.CleanAirActReports.query.calls.argsFor(0)).toEqual([expectedPoundsQueryParams]);
       expect(DataServiceMock.CleanAirActReports.query.calls.argsFor(1)).toEqual([expectedGramsQueryParams]);
     });
+
+
+    it('should build a list of states that we have report data for', function() {
+      var mockReportData = {
+          meta: {},
+          data: [
+            {
+              facility: {
+                address: {
+                  state: 'TX'
+                }
+              },
+              quantitiesEnteringEnvironment: {
+                fugitiveAir: 100,
+                stackAir: 200
+              }
+            },
+            {
+              facility: {
+                address: {
+                  state: 'FL'
+                }
+              },
+              quantitiesEnteringEnvironment: {
+                fugitiveAir: 100,
+                stackAir: 200
+              }
+            }
+          ]
+        },
+        successCallback = jasmine.createSpy('successCallback'),
+        errorCallback = jasmine.createSpy('errorCallback'),
+        expectedStateList = ['FL', 'TX'];
+
+      spyOn(DataServiceMock.CleanAirActReports, 'query').and.callFake(function(queryParams, successCallback) {
+        successCallback(mockReportData);
+        return {
+          $promise: {}
+        };
+      });
+
+      ReportService.getStateList(successCallback, errorCallback);
+
+      expect(successCallback).toHaveBeenCalledWith(expectedStateList);
+      expect(errorCallback).not.toHaveBeenCalled();
+    });
+
+    it('should call error callback if error occurs pulling state list', function() {
+      var 
+        successCallback = jasmine.createSpy('successCallback'),
+        errorCallback = jasmine.createSpy('errorCallback'),
+        expectedError = {
+          status: 500,
+          statusText: 'some error',
+          data: {}
+        };
+
+      spyOn(DataServiceMock.CleanAirActReports, 'query').and.callFake(function(queryParams, successCallback, errorCallback) {
+        errorCallback(expectedError);
+        return {
+          $promise: {}
+        };
+      });
+
+      ReportService.getStateList(successCallback, errorCallback);
+
+      expect(successCallback).not.toHaveBeenCalled();
+      expect(errorCallback).toHaveBeenCalledWith(expectedError);
+    });
   });
 })();
