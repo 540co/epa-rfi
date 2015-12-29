@@ -166,9 +166,9 @@
         totalProduction += report.total;
 
         years.push(report.year);
-        totalAirPerYear.push(report.total);
-        fugitiveAirPerYear.push(report.quantitiesEnteringEnvironment.fugitiveAir);
-        stackAirPerYear.push(report.quantitiesEnteringEnvironment.stackAir);
+        totalAirPerYear.push(report.total.toFixed(1));
+        fugitiveAirPerYear.push(report.quantitiesEnteringEnvironment.fugitiveAir.toFixed(1));
+        stackAirPerYear.push(report.quantitiesEnteringEnvironment.stackAir.toFixed(1));
       });
 
       // Total Reduction
