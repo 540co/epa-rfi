@@ -3,9 +3,6 @@
 
   angular
     .module('app.facility')
-    .factory('$google', function() {
-      return google;
-    })
     .controller('FacilityListController', FacilityListController);
 
   FacilityListController.$inject = ['DataService', '$location', 'NgMap', '$google', '$timeout'];
@@ -31,9 +28,6 @@
 
     NgMap.getMap({id: 'facilityListMap'}).then(function(map) {
      vm.map = map;
-     $timeout(function() {
-       google.maps.event.trigger(map, 'resize');
-     });
     });
 
     vm.onPaginationChange = function(page, limit) {
@@ -59,6 +53,7 @@
         fitBoundsToFacilities(vm.facilities);
 
         vm.mapReady = true;
+
       }, function() {
         vm.facilities = {};
       });
@@ -76,6 +71,9 @@
       NgMap.getMap({id: 'facilityListMap'}).then(function(map) {
         map.setCenter(bounds.getCenter());
         map.fitBounds(bounds);
+        $timeout(function() {
+          $google.maps.event.trigger(map, 'resize');
+        });
       });
     }
 

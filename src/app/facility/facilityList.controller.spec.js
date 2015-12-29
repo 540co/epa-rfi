@@ -46,7 +46,7 @@
     });
 
     describe('FacilityListController', function() {
-      beforeEach(inject(function(_$controller_, $rootScope, _DataService_, _NgMap_,$timeout) {
+      beforeEach(inject(function(_$controller_, $rootScope, _DataService_, _NgMap_) {
         scope = $rootScope.$new();
         DataService = _DataService_;
         NgMap = _NgMap_;
