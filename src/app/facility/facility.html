@@ -8,8 +8,11 @@
             <p> {{ vm.facility.address.streetAddress }}</p>
             <p> {{ vm.facility.address.city }}, {{ vm.facility.address.state }} {{ vm.facility.address.zipcode }} </p>
           </div>
+          <p>
+            <i>Note: If the map does not render, please refresh your page</i>
+          </p>
           <ng-map id="individualFacility" center="{{ vm.facility.latitude }}, {{ vm.facility.longitude }}" zoom="16" style="height:400px;" ng-if=" vm.mapReady ">
-            <marker position="{{ vm.facility.latitude }}, {{ vm.facility.longitude }} " title="{{ vm.facility.name }} " st></marker>
+            <marker position="{{ vm.facility.latitude }}, {{ vm.facility.longitude }} " title="{{ vm.facility.name }} "></marker>
           </ng-map>
           <br>
           <p>

@@ -12,6 +12,9 @@
                 <span ng-if="vm.params.state">for {{ vm.params.state }}</span>
                 <span ng-if="vm.params.zipcode">for {{ vm.params.zipcode }}</span>
               </h4>
+              <p>
+                <i>Note: If the map does not render, please refresh your page</i>
+              </p>
               <ng-map id="facilityListMap" zoom="16" style="height:400px;" ng-if="vm.mapReady">
                 <marker ng-if="facility.latitude && facility.longitude" id="facility_{{facility.id}}" ng-repeat="facility in vm.facilities"
                   position="{{ facility.latitude }}, {{ facility.longitude }}"
