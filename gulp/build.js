@@ -77,6 +77,12 @@ gulp.task('fonts', function () {
     .pipe(gulp.dest(path.join(conf.paths.dist, '/fonts/')));
 });
 
+// Only applies for google analytics
+gulp.task('ga', function () {
+  return gulp.src(conf.paths.src + '/assets/scripts/ga.js')
+    .pipe(gulp.dest(path.join(conf.paths.dist, '/assets/scripts/')));
+});
+
 gulp.task('other', function () {
   var fileFilter = $.filter(function (file) {
     return file.stat.isFile();
@@ -94,4 +100,4 @@ gulp.task('clean', function () {
   return $.del([path.join(conf.paths.dist, '/'), path.join(conf.paths.tmp, '/')]);
 });
 
-gulp.task('build', ['html', 'fonts', 'other']);
+gulp.task('build', ['html', 'fonts', 'other', 'ga']);
