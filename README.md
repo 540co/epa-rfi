@@ -32,12 +32,16 @@ Bower dependencies
 ```
 bower install
 ```
+#### Configure application
+
+From within the cloned folder `eap-rfi` run:
+
+Edit `./src/app/app.config.js` and update accordingly.
+
 
 #### Configure Google Analytics
 
 From within the cloned folder `eap-rfi` run:
-
-`cp ./src/assets/scripts/ga-example.js ./src/assets/scripts/ga.js`
 
 Edit `./src/assets/scripts/ga.js` and update accordingly.
 
