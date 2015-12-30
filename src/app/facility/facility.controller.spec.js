@@ -17,7 +17,14 @@
         documentControlNumber: '123456'
       }, {
         documentControlNumber: '234567'
-      }];
+      }],
+      google = {
+        maps: {
+          event: {
+            trigger: function() {}
+          }
+        }
+      };
 
     beforeEach(function() {
       module('app.facility', function($provide) {
@@ -51,7 +58,8 @@
         vm = $controller('FacilityController', {
           $scope: scope,
           $stateParams: $stateParamsMock,
-          DataService: DataServiceMock
+          DataService: DataServiceMock,
+          $google: google
         });
 
       }));

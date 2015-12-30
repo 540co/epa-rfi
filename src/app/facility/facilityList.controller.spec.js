@@ -32,7 +32,10 @@
             this.extend = function() {};
             this.getCenter = function() {};
           },
-          LatLng: function() {}
+          LatLng: function() {},
+          event: {
+            trigger: function() {}
+          }
         }
       };
 

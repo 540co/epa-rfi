@@ -2,6 +2,9 @@
   'use strict';
 
   angular
-    .module('app.facility', ['app.core', 'app.services','chart.js', 'ngMaterial', 'ngMap', 'md.data.table']);
+    .module('app.facility', ['app.core', 'app.services','chart.js', 'ngMaterial', 'ngMap', 'md.data.table'])
+    .factory('$google', function() {
+      return google;
+    });
 
 })();

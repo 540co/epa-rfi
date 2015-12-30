@@ -5,14 +5,20 @@
     .module('app.facility')
     .controller('FacilityController', FacilityController);
 
-  FacilityController.$inject = ['DataService', '$stateParams', 'logger'];
+  FacilityController.$inject = ['DataService', '$stateParams', 'logger', 'NgMap', '$google', '$timeout'];
 
   /** @ngInject */
 
-  function FacilityController(DataService, $stateParams, logger) {
+  function FacilityController(DataService, $stateParams, logger, NgMap, $google, $timeout) {
     var vm = this;
 
     activate();
+
+    NgMap.getMap({id: 'individualFacility'}).then(function(map) {
+     $timeout(function() {
+       $google.maps.event.trigger(map, 'resize');
+     });
+    });
 
     function activate() {
       var queryParams = {};

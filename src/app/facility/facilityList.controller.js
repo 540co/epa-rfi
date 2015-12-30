@@ -3,16 +3,13 @@
 
   angular
     .module('app.facility')
-    .factory('$google', function() {
-      return google;
-    })
     .controller('FacilityListController', FacilityListController);
 
-  FacilityListController.$inject = ['DataService', '$location', 'NgMap', '$google'];
+  FacilityListController.$inject = ['DataService', '$location', 'NgMap', '$google', '$timeout'];
 
   /** @ngInject */
 
-  function FacilityListController(DataService, $location, NgMap, $google) {
+  function FacilityListController(DataService, $location, NgMap, $google, $timeout) {
     var vm = this,
       params = $location.search(),
       google = $google;
@@ -29,7 +26,7 @@
 
     vm.params = params;
 
-    NgMap.getMap().then(function(map) {
+    NgMap.getMap({id: 'facilityListMap'}).then(function(map) {
      vm.map = map;
     });
 
@@ -56,6 +53,7 @@
         fitBoundsToFacilities(vm.facilities);
 
         vm.mapReady = true;
+
       }, function() {
         vm.facilities = {};
       });
@@ -64,13 +62,18 @@
     function fitBoundsToFacilities(facilities) {
       var bounds = new google.maps.LatLngBounds();
       for (var i=0; i<facilities.length; i++) {
-        var latlng = new google.maps.LatLng(facilities[i].latitude, facilities[i].longitude);
-        bounds.extend(latlng);
+        if (facilities[i].latitude && facilities[i].longitude) {
+          var latlng = new google.maps.LatLng(facilities[i].latitude, facilities[i].longitude);
+          bounds.extend(latlng);
+        }
       }
 
-      NgMap.getMap().then(function(map) {
+      NgMap.getMap({id: 'facilityListMap'}).then(function(map) {
         map.setCenter(bounds.getCenter());
         map.fitBounds(bounds);
+        $timeout(function() {
+          $google.maps.event.trigger(map, 'resize');
+        });
       });
     }
 
