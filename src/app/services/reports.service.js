@@ -66,6 +66,7 @@
         foundMatch;
 
       for (var i = 0, len = gramsData.length; i < len; i++) {
+
         gramsData[i].quantitiesEnteringEnvironment.fugitiveAir = roundNumber(
           gramsData[i].quantitiesEnteringEnvironment.fugitiveAir * GRAM_MULTIPLIER
         );
@@ -166,9 +167,9 @@
         totalProduction += report.total;
 
         years.push(report.year);
-        totalAirPerYear.push(report.total);
-        fugitiveAirPerYear.push(report.quantitiesEnteringEnvironment.fugitiveAir);
-        stackAirPerYear.push(report.quantitiesEnteringEnvironment.stackAir);
+        totalAirPerYear.push(roundNumber(report.total));
+        fugitiveAirPerYear.push(roundNumber(report.quantitiesEnteringEnvironment.fugitiveAir));
+        stackAirPerYear.push(roundNumber(report.quantitiesEnteringEnvironment.stackAir));
       });
 
       // Total Reduction

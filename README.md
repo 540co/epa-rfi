@@ -34,14 +34,14 @@ bower install
 ```
 #### Configure application
 
-From within the cloned folder `eap-rfi` run:
+From within the cloned folder `epa-rfi` run:
 
 Edit `./src/app/app.config.js` and update accordingly.
 
 
 #### Configure Google Analytics
 
-From within the cloned folder `eap-rfi` run:
+From within the cloned folder `epa-rfi` run:
 
 Edit `./src/assets/scripts/ga.js` and update accordingly.
 

@@ -11,6 +11,7 @@
     "module": true,
     "inject": true,
     "_": true,
-    "google": true
+    "google": true,
+    "Chart": true
   }
 }
